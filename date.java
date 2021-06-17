@@ -6,13 +6,12 @@ public class date {
     public date() {}
 
     public date (int a, int b, int c) {
-        if(check(a, b, c) == true) {
+        if(check(a, b, c)) {
             this.setMonth(a);
             this.setDay(b);
             this.setYear(c);
-        } else {
+        } else 
             System.out.println("Not a valid date");
-        }
     }
 
     public int getMonth() {
@@ -21,42 +20,40 @@ public class date {
 
     public String getMonthFull() {
         String ret = "";
-        if (month == 1) {
+        if (month == 1) 
             ret = "January";
-        } else if (month == 2) {
+        else if (month == 2) 
             ret = "February";
-        } else if (month == 3) {
+        else if (month == 3) 
             ret = "March";
-        } else if (month == 4) {
+        else if (month == 4) 
             ret = "April";
-        } else if (month == 5) {
+        else if (month == 5) 
             ret = "May";
-        } else if (month == 6) {
+        else if (month == 6) 
             ret = "June";
-        } else if (month == 7) {
+        else if (month == 7) 
             ret = "July";
-        } else if (month == 8) {
+        else if (month == 8) 
             ret = "August";
-        } else if (month == 9) {
+        else if (month == 9) 
             ret = "September";
-        } else if (month == 10) {
+        else if (month == 10) 
             ret = "October";
-        } else if (month == 11) {
+        else if (month == 11) 
             ret = "November";
-        } else if (month == 12) {
+        else if (month == 12) 
             ret = "December";
-        } else if (month == 0) {
+        else if (month == 0) 
             ret = "Not a month";
-        }
         return ret;
     }
 
     public void setMonth(int a) {
-        if (a > 0 && a < 13) {
+        if (a > 0 && a < 13) 
             month = a;
-        } else {
+        else 
             month = 0;
-        }
     }
 
     public int getDay() {
@@ -64,11 +61,10 @@ public class date {
     }
 
     public void setDay(int b) {
-        if (b > 0 && b < 32) {
+        if (b > 0 && b < 32) 
             day = b;
-        } else {
+        else 
             day = 0;
-        }
     }
 
     public int getYear() {
@@ -76,11 +72,10 @@ public class date {
     }
 
     public void setYear(int c) {
-        if (c > 1950 && c < 2022) {
+        if (c > 1950 && c < 2022) 
             year = c;
-        } else {
+        else 
             year = 0;
-        }
     }
 
     public String print () {
@@ -93,9 +88,9 @@ public class date {
 
     public boolean check(int a, int b, int c) {
         boolean ret = true;
-        if (a == 0 || b == 0 || c == 0){
+        if (a == 0 || b == 0 || c == 0)
             ret = false;
-        } else if (a == 2 && (b == 30 || b == 31)) {
+        else if (a == 2 && (b == 30 || b == 31)) {
             System.out.println("February doesn't have that many days.");
             ret = false;
         } else if (a == 2 && b == 29 && (c % 4 != 0 || c % 400 == 0)) {

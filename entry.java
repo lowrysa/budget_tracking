@@ -16,10 +16,39 @@ public class entry {
     }
 
     public void setName (String a) {
-        if (a != "") {
+        if (a.equalsIgnoreCase("")) 
             name = a;
-        } else {
+        else 
             name = "Na";
-        }
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount (double b) {
+        if (b > 0.0)
+            amount = b;
+        else
+            amount = 0.0;
+    }
+
+    public date getDate() {
+        return date;
+    }
+
+    public void setDate(date c) {
+        if (c.check(c.getMonth(), c.getDay(), c.getYear())) 
+            date = c;
+        else 
+            date = new date(0, 0, 0);
+    }
+
+    public void setDate(int a, int b, int c) {
+        date d = new date(a, b, c);
+        if (d.check(d.getMonth(), d.getDay(), d.getYear())) 
+            date = d;
+        else   
+            date = new date(0, 0, 0);
     }
 }
