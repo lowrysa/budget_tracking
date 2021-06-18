@@ -51,4 +51,18 @@ public class entry {
         else   
             date = new date(0, 0, 0);
     }
+
+    public void remove(entry a) {
+        a.setName("null");
+        a.setAmount(-1);
+        a.setDate(null);
+    }
+
+    public String print() {
+        return name + " " + amount + " " + date.print() +"\n";
+    }
+
+    public String printFull() {
+        return "Paid " + amount + " for " + name + " on " + date.printFull() + "\n";
+    }
 }
