@@ -39,4 +39,85 @@ public class entryArray {
             array.get(i).print();
         }
     }
+
+    public int getSize() {
+        return array.size();
+    }
+
+    public void randomEntry(int i) {
+        array.get(i).printFull();
+    }
+
+    public double totalSpent() {
+        double ret = 0.0;
+        for (int i = 0; i < array.size(); i++) {
+            ret += array.get(i).getAmount();
+        }
+        return ret;
+    }
+
+    public double totalSpentFood() {
+        double ret = 0.0;
+        for(int i = 0; i < array.size(); i++) {
+            if (array.get(i).getName().equalsIgnoreCase("food")) {
+                ret += array.get(i).getAmount();
+            } 
+        }
+        return ret;
+    }
+
+    public double totalSpentGas() {
+        double ret = 0.0;
+        for(int i = 0; i < array.size(); i++) {
+            if (array.get(i).getName().equalsIgnoreCase("gas")) {
+                ret += array.get(i).getAmount();
+            } 
+        }
+        return ret;
+    }
+    
+    public double totalSpentClothes() {
+        double ret = 0.0;
+        for(int i = 0; i < array.size(); i++) {
+            if (array.get(i).getName().equalsIgnoreCase("clothes")) {
+                ret += array.get(i).getAmount();
+            } 
+        }
+        return ret;
+    }
+
+    public double totalSpentGecko() {
+        double ret = 0.0;
+        for(int i = 0; i < array.size(); i++) {
+            if (array.get(i).getName().equalsIgnoreCase("gecko")) {
+                ret += array.get(i).getAmount();
+            } 
+        }
+        return ret;
+    }
+
+    public double totalSpentNintendo() {
+        double ret = 0.0;
+        for(int i = 0; i < array.size(); i++) {
+            if (array.get(i).getName().equalsIgnoreCase("nintendo")) {
+                ret += array.get(i).getAmount();
+            } 
+        }
+        return ret;
+    }
+
+    public double totalSpentOther() {
+        double ret = 0.0;
+        for(int i = 0; i < array.size(); i++) {
+            if (array.get(i).getName() != ("Food") &&
+                array.get(i).getName() != ("Nintendo") &&
+                array.get(i).getName() != ("Clothes") &&
+                array.get(i).getName() != ("Gas") &&
+                array.get(i).getName() != ("Gecko") &&
+                array.get(i).getName() != ("Nintendo")) {
+                ret += array.get(i).getAmount();
+            } 
+        }
+        return ret;
+    }
 }   

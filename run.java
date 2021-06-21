@@ -1,4 +1,6 @@
 import java.util.Scanner;
+
+//import jdk.tools.jlink.internal.Archive.Entry.EntryType;
 public class run {
     private static backend backend;
     private static Scanner k;
@@ -20,7 +22,7 @@ public class run {
         while (!over) {
             printLoop();
             int choice = k.nextInt();
-            if (choice == 1) {
+            if (choice == 1) { //Print Entries
                 boolean overa = false;
                 while (!overa) {
                     firstChoice();
@@ -79,19 +81,132 @@ public class run {
                     } else if (choicea == 4) {
                         backend.printEntries();
                         overa = true;
-                    } else if (choicea == 9) {
-
+                    } else if (choicea == 9) 
                         overa = true;
-                    } else 
+                    else 
                         p("Not valid input");  
                 }   
-            } else if (choice == 2)
-                p("2");
-            else if (choice == 3)
-                p("2");
-            else if (choice == 4)
-                p("2");
-            else if (choice == 9)
+            } else if (choice == 2) { //Check Stats
+                p("Calculating...");
+                System.out.print("In total, you have spent $ ");
+                System.out.print(backend.totalSpent());
+                p("");
+                p("More specifically...");
+                p("");
+                System.out.print("You have spent $");
+                System.out.print(backend.totalSpentFood());
+                System.out.print(" on Food");
+                p("");
+                System.out.print("You have spent $");
+                System.out.print(backend.totalSpentGas());
+                System.out.print(" on Gas");
+                p("");
+                System.out.print("You have spent $");
+                System.out.print(backend.totalSpentClothes());
+                System.out.print(" on Clothes");
+                p("");
+                System.out.print("You have spent $");
+                System.out.print(backend.totalSpentGecko());
+                System.out.print(" on Gecko");
+                p("");
+                System.out.print("You have spent $");
+                System.out.print(backend.totalSpentNintendo());
+                System.out.print(" on Nintendo");
+                p("");
+                System.out.print("You have spent $");
+                System.out.print(backend.totalSpentOther());
+                System.out.print(" on everything else!");
+            } else if (choice == 3) { //Add Entry
+                boolean overc = false;
+                boolean back1 = false;
+                String entryType = "";
+                while(!overc) {
+                    whatTypeOfEntry();
+                    var choice1 = k.nextInt();
+                    if (choice1 == 1) {
+                        boolean over2 = false;
+                        while (!over2) {
+                            foodChoice();
+                            int choic = k.nextInt();
+                            if (choic == 1) {
+                                entryType = "Eat Out";
+                                over2 = true;
+                            } else if (choic == 2) {
+                                entryType = "Groceries";
+                                over2 = true;
+                            } else if (choic == 3) {
+                                entryType = "Ice Cream";
+                                over2 = true;
+                            } else 
+                                p("Not valid input");
+                        }
+                    } else if (choice1 == 2) {
+                        entryType = "Gas";
+                        overc = true;
+                    } else if (choice1 == 3) {
+                        entryType = "Clothes";
+                        overc = true;
+                    } else if (choice1 == 4) {
+                        entryType = "Gecko";
+                        overc = true;
+                    } else if (choice1 == 5) {
+                        entryType = "Nintendo";
+                        overc = true;
+                    } else if (choice1 == 8) {
+                        p("Please specify what kind of entry:");
+                        entryType = k.nextLine();
+                        overc = true;
+                    } else if (choice1 == 9) {
+                        overc = true;
+                        back1 = true;
+                    } else 
+                        p("Not valid input");  
+                }
+                if (back1) {
+                    p("How much did it cost? (Keep it above $0.0");
+                    System.out.print("$");
+                    double cost = k.nextDouble();
+                    p("What day did you purchase it?");
+                    System.out.print("Month: ");
+                    //p("What month?");
+                    monthChoice();
+                    int monthChoice;
+                    int dayChoice;
+                    int yearChoice;
+                    monthChoice = k.nextInt();
+                    if(monthChoice != 1 && monthChoice != 2 && 
+                    monthChoice != 3 && monthChoice != 4 &&
+                    monthChoice != 5 && monthChoice != 6 && 
+                    monthChoice != 7 && monthChoice != 8 && 
+                    monthChoice != 9 && monthChoice != 10 && 
+                    monthChoice != 11 && monthChoice != 12) {
+                        p("Not a valid month");
+                        monthChoice = 0;
+                    }
+                    //p("What day?");
+                    System.out.print("Day: ");
+                    dayChoice = k.nextInt();
+                    if (dayChoice < 1 || dayChoice > 31) {
+                        p("Not a valid day");
+                        dayChoice = 0;
+                    } else if (monthChoice == 2 && dayChoice > 29 ) {
+                        p("Not a valid day");
+                        dayChoice = 0;
+                    } 
+                    System.out.print("Year: ");
+                    yearChoice = k.nextInt();
+                    if (yearChoice < 0 && yearChoice > 2050) {
+                        p("Not a valid year");
+                        yearChoice = 0;
+                    }
+                    date adate = new date(monthChoice, dayChoice, yearChoice);
+                    backend.addEntry(entryType, cost, adate);
+                    p("Added!");
+                    back1 = false;
+                } 
+            } else if (choice == 8) //Show Random Entry
+                backend.printRandom();
+            else if (choice == 9) //Quit Program
                 over = true;
         }
     }
@@ -129,6 +244,38 @@ public class run {
         p("1. Sort from A->Z");
         p("2. Sort from Z->A");
         p("9. Back");
+    }
+
+    public static void whatTypeOfEntry() {
+        p("What Type of Entry is it?");
+        p("1. Food");
+        p("2. Gas");
+        p("3. Clothes");
+        p("4. Gecko");
+        p("5. Nintendo");
+        p("8. Other");
+        p("9. Back");
+    }
+
+    public static void foodChoice() {
+        p("1. Eat Out");
+        p("2. Groceries");
+        p("3. Ice Cream");
+    }
+
+    public static void monthChoice() {
+        p("1. January");
+        p("2. February");
+        p("3. March");
+        p("4. April");
+        p("5. May");
+        p("6. June");
+        p("7. July");
+        p("8. August");
+        p("9. September");
+        p("10. October");
+        p("11. November");
+        p("12. December");
     }
 
     public static void end() {

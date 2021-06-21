@@ -1,5 +1,7 @@
+import java.util.Random;
 public class backend {
     private entryArray array;
+    private Random n;
     public backend() {
         init();
     }
@@ -49,6 +51,40 @@ public class backend {
     }
 
     public void sortAmountHL() {
-        
+
+    }
+
+    public void printRandom() {
+        n = new Random();
+        int choice = n.nextInt(array.getSize());
+        array.randomEntry(choice);
+    }
+
+    public double totalSpent() {
+        return array.totalSpent();
+    }
+
+    public double totalSpentFood() {
+        return array.totalSpentFood();
+    }
+
+    public double totalSpentGas() {
+        return array.totalSpentGas();
+    }
+
+    public double totalSpentClothes() {
+        return array.totalSpentClothes();
+    }
+
+    public double totalSpentGecko() {
+        return array.totalSpentGecko();
+    }
+
+    public double totalSpentNintendo() {
+        return array.totalSpentNintendo();
+    }
+
+    public double totalSpentOther() {
+        return array.totalSpentOther();
     }
 }
