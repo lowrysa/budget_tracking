@@ -103,7 +103,10 @@ public class run {
                             }
                             //overa = true;
                         } else if (choicea == 4) {
+                            clear();
+                            p("Entries:");
                             backend.printEntries();
+                            p("");
                             overa = true;
                         } else if (choicea == 9) {
                             overa = true;
@@ -285,16 +288,16 @@ public class run {
     public static void dateChoice() {
         clear();
         p("How would you like to sort?");
-        p("1. Sort by low to high date");
-        p("2. Sort by high to low date");
+        p("1. Sort by oldest to newest");
+        p("2. Sort by newest to oldest");
         p("9. Back");
     }
 
     public static void amountChoice() {
         clear();
         p("How would you like to sort?");
-        p("1. Sort by low to high amount");
-        p("2. Sort by high to low amount");
+        p("1. Sort by low to high");
+        p("2. Sort by high to low");
         p("9. Back");
     }
 

@@ -59,10 +59,10 @@ public class entry {
     }
 
     public String print() {
-        return name + " " + amount + " " + date.print() +"\n";
+        return name + " $" + amount + " " + date.print();
     }
 
     public String printFull() {
-        return "Paid $" + amount + " for " + name + " on " + date.printFull() + "\n";
+        return "Paid $" + amount + " for " + name + " on " + date.printFull();
     }
 }

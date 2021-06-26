@@ -31,27 +31,32 @@ public class backend {
     }
 
     public void sortAlphabeticallyAZ() {
-
+        array.sortAlphabeticallyAZ();
         System.out.println("");
     }
 
     public void sortAlphabeticallyZA() {
+        array.sortAlphabeticallyZA();
         System.out.println("");
     }
 
     public void sortByDateLH() {
+        array.sortByDateLH();
         System.out.println("");
     } 
 
     public void sortByDateHL() {
+        array.sortAmountHL();
         System.out.println("");
     }
 
     public void sortAmountLH() {
+        array.sortAmountLH();
         System.out.println("");
     }
 
     public void sortAmountHL() {
+        array.sortAmountHL();
         System.out.println("");
     }
 
