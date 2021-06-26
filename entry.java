@@ -17,9 +17,9 @@ public class entry {
 
     public void setName (String a) {
         if (a.equalsIgnoreCase("")) 
-            name = a;
-        else 
             name = "Na";
+        else 
+            name = a;
     }
 
     public double getAmount() {
@@ -63,6 +63,6 @@ public class entry {
     }
 
     public String printFull() {
-        return "Paid " + amount + " for " + name + " on " + date.printFull() + "\n";
+        return "Paid $" + amount + " for " + name + " on " + date.printFull() + "\n";
     }
 }

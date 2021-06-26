@@ -36,7 +36,7 @@ public class entryArray {
             return;
         } 
         for(int i = 0; i < array.size(); i++) {
-            array.get(i).print();
+            System.out.println(array.get(i).print());
         }
     }
 
@@ -45,7 +45,8 @@ public class entryArray {
     }
 
     public void randomEntry(int i) {
-        array.get(i).printFull();
+        //System.out.println(i);
+        System.out.println(array.get(i).printFull());
     }
 
     public double totalSpent() {

@@ -32,32 +32,38 @@ public class backend {
 
     public void sortAlphabeticallyAZ() {
 
+        System.out.println("");
     }
 
     public void sortAlphabeticallyZA() {
-
+        System.out.println("");
     }
 
     public void sortByDateLH() {
-
+        System.out.println("");
     } 
 
     public void sortByDateHL() {
-
+        System.out.println("");
     }
 
     public void sortAmountLH() {
-
+        System.out.println("");
     }
 
     public void sortAmountHL() {
-
+        System.out.println("");
     }
 
     public void printRandom() {
         n = new Random();
-        int choice = n.nextInt(array.getSize());
-        array.randomEntry(choice);
+        if (array.getSize() == 0) {
+            System.out.println("No entries yet!");
+        } else {
+            int choice = n.nextInt(array.getSize());
+            //System.out.println(choice);
+            array.randomEntry(choice);
+        }  
     }
 
     public double totalSpent() {
