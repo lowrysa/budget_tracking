@@ -88,14 +88,19 @@ public class date {
 
     public boolean check(int a, int b, int c) {
         boolean ret = true;
-        if (a == 0 || b == 0 || c == 0)
+        if (a == 0 || b == 0 || c == 0) {
+            System.out.println("Not a valid date");
             ret = false;
-        else if (a == 2 && (b == 30 || b == 31)) {
+        } else if (a == 2 && (b == 30 || b == 31)) {
             System.out.println("February doesn't have that many days.");
             ret = false;
         } else if (a == 2 && b == 29 && (c % 4 != 0 || c % 400 == 0)) {
             System.out.println("Not a leap year, not valid.");
             ret = false;
+        } else if ((a == 4 && b == 31) || (a == 6 && b == 31) ||
+            (a == 9 && b == 31) || (a == 11 && b == 31)) {
+                System.out.println("That month does not have that many days.");
+                ret = false;
         }
         return ret;
     }

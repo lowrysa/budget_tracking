@@ -2,12 +2,37 @@ import java.util.Random;
 public class backend {
     private entryArray array;
     private Random n;
+    public date startingDate;
+    public date endingDate;
+
     public backend() {
         init();
     }
 
     public void init() {
         array = new entryArray();
+    }
+
+    public date getStartDate() {
+        return startingDate;
+    }
+
+    public date getEndDate() {
+        return endingDate;
+    }
+
+    public void setStartDate(date a) {
+        if(a.check(a.getMonth(), a.getDay(), a.getYear())) 
+            startingDate = a;
+        else
+            startingDate = new date(0,0,0);
+    }
+
+    public void setEndDate(date a) {
+        if(a.check(a.getMonth(), a.getDay(), a.getYear())) 
+            endingDate = a;
+        else
+            endingDate = new date(0,0,0);
     }
 
     public void readFile() {
@@ -30,23 +55,13 @@ public class backend {
         array.printData();
     }
 
-    public void sortAlphabeticallyAZ() {
-        array.sortAlphabeticallyAZ();
-        System.out.println("");
-    }
-
-    public void sortAlphabeticallyZA() {
-        array.sortAlphabeticallyZA();
-        System.out.println("");
-    }
-
     public void sortByDateLH() {
         array.sortByDateLH();
         System.out.println("");
     } 
 
     public void sortByDateHL() {
-        array.sortAmountHL();
+        array.sortByDateHL();
         System.out.println("");
     }
 
@@ -97,5 +112,9 @@ public class backend {
 
     public double totalSpentOther() {
         return array.totalSpentOther();
+    }
+
+    public void printCategory() {
+        array.printCategory();
     }
 }

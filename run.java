@@ -59,7 +59,7 @@ public class run {
                                     overDate = true;
                                     clear();
                                 } else
-                                    p("Not valid input");
+                                    p("Not valid input\n");
                             }
                             //overa = true;
                         } else if (choicea == 2) {
@@ -79,40 +79,27 @@ public class run {
                                     overAmount = true;
                                     clear();
                                 } else
-                                    p("Not valid input");
+                                    p("Not valid input\n");
                             }
                             //overa = true;
                         } else if (choicea == 3) {
-                            boolean overAlphabet = false;
-                            while (!overAlphabet) {
-                               alphabeticChoice();
-                                int choiceAlpha = k.nextInt();
-                                if (choiceAlpha == 1) {
-                                    backend.sortAlphabeticallyAZ();
-                                   overAlphabet = true;
-                                   overa = true;
-                                } else if (choiceAlpha == 2) {
-                                    backend.sortAlphabeticallyZA();
-                                    overAlphabet = true;
-                                    overa = true;
-                                } else if (choiceAlpha == 9) {
-                                    overAlphabet = true;
-                                    clear();
-                                } else
-                                    p("Not a valid input");
-                            }
+                            clear();
+                            p("Categories:\n");
+                            backend.printCategory();
+                            p("");
+                            overa = true;
                             //overa = true;
                         } else if (choicea == 4) {
                             clear();
                             p("Entries:");
                             backend.printEntries();
-                            p("");
+                            //p("");
                             overa = true;
                         } else if (choicea == 9) {
                             overa = true;
                             clear();
                         } else 
-                         p("Not valid input");  
+                         p("Not valid input\n");  
                     }  
                 } else 
                     p("No entries yet!\n");
@@ -121,11 +108,11 @@ public class run {
                 p("Checking stats:");
                 if (backend.totalSpent() > 0.0) {
                     p("Calculating...");
-                    System.out.print("In total, you have spent $");
+                    System.out.print("Between " + backend.getStartDate() + " and " + backend.getEndDate() + ", you have spent $");
                     System.out.print(backend.totalSpent());
                     p("");
-                    p("More specifically...");
                     p("");
+                    p("More specifically...");
                     System.out.print("You have spent $");
                     System.out.print(backend.totalSpentFood());
                     System.out.print(" on Food");
@@ -149,12 +136,9 @@ public class run {
                     System.out.print("You have spent $");
                     System.out.print(backend.totalSpentOther());
                     System.out.print(" on everything else!");
-                    p("");
-                } else {
-                    p("No entries yet!");
-                    p("");
-                }
-                
+                    p("\n");
+                } else 
+                    p("No entries yet!\n");
             } else if (choice == 3) { //Add Entry
                 clear();
                 p("Add entry:");
@@ -182,7 +166,7 @@ public class run {
                                 over2 = true;
                                 overc = true;
                             } else 
-                                p("Not valid input");
+                                p("Not valid input\n");
                         }
                     } else if (choice1 == 2) {
                         entryType = "Gas";
@@ -198,6 +182,7 @@ public class run {
                         overc = true;
                     } else if (choice1 == 8) {
                         p("Please specify what kind of entry:");
+                        k.nextLine();
                         entryType = k.nextLine();
                         overc = true;
                     } else if (choice1 == 9) {
@@ -205,7 +190,7 @@ public class run {
                         back1 = true;
                         clear();
                     } else 
-                        p("Not valid input");  
+                        p("Not valid input\n");  
                 }
                 if (!back1) {
                     clear();
@@ -243,16 +228,39 @@ public class run {
                     clear();
                     System.out.print("Year: ");
                     yearChoice = k.nextInt();
-                    if (yearChoice < 0 && yearChoice > 2050) {
-                        //p("Not a valid year");
+                    if (yearChoice < 0 && yearChoice > 2050) 
                         yearChoice = 0;
-                    }
                     date adate = new date(monthChoice, dayChoice, yearChoice);
-                    backend.addEntry(entryType, cost, adate);
-                    //p("Added!");
+                    if (adate.check(adate.getMonth(), adate.getDay(), adate.getYear())) 
+                        backend.addEntry(entryType, cost, adate);
+                    else {
+                        clear();
+                        p("Not valid date, Entry not added");
+                    }
                     p("");
                     back1 = false;
                 } 
+            } else if (choice == 4) {
+                boolean g = false;
+                while (!g) {
+                    clear();
+                    p("Check/Change dates:");
+                    p("1. Check dates");
+                    p("2. Change dates");
+                    int choicez = k.nextInt();
+                    if (choicez == 1) {
+                        clear();
+                        p("Check dates:");
+                        p("Starting Date: " + backend.getStartDate().printFull());
+                        p("Ending Date: " + backend.getEndDate().printFull());
+                        g = true;
+                    } else if (choicez == 2) {
+                        g = true;
+                    } else {
+                        p("Not valid input");
+                    }
+                }
+                
             } else if (choice == 8) {//Show Random Entry
                 clear();
                 p("Random entry:");
@@ -261,7 +269,7 @@ public class run {
             } else if (choice == 9) {//Quit Program
                 over = true;
             } else 
-                p("Not valid input");
+                p("Not valid input\n");
         }
     }
 
@@ -271,6 +279,7 @@ public class run {
         p("1. Print entries");
         p("2. Check stats");
         p("3. Add entry");
+        p("4. Check/Change dates");
         p("8. Show random entry");
         p("9. Quit program");
     }
@@ -280,7 +289,7 @@ public class run {
         p("How would you like to print?");
         p("1. Print by date");
         p("2. Print by amount");
-        p("3. Print alphabetically");
+        p("3. Print by category");
         p("4. Print in order of added");
         p("9. Back");
     }
@@ -357,8 +366,6 @@ public class run {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
-    
-    
     
     public static void p(String s) {
         System.out.println(s);
