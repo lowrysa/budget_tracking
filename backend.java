@@ -34,6 +34,71 @@ public class backend {
         else
             endingDate = new date(0,0,0);
     }
+    
+    public boolean checkDates() {
+        if (startingDate == null) 
+            return false;
+        else
+            return true;
+    }
+
+    public boolean checkEndDate() {
+        if (endingDate == null) 
+            return false;
+         else
+            return true;
+    }
+
+    public boolean checkDateBounds(date a) {
+        if (!checkEndDate()) {
+            if (a.getYear() > startingDate.getYear()) {
+                return true;
+            } else if (a.getYear() == startingDate.getYear() 
+                && a.getMonth() > startingDate.getMonth()) {
+                return true;
+            } else if (a.getYear() == startingDate.getYear() 
+                && a.getMonth() == startingDate.getMonth()
+                && a.getDay() >= startingDate.getDay()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else if (!checkEndDate() && !checkDates()) {
+            return true;
+        } else if (!checkDates()) {
+            if (a.getYear() < endingDate.getYear()) {
+                return true;
+            } else if (a.getYear() == endingDate.getYear() 
+                && a.getMonth() < endingDate.getMonth()) {
+                return true;
+            } else if (a.getYear() == endingDate.getYear() 
+                && a.getMonth() == endingDate.getMonth()
+                && a.getDay() <= endingDate.getDay()) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (a.getYear() > startingDate.getYear() 
+                && a.getYear() < endingDate.getYear()) {
+                return true;
+            } else if (a.getYear() == endingDate.getYear()
+                && a.getYear() == startingDate.getYear() 
+                && a.getMonth() > startingDate.getMonth() 
+                && a.getMonth() < endingDate.getMonth()) {
+                return true;
+            } else if (a.getYear() == endingDate.getYear() 
+                && a.getMonth() == endingDate.getMonth()
+                && a.getYear() == startingDate.getYear() 
+                && a.getMonth() == startingDate.getMonth()
+                && a.getDay() <= endingDate.getDay()
+                && a.getDay() >= startingDate.getDay()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 
     public void readFile() {
 
