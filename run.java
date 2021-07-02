@@ -109,7 +109,7 @@ public class run {
                 p("Checking stats:");
                 if (backend.totalSpent() > 0.0) {
                     p("Calculating...");
-                    System.out.print("Between " + backend.getStartDate() + " and " + backend.getEndDate() + ", you have spent $");
+                    System.out.print("Between " + backend.getStartDate().printFull() + " and " + backend.getEndDate().printFull() + ", you have spent $");
                     System.out.print(backend.totalSpent());
                     p("");
                     p("");
@@ -232,10 +232,11 @@ public class run {
                     if (yearChoice < 0 && yearChoice > 2050) 
                         yearChoice = 0;
                     date adate = new date(monthChoice, dayChoice, yearChoice);
-                    if (adate.check(adate.getMonth(), adate.getDay(), adate.getYear())) {
+                    if (adate.check(adate.getMonth(), adate.getDay(), adate.getYear())
+                        && backend.checkDateBounds(adate)) {
                         backend.addEntry(entryType, cost, adate);
                     } else {
-                        clear();
+                        //clear();
                         p("Not valid date, Entry not added");
                     }
                     p("");
@@ -277,7 +278,8 @@ public class run {
                                             int year = k.nextInt();
                                             p("");
                                             date a = new date(month,day,year);
-                                            if(a.check(a.getMonth(), a.getDay(), a.getYear())) {
+                                            if(a.check(a.getMonth(), a.getDay(), a.getYear()) 
+                                                && backend.compareStartDate(a)) {
                                                 clear();
                                                 p("Date set successfully!");
                                                 p("Ending date: " + month + "/" + day + "/" + year);
@@ -300,6 +302,49 @@ public class run {
                                 p("Ending Date: " + backend.getEndDate().printFull());
                             p("");
                             g = true;
+                        } else if (backend.checkEndDate() && !backend.checkDates()){
+                            p("Ending Date: " + backend.getStartDate().printFull());
+                            boolean o = false;
+                                while (!o) {
+                                    p("\nThere is no start date set yet, would you like to set one?");
+                                    System.out.print("(y/n) ");
+                                    k.nextLine();
+                                    String input = k.nextLine();
+                                    if (input.equalsIgnoreCase("y")) {
+                                        //clear();
+                                        boolean x = false;
+                                        while(!x) {
+                                            p("\nSet Ending date:");
+                                            System.out.print("Month: ");
+                                            int month = k.nextInt();
+                                            p("");
+                                            System.out.print("Day: ");
+                                            int day = k.nextInt();
+                                            p("");
+                                            System.out.print("Year: ");
+                                            int year = k.nextInt();
+                                            p("");
+                                            date a = new date(month,day,year);
+                                            if(a.check(a.getMonth(), a.getDay(), a.getYear()) 
+                                                && backend.compareEndDate(a)) {
+                                                clear();
+                                                p("Date set successfully!");
+                                                p("Starting date: " + month + "/" + day + "/" + year);
+                                                p("");
+                                                backend.setStartDate(a);
+                                                x = true;
+                                                g = true;
+                                                o = true;
+                                            } else 
+                                                p("Not valid date");                      
+                                        }
+                                    } else if (input.equalsIgnoreCase("n")) {
+                                        p("");
+                                        o = true;
+                                        g = true;
+                                    } else
+                                        p("Not valid input");
+                                }
                         } else {
                             p("No dates set yet!");
                             boolean r = false;
@@ -326,7 +371,8 @@ public class run {
                                         System.out.print("Year: ");
                                         int year = k.nextInt();
                                         cat = new date(month,day,year);
-                                        if(cat.check(cat.getMonth(), cat.getDay(), cat.getYear())) {
+                                        if(cat.check(cat.getMonth(), cat.getDay(), cat.getYear()) 
+                                            && backend.compareEndDate(cat)) {
                                             backend.setStartDate(cat);
                                             xo = true;
                                         }
@@ -341,7 +387,8 @@ public class run {
                                         System.out.print("Year: ");
                                         int year = k.nextInt();
                                         a = new date(month,day,year);
-                                        if(a.check(a.getMonth(), a.getDay(), a.getYear())) {
+                                        if(a.check(a.getMonth(), a.getDay(), a.getYear()) 
+                                            && backend.compareStartDate(a)) {
                                             clear();
                                             p("Dates set successfully!");
                                             p("Starting date: " + cat.getMonth() + "/" + cat.getDay() + "/" + cat.getYear());
@@ -387,7 +434,8 @@ public class run {
                                 System.out.print("Year: ");
                                 int year = k.nextInt();
                                 date a = new date(month,day,year);
-                                if(a.check(a.getMonth(), a.getDay(), a.getYear())) {
+                                if(a.check(a.getMonth(), a.getDay(), a.getYear())
+                                    && backend.compareEndDate(a)) {
                                     clear();
                                     p("Date changed successfully!");
                                     p("New starting date: " + month + "/" + day + "/" + year);
@@ -408,7 +456,8 @@ public class run {
                                 System.out.print("Year: ");
                                 int year = k.nextInt();
                                 date a = new date(month,day,year);
-                                if(a.check(a.getMonth(), a.getDay(), a.getYear())) {
+                                if(a.check(a.getMonth(), a.getDay(), a.getYear())
+                                    && backend.compareStartDate(a)) {
                                     clear();
                                     p("Date changed successfully!");
                                     p("New ending date: " + month + "/" + day + "/" + year);
@@ -434,7 +483,8 @@ public class run {
                                 a.setDay(day);
                                 a.setMonth(month);
                                 a.setYear(year);
-                                if(a.check(a.getMonth(), a.getDay(), a.getYear())) {
+                                if(a.check(a.getMonth(), a.getDay(), a.getYear())
+                                   && backend.compareEndDate(a)) {
                                     //p("Date changed successfully!");
                                     p("");
                                     backend.setStartDate(a);
@@ -453,7 +503,8 @@ public class run {
                                 b.setMonth(month);
                                 b.setDay(day);
                                 b.setYear(year);
-                                if(b.check(b.getMonth(), b.getDay(), b.getYear())) {
+                                if(b.check(b.getMonth(), b.getDay(), b.getYear())
+                                    && backend.compareStartDate(b)) {
                                     clear();
                                     p("Dates changed successfully!");
                                     p("");

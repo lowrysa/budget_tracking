@@ -50,7 +50,9 @@ public class backend {
     }
 
     public boolean checkDateBounds(date a) {
-        if (!checkEndDate()) {
+        if (!checkEndDate() && !checkDates()) {
+            return true;
+        } else if (!checkEndDate()) {
             if (a.getYear() > startingDate.getYear()) {
                 return true;
             } else if (a.getYear() == startingDate.getYear() 
@@ -61,10 +63,9 @@ public class backend {
                 && a.getDay() >= startingDate.getDay()) {
                 return true;
             } else {
+                System.out.println("Date not within bounds");
                 return false;
             }
-        } else if (!checkEndDate() && !checkDates()) {
-            return true;
         } else if (!checkDates()) {
             if (a.getYear() < endingDate.getYear()) {
                 return true;
@@ -76,6 +77,7 @@ public class backend {
                 && a.getDay() <= endingDate.getDay()) {
                 return true;
             } else {
+                System.out.println("Date not within bounds");
                 return false;
             }
         } else {
@@ -95,6 +97,47 @@ public class backend {
                 && a.getDay() >= startingDate.getDay()) {
                 return true;
             } else {
+                System.out.println("Date not within bounds");
+                return false;
+            }
+        }
+    }
+
+    public boolean compareStartDate(date b) {
+        if (!checkDates()) {
+            return true;
+        } else {
+            if (b.getYear() > startingDate.getYear()) {
+                return true;
+            } else if (b.getYear() == startingDate.getYear() 
+                && b.getMonth() > startingDate.getMonth()) {
+                return true;
+            } else if (b.getYear() == startingDate.getYear() 
+                && b.getMonth() == startingDate.getMonth()
+                && b.getDay() >= startingDate.getDay()) {
+                return true;
+            } else {
+                System.out.println("Date not within bounds");
+                return false;
+            }
+        }
+    }
+
+    public boolean compareEndDate(date b) {
+        if (!checkEndDate()) {
+            return true;
+        } else {
+            if (b.getYear() < endingDate.getYear()) {
+                return true;
+            } else if (b.getYear() == endingDate.getYear() 
+                && b.getMonth() < endingDate.getMonth()) {
+                return true;
+            } else if (b.getYear() == endingDate.getYear() 
+                && b.getMonth() == endingDate.getMonth()
+                && b.getDay() <= endingDate.getDay()) {
+                return true;
+            } else {
+                System.out.println("Date not within bounds");
                 return false;
             }
         }
