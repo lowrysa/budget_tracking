@@ -10,8 +10,6 @@ public class run {
         end();
     }
 
-    //TODO: Make sure to compare start to end date when setting them
-    //TODO: If start/end date arent set, ask which they want to set
     //TODO: File I/O
 
     public static void intro() {
@@ -443,7 +441,8 @@ public class run {
                                     backend.setStartDate(a);
                                     z = true;
                                     g = true;
-                                }
+                                } else 
+                                    p("");
                             }
                         } else if (abc == 2) {
                             boolean z = false;
@@ -465,7 +464,8 @@ public class run {
                                     backend.setEndDate(a);
                                     z = true;
                                     g = true;
-                                }
+                                } else 
+                                    p("");
                             }
                         } else if (abc == 3) {
                             //System.out.println(abc);
@@ -489,7 +489,8 @@ public class run {
                                     p("");
                                     backend.setStartDate(a);
                                     z = true;
-                                }
+                                } else
+                                    p("");
                             }
                             boolean y = false;
                             while(!y) {

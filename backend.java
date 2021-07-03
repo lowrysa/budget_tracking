@@ -83,19 +83,37 @@ public class backend {
         } else {
             if (a.getYear() > startingDate.getYear() 
                 && a.getYear() < endingDate.getYear()) {
-                return true;
+                    return true;
+            } else if (a.getYear() > startingDate.getYear() 
+                && a.getYear() == startingDate.getYear()
+                && a.getMonth() < endingDate.getMonth()) {
+                    return true;
+            } else if (a.getYear() > startingDate.getYear() 
+                && a.getYear() == endingDate.getYear() 
+                && a.getMonth() == endingDate.getMonth()
+                && a.getDay() <= endingDate.getDay()) {
+                    return true;
+            } else if (a.getYear() < endingDate.getYear()
+                && a.getYear() == startingDate.getYear() 
+                && a.getMonth() > startingDate.getMonth()) {
+                    return true;
+            } else if (a.getYear() < endingDate.getYear()
+                && a.getYear() == startingDate.getYear() 
+                && a.getMonth() == startingDate.getMonth()
+                && a.getDay() >= startingDate.getDay()) {
+                    return true;
             } else if (a.getYear() == endingDate.getYear()
                 && a.getYear() == startingDate.getYear() 
                 && a.getMonth() > startingDate.getMonth() 
                 && a.getMonth() < endingDate.getMonth()) {
-                return true;
+                    return true;
             } else if (a.getYear() == endingDate.getYear() 
                 && a.getMonth() == endingDate.getMonth()
                 && a.getYear() == startingDate.getYear() 
                 && a.getMonth() == startingDate.getMonth()
                 && a.getDay() <= endingDate.getDay()
                 && a.getDay() >= startingDate.getDay()) {
-                return true;
+                    return true;
             } else {
                 System.out.println("Date not within bounds");
                 return false;
@@ -114,7 +132,7 @@ public class backend {
                 return true;
             } else if (b.getYear() == startingDate.getYear() 
                 && b.getMonth() == startingDate.getMonth()
-                && b.getDay() >= startingDate.getDay()) {
+                && b.getDay() > startingDate.getDay()) {
                 return true;
             } else {
                 System.out.println("Date not within bounds");
@@ -134,7 +152,7 @@ public class backend {
                 return true;
             } else if (b.getYear() == endingDate.getYear() 
                 && b.getMonth() == endingDate.getMonth()
-                && b.getDay() <= endingDate.getDay()) {
+                && b.getDay() < endingDate.getDay()) {
                 return true;
             } else {
                 System.out.println("Date not within bounds");
