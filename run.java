@@ -11,7 +11,10 @@ public class run {
         end();
     }
 
-    //TODO: File I/O
+    //TDOO: Search to make sure file exists first
+    //TODO: To change file, copy everything to new file
+    //TODO: Append to file to add entries
+    //TODO: put real entries in
 
     public static void intro() {
         clear();
@@ -127,6 +130,10 @@ public class run {
                     System.out.print(" on Nintendo");
                     p("");
                     System.out.print("You have spent $");
+                    System.out.print(backend.totalSpentSplice());
+                    System.out.print(" on Splice");
+                    p("");
+                    System.out.print("You have spent $");
                     System.out.print(backend.totalSpentOther());
                     System.out.print(" on everything else!");
                     p("\n");
@@ -172,6 +179,9 @@ public class run {
                         overc = true;
                     } else if (choice1 == 5) {
                         entryType = "Nintendo";
+                        overc = true;
+                    } else if (choice1 == 6) {
+                        entryType = "Splice";
                         overc = true;
                     } else if (choice1 == 8) {
                         p("Please specify what kind of entry:");
@@ -238,11 +248,12 @@ public class run {
                 boolean g = false;
                 while (!g) {
                     clear();
-                    p("Check/Change dates:");
-                    p("1. Check dates");
-                    p("2. Change dates");
-                    p("9. Back");
-                    int choicez = k.nextInt();
+                    p("Check dates:");
+                    int choicez = 1;
+                    //p("1. Check dates");
+                    //p("2. Change dates");
+                    //p("9. Back");
+                    //int choicez = k.nextInt();
                     if (choicez == 1) { //check dates
                         clear();
                         p("Check dates:");
@@ -348,7 +359,7 @@ public class run {
                                 date cat = new date();
                                 date a = new date();
                                 if (input.equalsIgnoreCase("n")) {
-                                    //p("");
+                                    p("");
                                     g = true;
                                     r = true;
                                 } else if (input.equalsIgnoreCase("y")) {
@@ -396,7 +407,7 @@ public class run {
                                     p("Not valid input");
                             }  
                         }
-                    } else if (choicez == 2) {
+                    } /*else if (choicez == 2) {
                         clear();
                         p("Change dates:");
                         if (!backend.checkDates() && !backend.checkEndDate()) 
@@ -518,9 +529,9 @@ public class run {
                     } else if (choicez == 9) {
                         clear();
                         g = true;
-                    }
+                    } 
                      else 
-                        p("Not valid input");
+                        p("Not valid input"); */
                 }
             } else if (choice == 8) {//Show Random Entry
                 clear();

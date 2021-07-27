@@ -108,6 +108,16 @@ public class entryArray {
         return ret;
     }
 
+    public double totalSpentSplice() {
+        double ret = 0.0;
+        for(int i = 0; i < array.size(); i++) {
+            if (array.get(i).getName().equalsIgnoreCase("splice")) {
+                ret += array.get(i).getAmount();
+            } 
+        }
+        return ret;
+    }
+
     public double totalSpentOther() {
         double ret = 0.0;
         for(int i = 0; i < array.size(); i++) {
@@ -118,6 +128,7 @@ public class entryArray {
                 array.get(i).getName() != ("Clothes") &&
                 array.get(i).getName() != ("Gas") &&
                 array.get(i).getName() != ("Gecko") &&
+                array.get(i).getName() != ("Splice") &&
                 array.get(i).getName() != ("Nintendo")) {
                 ret += array.get(i).getAmount();
             } 
@@ -266,6 +277,7 @@ public class entryArray {
         ArrayList<entry> clothes = new ArrayList<>();
         ArrayList<entry> gecko = new ArrayList<>();
         ArrayList<entry> nintendo = new ArrayList<>();
+        ArrayList<entry> splice = new ArrayList<>();
         ArrayList<entry> other = new ArrayList<>();
 
         for(int i = 0; i < array.size(); i++) {
@@ -306,6 +318,11 @@ public class entryArray {
         }
 
         for(int i = 0; i < array.size(); i++) {
+            if (array.get(i).getName().equalsIgnoreCase("splice")) 
+                splice.add(array.get(i));
+        }
+
+        for(int i = 0; i < array.size(); i++) {
             if (array.get(i).getName() != ("Eat Out") &&
                 array.get(i).getName() != ("Groceries") &&
                 array.get(i).getName() != ("Ice Cream") &&
@@ -313,6 +330,7 @@ public class entryArray {
                 array.get(i).getName() != ("Clothes") &&
                 array.get(i).getName() != ("Gas") &&
                 array.get(i).getName() != ("Gecko") &&
+                array.get(i).getName() != ("Splice") &&
                 array.get(i).getName() != ("Nintendo")) {
                 other.add(array.get(i));
             }
@@ -364,6 +382,13 @@ public class entryArray {
             System.out.println("Nintendo:");
             for(int i = 0; i < nintendo.size(); i++) 
                 System.out.println(nintendo.get(i).print());
+            System.out.println("");
+        }
+
+        if (!splice.isEmpty()) {
+            System.out.println("Splice:");
+            for(int i = 0; i < splice.size(); i++) 
+                System.out.println(splice.get(i).print());
             System.out.println("");
         }
         

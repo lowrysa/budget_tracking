@@ -1,9 +1,17 @@
 import java.util.Random;
+import java.io.*;
+import java.util.*;
+import java.util.ArrayList;
 public class backend {
     private entryArray array;
     private Random n;
     public date startingDate;
     public date endingDate;
+    //private ArrayList<String> entries;
+    private static final String FILE = "budget_tracking.txt";
+    private static final String DELIM = "\t";
+    private static final String SEPERATOR = "/";
+
 
     public backend() {
         init();
@@ -22,17 +30,51 @@ public class backend {
     }
 
     public void setStartDate(date a) {
-        if(a.check(a.getMonth(), a.getDay(), a.getYear())) 
+        if(a.check(a.getMonth(), a.getDay(), a.getYear())) {
             startingDate = a;
-        else
+            setStartFile(a);
+        } else
             startingDate = new date(0,0,0);
     }
 
+    public void setStartFile(date a) {
+        try {
+            //PrintWriter fileWriter = new PrintWriter(new FileOutputStream(FILE));
+            Scanner fileScanner = new Scanner(new File(FILE));
+            while(fileScanner.hasNextLine()) {
+                if (fileScanner.nextLine().equalsIgnoreCase("Starting Date:\t")) {
+                    //fileWriter.write(a.print());
+                }
+            }
+            //fileWriter.close();
+            fileScanner.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setEndDate(date a) {
-        if(a.check(a.getMonth(), a.getDay(), a.getYear())) 
+        if(a.check(a.getMonth(), a.getDay(), a.getYear())) {
             endingDate = a;
-        else
+            setEndFile(a);
+        } else
             endingDate = new date(0,0,0);
+    }
+
+    public void setEndFile(date a) {
+        try {
+            //PrintWriter fileWriter = new PrintWriter(new FileOutputStream(FILE));
+            Scanner fileScanner = new Scanner(new File(FILE));
+            while(fileScanner.hasNextLine()) {
+                if (fileScanner.nextLine().equalsIgnoreCase("Ending Date:\t")) {
+                    //fileWriter.write(a.print());
+                }
+            }
+            //fileWriter.close();
+            fileScanner.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     public boolean checkDates() {
@@ -162,8 +204,111 @@ public class backend {
     }
 
     public void readFile() {
-
+        //entries = new ArrayList<>();
+        String firstLine = "";
+        String line = "";
+        int counter = 0;
+        try {
+            Scanner fileScanner = new Scanner(new File(FILE));
+            if (fileScanner == null) {
+                System.out.println("slakjdf");
+            }
+            if (fileScanner.hasNextLine()) {
+                if (counter == 0) {
+                    firstLine = fileScanner.nextLine();
+                    if (!firstLine.equalsIgnoreCase("budgettrackingprogram")){
+                        System.out.println("File has been tampered with, resetting it...");
+                        setUpFile();
+                    }
+                }
+                while(fileScanner.hasNextLine()) {
+                    line = fileScanner.nextLine();
+                    if (line.equalsIgnoreCase("Starting Date:")) {
+                        String[] splitLine = line.split(DELIM);
+                        if(splitLine.length == 2) {
+                            String date = splitLine[1];
+                            int seperator = date.indexOf(SEPERATOR);
+                            String monthString = date.substring(0,seperator);
+                            String everythingElse = date.substring(seperator + 1);
+                            int month = Integer.parseInt(monthString);
+                            seperator = everythingElse.indexOf(SEPERATOR);
+                            String dayString = everythingElse.substring(0,seperator);
+                            String yearString = everythingElse.substring(seperator + 1);
+                            int day = Integer.parseInt(dayString);
+                            int year = Integer.parseInt(yearString);
+                            date a = new date(month, day, year);
+                            startingDate = a;
+                        } else {
+                            startingDate = null;
+                        }
+                    } else if (line.equalsIgnoreCase("Ending Date:")) {
+                        String[] splitLine = line.split(DELIM);
+                        if(splitLine.length == 2) {
+                            String date = splitLine[1];
+                            int seperator = date.indexOf(SEPERATOR);
+                            String monthString = date.substring(0,seperator);
+                            String everythingElse = date.substring(seperator + 1);
+                            int month = Integer.parseInt(monthString);
+                            seperator = everythingElse.indexOf(SEPERATOR);
+                            String dayString = everythingElse.substring(0,seperator);
+                            String yearString = everythingElse.substring(seperator + 1);
+                            int day = Integer.parseInt(dayString);
+                            int year = Integer.parseInt(yearString);
+                            date a = new date(month, day, year);
+                            endingDate = a;
+                        } else {
+                            endingDate = null;
+                        }
+                    } else if (line.equalsIgnoreCase("Entries:")) {
+                        while(fileScanner.hasNextLine()) {
+                            line = fileScanner.nextLine();
+                            String[] splitLine = line.split(DELIM);
+                            String name = splitLine[0];
+                            String amountS = splitLine[1];
+                            String date = splitLine[2];
+                            double amount = Double.parseDouble(amountS);
+                            int seperator = date.indexOf(SEPERATOR);
+                            String monthString = date.substring(0,seperator);
+                            String everythingElse = date.substring(seperator + 1);
+                            int month = Integer.parseInt(monthString);
+                            seperator = everythingElse.indexOf(SEPERATOR);
+                            String dayString = everythingElse.substring(0,seperator);
+                            String yearString = everythingElse.substring(seperator + 1);
+                            int day = Integer.parseInt(dayString);
+                            int year = Integer.parseInt(yearString);
+                            date a = new date(month, day, year);
+                            addEntry(name,amount,a);
+                        }
+                    }
+                    counter++;
+                }
+            } else {
+                System.out.println("Setting up file...\n");
+                setUpFile();
+            }
+            fileScanner.close();
+        } catch (FileNotFoundException ex) {
+            System.out.println("Setting up file...\n");
+            setUpFile();
+        }
     }
+
+    public void setUpFile() {
+        try {
+            PrintWriter fileWriter = new PrintWriter(new FileOutputStream(FILE));
+            fileWriter.write("budgettrackingprogram\n");
+            fileWriter.write("\n");
+            fileWriter.write("Starting Date:\t");
+            fileWriter.write("\n");
+            fileWriter.write("Ending Date:\t");
+            fileWriter.write("\n");
+            fileWriter.write("\nEntries:\n");
+            fileWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void saveFile() {
 
@@ -238,6 +383,10 @@ public class backend {
 
     public double totalSpentOther() {
         return array.totalSpentOther();
+    }
+
+    public double totalSpentSplice() {
+        return array.totalSpentSplice();
     }
 
     public void printCategory() {

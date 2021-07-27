@@ -25,7 +25,7 @@ public class textoptions {
         p("1. Print entries");
         p("2. Check stats");
         p("3. Add entry");
-        p("4. Check/Change dates");
+        p("4. Check dates");
         p("8. Show random entry");
         p("9. Quit program");
     }
@@ -71,6 +71,7 @@ public class textoptions {
         p("3. Clothes");
         p("4. Gecko");
         p("5. Nintendo");
+        p("6. Splice");
         p("8. Other");
         p("9. Back");
     }
