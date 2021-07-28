@@ -13,6 +13,7 @@ public class run {
     //TODO: Pop out window when program starts
     //TODO: Comments
     //TODO: put real entries in
+    //TODO: Add remove entry
 
     public static void intro() {
         clear();
@@ -139,6 +140,140 @@ public class run {
                     p("No entries yet!\n");
             } else if (choice == 3) { //Add Entry
                 clear();
+                if (!backend.checkEndDate() && !backend.checkDates()) {
+                    p("There's no starting or ending dates set yet, would you like to set them now?");
+                    boolean bee = false;
+                    while (!bee) {
+                        System.out.print("(y/n) ");
+                        k.nextLine();
+                        String f = k.nextLine();
+                        if (f.equalsIgnoreCase("y")) {
+                            date cat = new date();
+                            date a = new date();
+                            clear();
+                            boolean xo = false;
+                            while(!xo) {
+                                p("Set Starting date:");
+                                System.out.print("Month: ");
+                                int month = k.nextInt();
+                                System.out.print("Day: ");
+                                int day = k.nextInt();
+                                System.out.print("Year: ");
+                                int year = k.nextInt();
+                                cat = new date(month,day,year);
+                                if(cat.check(cat.getMonth(), cat.getDay(), cat.getYear()) 
+                                   && backend.compareEndDate(cat)) {
+                                    backend.setStartDate(cat);
+                                    xo = true;
+                                }
+                            }
+                            boolean z = false;
+                            while(!z) {
+                                p("\nSet Ending date:");
+                                System.out.print("Month: ");
+                                int month = k.nextInt();
+                                System.out.print("Day: ");
+                                int day = k.nextInt();
+                                System.out.print("Year: ");
+                                int year = k.nextInt();
+                                a = new date(month,day,year);
+                                if(a.check(a.getMonth(), a.getDay(), a.getYear()) 
+                                    && backend.compareStartDate(a)) {
+                                    clear();
+                                    p("Dates set successfully!");
+                                    p("Starting date: " + cat.getMonth() + "/" + cat.getDay() + "/" + cat.getYear());
+                                    p("Ending date: " + a.getMonth() + "/" + a.getDay() + "/" + a.getYear());
+                                    p("");
+                                    backend.setEndDate(a);
+                                    z = true;
+                                    bee = true;
+                                }
+                            }
+                        } else if (f.equalsIgnoreCase("n")) {
+                            bee = true;
+                            p("");
+                        } else 
+                            p("Invalid input\n");
+                    }
+                } else if (!backend.checkDates() && backend.checkEndDate()) {
+                    boolean deer = false;
+                    while (!deer) {
+                        p("There's no starting date set yet, would you like to set that up now?");
+                        System.out.print("(y/n) ");
+                        k.nextLine();
+                        String input = k.nextLine();
+                        if (input.equalsIgnoreCase("y")) {
+                            boolean x = false;
+                            while(!x) {
+                                p("\nSet Ending date:");
+                                System.out.print("Month: ");
+                                int month = k.nextInt();
+                                p("");
+                                System.out.print("Day: ");
+                                int day = k.nextInt();
+                                p("");
+                                System.out.print("Year: ");
+                                int year = k.nextInt();
+                                p("");
+                                date a = new date(month,day,year);
+                                if(a.check(a.getMonth(), a.getDay(), a.getYear()) 
+                                    && backend.compareEndDate(a)) {
+                                    clear();
+                                    p("Date set successfully!");
+                                    p("Starting date: " + month + "/" + day + "/" + year);
+                                    p("");
+                                    backend.setStartDate(a);
+                                    x = true;
+                                    deer = true;
+                                } else 
+                                    p("Not valid date");                      
+                            }
+                        } else if (input.equalsIgnoreCase("n")) {
+                            p("");
+                            deer = true;
+                        } else 
+                            p("Invalid input\n");
+                    }
+                } else if (!backend.checkEndDate() && backend.checkDates()) {
+                    boolean deer = false;
+                    while (!deer) {
+                        p("There's no ending date set yet, would you like to set that up now?");
+                        System.out.print("(y/n) ");
+                        k.nextLine();
+                        String input = k.nextLine();
+                        if (input.equalsIgnoreCase("y")) {
+                            boolean x = false;
+                            while(!x) {
+                                p("\nSet Ending date:");
+                                System.out.print("Month: ");
+                                int month = k.nextInt();
+                                p("");
+                                System.out.print("Day: ");
+                                int day = k.nextInt();
+                                p("");
+                                System.out.print("Year: ");
+                                int year = k.nextInt();
+                                p("");
+                                date a = new date(month,day,year);
+                                if(a.check(a.getMonth(), a.getDay(), a.getYear()) 
+                                    && backend.compareStartDate(a)) {
+                                    clear();
+                                    p("Date set successfully!");
+                                    p("Ending date: " + month + "/" + day + "/" + year);
+                                    p("");
+                                    backend.setEndDate(a);
+                                    x = true;
+                                    deer = true;
+                                } else 
+                                    p("Not valid date");                      
+                            }
+                        } else if (input.equalsIgnoreCase("n")) {
+                            p("");
+                            deer = true;
+                        } else 
+                            p("Invalid input\n");
+                    }
+                }
                 p("Add entry:");
                 boolean overc = false;
                 boolean back1 = false;
@@ -243,7 +378,7 @@ public class run {
                     p("");
                     back1 = false;
                 } 
-            } else if (choice == 4) { //check/change dates
+            } else if (choice == 5) { //check/change dates
                 boolean g = false;
                 while (!g) {
                     clear();
@@ -266,7 +401,6 @@ public class run {
                                     k.nextLine();
                                     String input = k.nextLine();
                                     if (input.equalsIgnoreCase("y")) {
-                                        //clear();
                                         boolean x = false;
                                         while(!x) {
                                             p("\nSet Ending date:");
@@ -532,33 +666,51 @@ public class run {
                      else 
                         p("Not valid input"); 
                 }
-            } else if (choice == 5) {//Show Random Entry
+            } else if (choice == 6) {//Show Random Entry
                 clear();
                 p("Random entry:");
                 backend.printRandom();
                 p("");
-            } else if (choice == 7) {
+            } else if (choice == 8) { //Next page
+                boolean overEasy = false;
                 clear();
-                backend.printFile();
-            } else if (choice == 8) {
-                clear();
-                boolean u = false;
-                while (!u) {
-                    p("Are you sure you would like to reset the file?");
-                    System.out.print("(y/n)");
-                    k.nextLine();
-                    String ahh = k.nextLine();
-                    if (ahh.equalsIgnoreCase("y")) {
-                        backend.resetFile();
-                        u = true;
-                    }
-                    else if (!ahh.equalsIgnoreCase("n") && !ahh.equalsIgnoreCase("y"))
+                while (!overEasy) {
+                    text.printLoop2();
+                    int choiceg = k.nextInt();
+                    if (choiceg == 1) { //Print file
+                        backend.printFile();
+                    } else if (choiceg == 2) { //Reset file
+                        clear();
+                        boolean u = false;
+                        while (!u) {
+                            p("Are you sure you would like to reset the file?");
+                            System.out.print("(y/n)");
+                            k.nextLine();
+                            String ahh = k.nextLine();
+                            if (ahh.equalsIgnoreCase("y")) {
+                                clear();
+                                backend.resetFile();
+                                u = true;
+                            }
+                            else if (!ahh.equalsIgnoreCase("n") && !ahh.equalsIgnoreCase("y"))
+                                p("Not valid input\n");
+                            else {
+                                u = true;
+                                p("");
+                            }
+                        } 
+                    } else if (choiceg == 8) {//Previous page
+                        overEasy = true;
+                        clear();
+                    } else if (choiceg == 9) { //Quit program
+                        overEasy = true;
+                        over = true;
+                    } else
                         p("Not valid input\n");
-                    else {
-                        u = true;
-                        p("");
-                    }
-                }             
+                }
+               
+            } else if (choice == 8) {
+                            
             } else if (choice == 9) {//Quit Program
                 over = true;
             } else 

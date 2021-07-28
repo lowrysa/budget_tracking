@@ -89,7 +89,7 @@ public class date {
     public boolean check(int a, int b, int c) {
         boolean ret = true;
         if (a == 0 || b == 0 || c == 0) {
-            System.out.println("Not a valid date");
+            //System.out.println("Not a valid date");
             ret = false;
         } else if (a == 2 && (b == 30 || b == 31)) {
             System.out.println("February doesn't have that many days.");

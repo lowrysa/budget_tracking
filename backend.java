@@ -2,11 +2,13 @@ import java.util.Random;
 import java.io.*;
 import java.util.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 public class backend {
     private entryArray array;
     private Random n;
     public date startingDate;
     public date endingDate;
+    private static Scanner k;
     //private ArrayList<String> entries;
     private static final String FILE = "budget_tracking.txt";
     private static final String DELIM = "\t";
@@ -15,6 +17,7 @@ public class backend {
 
     public backend() {
         init();
+        k = new Scanner(System.in);
     }
 
     public void init() {
@@ -276,7 +279,8 @@ public class backend {
                         reset = true;
                     }
                 }
-                while(fileScanner.hasNextLine()) {
+                boolean tampered = false;
+                while(fileScanner.hasNextLine() && !tampered) {
                     line = fileScanner.nextLine();
                     if (line.startsWith("Starting Date:")) {
                         String[] splitLine = line.split(DELIM);
@@ -292,10 +296,42 @@ public class backend {
                             int day = Integer.parseInt(dayString);
                             int year = Integer.parseInt(yearString);
                             date a = new date(month, day, year);
-                            startingDate = a;
-                        } else {
+                            if (a.check(month, day, year)) 
+                                startingDate = a;
+                            else {
+                                startingDate = null;
+                                System.out.println("File has been tampered with, would you like to reset the start date or reset the file?");
+                                boolean hu = false;
+                                while (!hu) {
+                                    System.out.println("1. Reset date");
+                                    System.out.println("2. Reset file");
+                                    int choice = k.nextInt();
+                                    if (choice == 1) {
+                                        boolean xo = false;
+                                        while(!xo) {
+                                            System.out.println("\nSet Starting date:");
+                                            System.out.print("Month: ");
+                                            int montha = k.nextInt();
+                                            System.out.print("Day: ");
+                                            int daya = k.nextInt();
+                                            System.out.print("Year: ");
+                                            int yeara = k.nextInt();
+                                            date cat = new date(montha,daya,yeara);
+                                            if(cat.check(cat.getMonth(), cat.getDay(), cat.getYear()) 
+                                               && compareEndDate(cat)) {
+                                                setStartDate(cat);
+                                                xo = true;
+                                            }
+                                        }
+                                    } else if (choice == 2) {
+                                        tampered = true;
+                                        setUpFile();
+                                    } else 
+                                        System.out.println("Not valid input\n");
+                                }
+                            }
+                        } else 
                             startingDate = null;
-                        }
                     } else if (line.startsWith("Ending Date:")) {
                         String[] splitLine = line.split(DELIM);
                         if(splitLine.length == 2) {
@@ -310,10 +346,42 @@ public class backend {
                             int day = Integer.parseInt(dayString);
                             int year = Integer.parseInt(yearString);
                             date a = new date(month, day, year);
-                            endingDate = a;
-                        } else {
+                            if (a.check(month, day, year)) 
+                                endingDate = a;
+                            else {
+                                startingDate = null;
+                                System.out.println("File has been tampered with, would you like to reset the start date or reset the file?");
+                                boolean hu = false;
+                                while (!hu) {
+                                    System.out.println("1. Reset date");
+                                    System.out.println("2. Reset file");
+                                    int choice = k.nextInt();
+                                    if (choice == 1) {
+                                        boolean xo = false;
+                                        while(!xo) {
+                                            System.out.println("\nSet Ending date:");
+                                            System.out.print("Month: ");
+                                            int montha = k.nextInt();
+                                            System.out.print("Day: ");
+                                            int daya = k.nextInt();
+                                            System.out.print("Year: ");
+                                            int yeara = k.nextInt();
+                                            date cat = new date(montha,daya,yeara);
+                                            if(cat.check(cat.getMonth(), cat.getDay(), cat.getYear()) 
+                                               && compareStartDate(cat)) {
+                                                setEndDate(cat);
+                                                xo = true;
+                                            }
+                                        }
+                                    } else if (choice == 2) {
+                                        tampered = true;
+                                        setUpFile();
+                                    } else 
+                                        System.out.println("Not valid input\n");
+                                }
+                            }
+                        } else 
                             endingDate = null;
-                        }
                     } else if (line.equalsIgnoreCase("Entries:") && (reset == false)) {
                         int count = 0;
                         while(fileScanner.hasNextLine()) {
@@ -474,7 +542,6 @@ public class backend {
             System.out.println("No entries yet!");
         } else {
             int choice = n.nextInt(array.getSize());
-            //System.out.println(choice);
             array.randomEntry(choice);
         }  
     }

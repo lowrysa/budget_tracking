@@ -21,16 +21,25 @@ public class textoptions {
     }
 
     public void printLoop() {
-        p("What would you like to do?");
+        p("What would you like to do? (Page 1/2)");
         p("1. Print entries");
         p("2. Check stats");
         p("3. Add entry");
-        p("4. Check/Change dates");
-        p("5. Show random entry");
-        p("7. Print file");
-        p("8. Reset file");
+        p("4. REmove entry");
+        p("5. Check/Change dates");
+        p("6. Show random entry");
+        p("8. Next page");
         p("9. Quit program");
     }
+
+    public void printLoop2() {
+        p("What would you like to do? (Page 2/2)");
+        p("1. Print file");
+        p("2. Reset file");
+        p("8. Previous page");
+        p("9. Quit program");
+    }
+    
 
     public void firstChoice() {
         p("How would you like to print?");
