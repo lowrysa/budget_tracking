@@ -4,5 +4,3 @@ Starting Date:
 Ending Date:	
 
 Entries:
-Gas	1.0	1/1/2021
-Gas	1.0	1/1/2021

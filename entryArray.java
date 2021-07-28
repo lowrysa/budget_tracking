@@ -16,6 +16,14 @@ public class entryArray {
         System.out.println("Added Successfully!");
     }
 
+    public void addAlreadyEntry(String name, double amount, date date) {
+        entry a = new entry();
+        a.setAmount(amount);
+        a.setName(name);
+        a.setDate(date);
+        array.add(a);
+    }
+
     public void removeEntry(String name, double amount, date date) {
         for(int i = 0; i < array.size(); i++) {
             if (array.get(i).getName().equalsIgnoreCase(name) &&

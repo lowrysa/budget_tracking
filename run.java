@@ -1,6 +1,5 @@
 import java.util.Scanner;
 
-//import jdk.tools.jlink.internal.Archive.Entry.EntryType;
 public class run {
     private static backend backend;
     private static Scanner k;
@@ -11,9 +10,8 @@ public class run {
         end();
     }
 
-    //TDOO: Search to make sure file exists first
-    //TODO: To change file, copy everything to new file
-    //TODO: Append to file to add entries
+    //TODO: Pop out window when program starts
+    //TODO: Comments
     //TODO: put real entries in
 
     public static void intro() {
@@ -184,6 +182,7 @@ public class run {
                         entryType = "Splice";
                         overc = true;
                     } else if (choice1 == 8) {
+                        clear();
                         p("Please specify what kind of entry:");
                         k.nextLine();
                         entryType = k.nextLine();
@@ -543,7 +542,23 @@ public class run {
                 backend.printFile();
             } else if (choice == 8) {
                 clear();
-                backend.resetFile();
+                boolean u = false;
+                while (!u) {
+                    p("Are you sure you would like to reset the file?");
+                    System.out.print("(y/n)");
+                    k.nextLine();
+                    String ahh = k.nextLine();
+                    if (ahh.equalsIgnoreCase("y")) {
+                        backend.resetFile();
+                        u = true;
+                    }
+                    else if (!ahh.equalsIgnoreCase("n") && !ahh.equalsIgnoreCase("y"))
+                        p("Not valid input\n");
+                    else {
+                        u = true;
+                        p("");
+                    }
+                }             
             } else if (choice == 9) {//Quit Program
                 over = true;
             } else 

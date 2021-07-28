@@ -323,7 +323,6 @@ public class backend {
                             }
                             line = fileScanner.nextLine();
                             String[] splitLine = line.split(DELIM);
-                            System.out.println(line);
                             if (splitLine.length > 2) {
                                 String name = splitLine[0];
                                 String amountS = splitLine[1];
@@ -339,9 +338,8 @@ public class backend {
                                 int day = Integer.parseInt(dayString);
                                 int year = Integer.parseInt(yearString);
                                 date a = new date(month, day, year);
-                                addEntry(name,amount,a);
+                                addAlreadyEntry(name,amount,a);
                                 count++;
-                                fileScanner.nextLine();
                             } else 
                                 break;
                         }
@@ -382,7 +380,27 @@ public class backend {
 
 
     public void saveFile() {
+        ArrayList<String> copy = new ArrayList<>();
+        try {
+            Scanner fileReader = new Scanner(new File(FILE));
+            for (int i = 0; fileReader.hasNextLine(); i++) {
+                String line = fileReader.nextLine();
+                copy.add(line);
+            }
+            fileReader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        try {
+            BufferedWriter fileWriter = new BufferedWriter( new FileWriter(FILE));
+            for(int i =0; i < copy.size(); i++) {
+                fileWriter.write(copy.get(i) + "\n");
+            }
+            fileWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void addEntry(String name, double amount, date date) {
@@ -394,6 +412,10 @@ public class backend {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void addAlreadyEntry(String name, double amount, date date) {
+        array.addAlreadyEntry(name, amount, date);
     }
 
     public void removeEntry(String name, double amount, date date) {
