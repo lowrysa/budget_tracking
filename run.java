@@ -248,12 +248,12 @@ public class run {
                 boolean g = false;
                 while (!g) {
                     clear();
-                    p("Check dates:");
-                    int choicez = 1;
-                    //p("1. Check dates");
-                    //p("2. Change dates");
-                    //p("9. Back");
-                    //int choicez = k.nextInt();
+                    p("Check/Change dates:");
+                    //int choicez = 1;
+                    p("1. Check dates");
+                    p("2. Change dates");
+                    p("9. Back");
+                    int choicez = k.nextInt();
                     if (choicez == 1) { //check dates
                         clear();
                         p("Check dates:");
@@ -407,7 +407,7 @@ public class run {
                                     p("Not valid input");
                             }  
                         }
-                    } /*else if (choicez == 2) {
+                    } else if (choicez == 2) {
                         clear();
                         p("Change dates:");
                         if (!backend.checkDates() && !backend.checkEndDate()) 
@@ -514,7 +514,7 @@ public class run {
                                     clear();
                                     p("Dates changed successfully!");
                                     p("");
-                                    backend.setEndDate(a);
+                                    backend.setEndDate(b);
                                     y = true;
                                 }
                             }
@@ -531,13 +531,19 @@ public class run {
                         g = true;
                     } 
                      else 
-                        p("Not valid input"); */
+                        p("Not valid input"); 
                 }
-            } else if (choice == 8) {//Show Random Entry
+            } else if (choice == 5) {//Show Random Entry
                 clear();
                 p("Random entry:");
                 backend.printRandom();
                 p("");
+            } else if (choice == 7) {
+                clear();
+                backend.printFile();
+            } else if (choice == 8) {
+                clear();
+                backend.resetFile();
             } else if (choice == 9) {//Quit Program
                 over = true;
             } else 

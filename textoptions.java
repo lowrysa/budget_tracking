@@ -25,8 +25,10 @@ public class textoptions {
         p("1. Print entries");
         p("2. Check stats");
         p("3. Add entry");
-        p("4. Check dates");
-        p("8. Show random entry");
+        p("4. Check/Change dates");
+        p("5. Show random entry");
+        p("7. Print file");
+        p("8. Reset file");
         p("9. Quit program");
     }
 
@@ -64,8 +66,7 @@ public class textoptions {
     }
 
     public void whatTypeOfEntry() {
-        clear();
-        p("What Type of Entry is it?");
+        p("\nWhat Type of Entry is it?");
         p("1. Food");
         p("2. Gas");
         p("3. Clothes");
