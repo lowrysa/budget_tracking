@@ -4,8 +4,9 @@ import java.util.*;
 public class practice {
     public static void main(String[] args) {
         //String line = "";
-        String line = "s\td\ta";
+        boolean line = true;
         System.out.println(line);
+        /*System.out.println(line);
         String sys[] = line.split("\t");
         System.out.println(sys.length);
         String file = "practice.txt";

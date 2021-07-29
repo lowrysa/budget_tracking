@@ -13,7 +13,6 @@ public class run {
     //TODO: Pop out window when program starts
     //TODO: Comments
     //TODO: put real entries in
-    //TODO: Add remove entry
 
     public static void intro() {
         clear();
@@ -56,7 +55,6 @@ public class run {
                                 } else
                                     p("Not valid input\n");
                             }
-                            //overa = true;
                         } else if (choicea == 2) {
                             boolean overAmount = false;
                             while(!overAmount) {
@@ -76,19 +74,16 @@ public class run {
                                 } else
                                     p("Not valid input\n");
                             }
-                            //overa = true;
                         } else if (choicea == 3) {
                             clear();
                             p("Categories:\n");
                             backend.printCategory();
                             p("");
                             overa = true;
-                            //overa = true;
                         } else if (choicea == 4) {
                             clear();
                             p("Entries:");
                             backend.printEntries();
-                            //p("");
                             overa = true;
                         } else if (choicea == 9) {
                             overa = true;
@@ -378,6 +373,41 @@ public class run {
                     p("");
                     back1 = false;
                 } 
+            } else if (choice == 4) { //Remove Entry
+                clear();
+                p("Removing entry:");
+                if (backend.getArraySize() == 0) 
+                    p("No entries yet!\n");
+                else {
+                    boolean remove = false;
+                    while (!remove) {
+                        p("\nWhich entry would you like to remove?");
+                        p("(Type number of entry to remove, or 0 to go back)\n");
+                        p("0. Back");
+                        for (int i = 1; i < backend.getArraySize() + 1; i++) 
+                            System.out.println(i + ": " + backend.printIndex(i-1));
+                        int choicey = k.nextInt();
+                        if (choicey == 0) {
+                            remove = true;
+                            clear();
+                        } else if (choicey > 0 && choicey <= (backend.getArraySize())){
+                            for (int i = 0; i < backend.getArraySize(); i++) {
+                                if (choicey == (i+1)) {
+                                    String name = backend.getEntry(i).getName();
+                                    double amount = backend.getEntry(i).getAmount();
+                                    date date = backend.getEntry(i).getDate();
+                                    backend.removeEntry(name,amount,date);
+                                    remove = true;
+                                    clear();
+                                    p("Removed!\n");
+                                }
+                            }
+                        } else {
+                            clear();
+                            System.out.println("Not valid input");
+                        }       
+                    }
+                }
             } else if (choice == 5) { //check/change dates
                 boolean g = false;
                 while (!g) {
@@ -421,6 +451,16 @@ public class run {
                                                 p("Ending date: " + month + "/" + day + "/" + year);
                                                 p("");
                                                 backend.setEndDate(a);
+                                                for(int i = 0; i < backend.getArraySize(); i++) {
+                                                    if (!backend.checkDateBounds(backend.getEntry(i).getDate())) {
+                                                        p("Entry no longer in bounds, removing...");
+                                                        String name = backend.getEntry(i).getName();
+                                                        double amount = backend.getEntry(i).getAmount();
+                                                        date date = backend.getEntry(i).getDate();
+                                                        backend.removeEntry(name,amount,date);
+                                                        p("Removed!\n");
+                                                    }
+                                                }
                                                 x = true;
                                                 g = true;
                                                 o = true;
@@ -468,6 +508,16 @@ public class run {
                                                 p("Starting date: " + month + "/" + day + "/" + year);
                                                 p("");
                                                 backend.setStartDate(a);
+                                                for(int i = 0; i < backend.getArraySize(); i++) {
+                                                    if (!backend.checkDateBounds(backend.getEntry(i).getDate())) {
+                                                        p("Entry no longer in bounds, removing...");
+                                                        String name = backend.getEntry(i).getName();
+                                                        double amount = backend.getEntry(i).getAmount();
+                                                        date date = backend.getEntry(i).getDate();
+                                                        backend.removeEntry(name,amount,date);
+                                                        p("Removed!\n");
+                                                    }
+                                                }
                                                 x = true;
                                                 g = true;
                                                 o = true;
@@ -531,6 +581,16 @@ public class run {
                                             p("Ending date: " + a.getMonth() + "/" + a.getDay() + "/" + a.getYear());
                                             p("");
                                             backend.setEndDate(a);
+                                            for(int i = 0; i < backend.getArraySize(); i++) {
+                                                if (!backend.checkDateBounds(backend.getEntry(i).getDate())) {
+                                                    p("Entry no longer in bounds, removing...");
+                                                    String name = backend.getEntry(i).getName();
+                                                    double amount = backend.getEntry(i).getAmount();
+                                                    date date = backend.getEntry(i).getDate();
+                                                    backend.removeEntry(name,amount,date);
+                                                    p("Removed!\n");
+                                                }
+                                            }
                                             z = true;
                                             g = true;
                                             r = true;
@@ -577,6 +637,16 @@ public class run {
                                     p("New starting date: " + month + "/" + day + "/" + year);
                                     p("");
                                     backend.setStartDate(a);
+                                    for(int i = 0; i < backend.getArraySize(); i++) {
+                                        if (!backend.checkDateBounds(backend.getEntry(i).getDate())) {
+                                            p("Entry no longer in bounds, removing...");
+                                            String name = backend.getEntry(i).getName();
+                                            double amount = backend.getEntry(i).getAmount();
+                                            date date = backend.getEntry(i).getDate();
+                                            backend.removeEntry(name,amount,date);
+                                            p("Removed!\n");
+                                        }
+                                    }
                                     z = true;
                                     g = true;
                                 } else 
@@ -600,13 +670,22 @@ public class run {
                                     p("New ending date: " + month + "/" + day + "/" + year);
                                     p("");
                                     backend.setEndDate(a);
+                                    for(int i = 0; i < backend.getArraySize(); i++) {
+                                        if (!backend.checkDateBounds(backend.getEntry(i).getDate())) {
+                                            p("Entry no longer in bounds, removing...");
+                                            String name = backend.getEntry(i).getName();
+                                            double amount = backend.getEntry(i).getAmount();
+                                            date date = backend.getEntry(i).getDate();
+                                            backend.removeEntry(name,amount,date);
+                                            p("Removed!\n");
+                                        }
+                                    }
                                     z = true;
                                     g = true;
                                 } else 
                                     p("");
                             }
                         } else if (abc == 3) {
-                            //System.out.println(abc);
                             date a = new date();
                             date b = new date();
                             boolean z = false;
@@ -648,6 +727,16 @@ public class run {
                                     p("Dates changed successfully!");
                                     p("");
                                     backend.setEndDate(b);
+                                    for(int i = 0; i < backend.getArraySize(); i++) {
+                                        if (!backend.checkDateBounds(backend.getEntry(i).getDate())) {
+                                            p("Entry no longer in bounds, removing...");
+                                            String name = backend.getEntry(i).getName();
+                                            double amount = backend.getEntry(i).getAmount();
+                                            date date = backend.getEntry(i).getDate();
+                                            backend.removeEntry(name,amount,date);
+                                            p("Removed!\n");
+                                        }
+                                    }
                                     y = true;
                                 }
                             }
@@ -666,7 +755,7 @@ public class run {
                      else 
                         p("Not valid input"); 
                 }
-            } else if (choice == 6) {//Show Random Entry
+            } else if (choice == 6) { //Show Random Entry
                 clear();
                 p("Random entry:");
                 backend.printRandom();

@@ -1,6 +1,6 @@
 budgettrackingprogram
 
-Starting Date:	
-Ending Date:	
+Starting Date:	1/1/2003
+Ending Date:	3/2/2009
 
 Entries:

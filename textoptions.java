@@ -25,7 +25,7 @@ public class textoptions {
         p("1. Print entries");
         p("2. Check stats");
         p("3. Add entry");
-        p("4. REmove entry");
+        p("4. Remove entry");
         p("5. Check/Change dates");
         p("6. Show random entry");
         p("8. Next page");

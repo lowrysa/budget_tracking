@@ -31,12 +31,11 @@ public class entryArray {
                 array.get(i).getDate().getMonth() == date.getMonth() &&
                 array.get(i).getDate().getDay() == date.getDay() &&
                 array.get(i).getDate().getYear() == date.getYear()) {
-                    array.get(i).remove(array.get(i));
-                    System.out.println("Removed!");
-                    break;
-            } else
-                System.out.println("Not found!");
+                    array.remove(i);
+                    return;
+            } 
         }
+        System.out.println("Not found!");
     }
 
     public void printData() {
@@ -406,5 +405,13 @@ public class entryArray {
                 System.out.println(other.get(i).print());
             System.out.println("");
         }
+    }
+
+    public String getIndex(int i) {
+        return array.get(i).printFull();
+    }
+
+    public entry getEntry(int i) {
+        return array.get(i);
     }
 }   

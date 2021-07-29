@@ -24,6 +24,10 @@ public class backend {
         array = new entryArray();
     }
 
+    public int getArraySize() {
+        return array.getSize();
+    }
+
     public date getStartDate() {
         return startingDate;
     }
@@ -580,6 +584,14 @@ public class backend {
 
     public void printCategory() {
         array.printCategory();
+    }
+
+    public String printIndex(int i) {
+        return array.getIndex(i);
+    }
+
+    public entry getEntry(int i) {
+        return array.getEntry(i);
     }
 
     public void printFile() {
