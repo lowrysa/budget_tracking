@@ -309,6 +309,7 @@ public class backend {
                                     System.out.println("1. Reset date");
                                     System.out.println("2. Reset file");
                                     int choice = k.nextInt();
+                                    System.out.println(choice);
                                     if (choice == 1) { //Reset date
                                         boolean xo = false;
                                         while(!xo) {
@@ -324,11 +325,20 @@ public class backend {
                                                && compareEndDate(cat)) {
                                                 setStartDate(cat);
                                                 xo = true;
-                                            }
+                                                hu = true;
+                                                System.out.print("\033[H\033[2J");
+                                                System.out.flush();
+                                                System.out.println("New Starting Date: " + cat.print() + "\n");
+                                            } else 
+                                                System.out.println("Not valid date\n");
                                         }
                                     } else if (choice == 2) { //Reset file
                                         tampered = true;
                                         setUpFile();
+                                        hu = true;
+                                        System.out.print("\033[H\033[2J");
+                                        System.out.flush();
+                                        System.out.println("File reset!\n");
                                     } else 
                                         System.out.println("Not valid input\n");
                                 }
@@ -353,7 +363,7 @@ public class backend {
                                 endingDate = a;
                             else {
                                 startingDate = null;
-                                System.out.println("File has been tampered with, would you like to reset the start date or reset the file?");
+                                System.out.println("File has been tampered with, would you like to reset the end date or reset the file?");
                                 boolean hu = false;
                                 while (!hu) {
                                     System.out.println("1. Reset date");
@@ -374,11 +384,20 @@ public class backend {
                                                && compareStartDate(cat)) {
                                                 setEndDate(cat);
                                                 xo = true;
-                                            }
+                                                hu = true;
+                                                System.out.print("\033[H\033[2J");
+                                                System.out.flush();
+                                                System.out.println("New Ending Date: " + cat.print() + "\n");
+                                            } else 
+                                                System.out.println("Not valid date\n");
                                         }
                                     } else if (choice == 2) { //Reset file
                                         tampered = true;
+                                        hu = true;
                                         setUpFile();
+                                        System.out.print("\033[H\033[2J");
+                                        System.out.flush();
+                                        System.out.println("File reset!\n");
                                     } else 
                                         System.out.println("Not valid input\n");
                                 }
