@@ -3,11 +3,11 @@ import java.util.Collections;
 public class entryArray {
     private ArrayList<entry> array;
 
-    public entryArray() {
+    public entryArray() { //Constructor
         array = new ArrayList<>();
     }
 
-    public void addEntry(String name, double amount, date date) {
+    public void addEntry(String name, double amount, date date) { //Adding entry
         entry a = new entry();
         a.setAmount(amount);
         a.setName(name);
@@ -16,7 +16,7 @@ public class entryArray {
         System.out.println("Added Successfully!");
     }
 
-    public void addAlreadyEntry(String name, double amount, date date) {
+    public void addAlreadyEntry(String name, double amount, date date) { //Adding entry from file
         entry a = new entry();
         a.setAmount(amount);
         a.setName(name);
@@ -24,7 +24,7 @@ public class entryArray {
         array.add(a);
     }
 
-    public void removeEntry(String name, double amount, date date) {
+    public void removeEntry(String name, double amount, date date) { //Remove entry
         for(int i = 0; i < array.size(); i++) {
             if (array.get(i).getName().equalsIgnoreCase(name) &&
                 array.get(i).getAmount() == amount &&
@@ -38,7 +38,7 @@ public class entryArray {
         System.out.println("Not found!");
     }
 
-    public void printData() {
+    public void printData() { //Print data
         if (array.isEmpty()) {
             System.out.println("No entries");
             return;
@@ -48,16 +48,15 @@ public class entryArray {
         System.out.println("");
     }
 
-    public int getSize() {
+    public int getSize() { //Get size of array
         return array.size();
     }
 
-    public void randomEntry(int i) {
-        //System.out.println(i);
+    public void randomEntry(int i) { //Get random entry
         System.out.println(array.get(i).printFull());
     }
 
-    public double totalSpent() {
+    public double totalSpent() { //Get total spendings
         double ret = 0.0;
         for (int i = 0; i < array.size(); i++) {
             ret += array.get(i).getAmount();
@@ -65,7 +64,7 @@ public class entryArray {
         return ret;
     }
 
-    public double totalSpentFood() {
+    public double totalSpentFood() { //Get total spendings on food
         double ret = 0.0;
         for(int i = 0; i < array.size(); i++) {
             if (array.get(i).getName().equalsIgnoreCase("food")) {
@@ -75,7 +74,7 @@ public class entryArray {
         return ret;
     }
 
-    public double totalSpentGas() {
+    public double totalSpentGas() { //Get total spendings on gas
         double ret = 0.0;
         for(int i = 0; i < array.size(); i++) {
             if (array.get(i).getName().equalsIgnoreCase("gas")) {
@@ -85,7 +84,7 @@ public class entryArray {
         return ret;
     }
     
-    public double totalSpentClothes() {
+    public double totalSpentClothes() { //Get total spendings on clothes
         double ret = 0.0;
         for(int i = 0; i < array.size(); i++) {
             if (array.get(i).getName().equalsIgnoreCase("clothes")) {
@@ -95,7 +94,7 @@ public class entryArray {
         return ret;
     }
 
-    public double totalSpentGecko() {
+    public double totalSpentGecko() { //Get total spendings on gecko
         double ret = 0.0;
         for(int i = 0; i < array.size(); i++) {
             if (array.get(i).getName().equalsIgnoreCase("gecko")) {
@@ -105,7 +104,7 @@ public class entryArray {
         return ret;
     }
 
-    public double totalSpentNintendo() {
+    public double totalSpentNintendo() { //Get total spendings on nintendo
         double ret = 0.0;
         for(int i = 0; i < array.size(); i++) {
             if (array.get(i).getName().equalsIgnoreCase("nintendo")) {
@@ -115,7 +114,7 @@ public class entryArray {
         return ret;
     }
 
-    public double totalSpentSplice() {
+    public double totalSpentSplice() { //Get total spendings on splice
         double ret = 0.0;
         for(int i = 0; i < array.size(); i++) {
             if (array.get(i).getName().equalsIgnoreCase("splice")) {
@@ -125,7 +124,7 @@ public class entryArray {
         return ret;
     }
 
-    public double totalSpentOther() {
+    public double totalSpentOther() { //Get total spendings on other things
         double ret = 0.0;
         for(int i = 0; i < array.size(); i++) {
             if (array.get(i).getName() != ("Eat Out") &&
@@ -143,7 +142,7 @@ public class entryArray {
         return ret;
     }
 
-    public void sortByDateLH() {
+    public void sortByDateLH() { //Sort and print by date, low->high
         ArrayList<entry> newArray = new ArrayList<>();
         for(int i = 0; i < array.size(); i++) //Copy Array over
             newArray.add(array.get(i));
@@ -179,7 +178,7 @@ public class entryArray {
         
     }
 
-    public void sortByDateHL() {
+    public void sortByDateHL() { //Sort and print by date, high->low
         ArrayList<entry> newArray = new ArrayList<>();
         for(int i = 0; i < array.size(); i++) //Copy Array over
             newArray.add(array.get(i));
@@ -216,7 +215,7 @@ public class entryArray {
         
     }
 
-    public void sortAmountLH() {
+    public void sortAmountLH() { //Sort and print by amount, low->high
         ArrayList<entry> newArray = new ArrayList<>();
         for(int i = 0; i < array.size(); i++) //Copy Array over
             newArray.add(array.get(i));
@@ -246,7 +245,7 @@ public class entryArray {
         
     }
 
-    public void sortAmountHL() {
+    public void sortAmountHL() { //Sort and print, high->low
         ArrayList<entry> newArray = new ArrayList<>();
         for(int i = 0; i < array.size(); i++) //Copy Array over
             newArray.add(array.get(i));
@@ -276,7 +275,7 @@ public class entryArray {
         
     }
 
-    public void printCategory() {
+    public void printCategory() { //Sort and print categories
         ArrayList<entry> eatOut = new ArrayList<>();
         ArrayList<entry> groceries = new ArrayList<>();
         ArrayList<entry> iceCream = new ArrayList<>();
@@ -318,10 +317,8 @@ public class entryArray {
         }
 
         for(int i = 0; i < array.size(); i++) {
-            if (array.get(i).getName().equalsIgnoreCase("nintendo")) {
+            if (array.get(i).getName().equalsIgnoreCase("nintendo")) 
                 nintendo.add(array.get(i));
-                //System.out.println(array.get(i).getName());
-            }
         }
 
         for(int i = 0; i < array.size(); i++) {
@@ -407,11 +404,11 @@ public class entryArray {
         }
     }
 
-    public String getIndex(int i) {
+    public String getIndex(int i) { //Print full entry at index
         return array.get(i).printFull();
     }
 
-    public entry getEntry(int i) {
+    public entry getEntry(int i) { //Get entry at index
         return array.get(i);
     }
 }   

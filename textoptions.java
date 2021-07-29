@@ -87,7 +87,6 @@ public class textoptions {
     }
 
     public void monthChoice() {
-        clear();
         p("Select the correct month:");
         p("1. January");
         p("2. February");

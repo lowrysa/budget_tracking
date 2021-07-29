@@ -4,17 +4,14 @@ public class run {
     private static backend backend;
     private static Scanner k;
     private static textoptions text;
-    public static void main(String args[]) {
+
+    public run() { //Meat and Potatos of Program
         intro();
         loop();
         end();
     }
 
-    //TODO: Pop out window when program starts
-    //TODO: Comments
-    //TODO: put real entries in
-
-    public static void intro() {
+    public static void intro() { //Intro text and setting up contructors
         clear();
         backend = new backend();
         text = new textoptions();
@@ -23,7 +20,7 @@ public class run {
         backend.readFile();
     }
 
-    public static void loop() {
+    public static void loop() { //Main loop of program
         boolean over = false;
         while (!over) {
             text.printLoop();
@@ -36,60 +33,60 @@ public class run {
                     while (!overa) {
                         text.firstChoice();
                         int choicea = k.nextInt();
-                        if (choicea == 1) {
+                        if (choicea == 1) { //Sort by Date
                             boolean overDate = false;
                             while(!overDate) {
                                 text.dateChoice();
                                 int choiceDate = k.nextInt();
-                                if (choiceDate == 1) {
+                                if (choiceDate == 1) { //Sort by Date, low->high
                                     backend.sortByDateLH();
                                     overDate = true;
                                     overa = true;
-                                } else if (choiceDate == 2) {
+                                } else if (choiceDate == 2) { //Sort by Date, high->low
                                     backend.sortByDateHL();
                                     overDate = true;
                                     overa = true;
-                                } else if (choiceDate == 9) {
+                                } else if (choiceDate == 9) { //Back
                                     overDate = true;
                                     clear();
                                 } else
                                     p("Not valid input\n");
                             }
-                        } else if (choicea == 2) {
+                        } else if (choicea == 2) { //Sort by Amount
                             boolean overAmount = false;
                             while(!overAmount) {
                                 text.amountChoice();
                                 int choiceAmount = k.nextInt();
                                 if (choiceAmount == 1) {
-                                    backend.sortAmountLH();
+                                    backend.sortAmountLH(); //Sort by Amount, low->high
                                     overAmount = true;
                                     overa = true;
-                                } else if (choiceAmount == 2) {
+                                } else if (choiceAmount == 2) { //Sort by Amount, high->low
                                     backend.sortAmountHL();
                                     overAmount = true;
                                     overa = true;
-                                } else if (choiceAmount == 9) {
+                                } else if (choiceAmount == 9) { //Back
                                     overAmount = true;
                                     clear();
                                 } else
                                     p("Not valid input\n");
                             }
-                        } else if (choicea == 3) {
+                        } else if (choicea == 3) { //Sort by Various Categories
                             clear();
                             p("Categories:\n");
                             backend.printCategory();
                             p("");
                             overa = true;
-                        } else if (choicea == 4) {
+                        } else if (choicea == 4) { //Sort by added entries
                             clear();
                             p("Entries:");
                             backend.printEntries();
                             overa = true;
-                        } else if (choicea == 9) {
+                        } else if (choicea == 9) { //Back
                             overa = true;
                             clear();
                         } else 
-                         p("Not valid input\n");  
+                            p("Not valid input\n");  
                     }  
                 } else 
                     p("No entries yet!\n");
@@ -97,6 +94,7 @@ public class run {
                 clear();
                 p("Checking stats:");
                 if (backend.totalSpent() > 0.0) {
+                    //Printing stats
                     p("Calculating...");
                     System.out.print("Between " + backend.getStartDate().printFull() + " and " + backend.getEndDate().printFull() + ", you have spent $");
                     System.out.print(backend.totalSpent());
@@ -142,12 +140,12 @@ public class run {
                         System.out.print("(y/n) ");
                         k.nextLine();
                         String f = k.nextLine();
-                        if (f.equalsIgnoreCase("y")) {
+                        if (f.equalsIgnoreCase("y")) { //Adding Starting and Ending Dates
                             date cat = new date();
                             date a = new date();
                             clear();
                             boolean xo = false;
-                            while(!xo) {
+                            while(!xo) { //Set starting date
                                 p("Set Starting date:");
                                 System.out.print("Month: ");
                                 int month = k.nextInt();
@@ -163,7 +161,7 @@ public class run {
                                 }
                             }
                             boolean z = false;
-                            while(!z) {
+                            while(!z) { //Set ending date
                                 p("\nSet Ending date:");
                                 System.out.print("Month: ");
                                 int month = k.nextInt();
@@ -184,7 +182,7 @@ public class run {
                                     bee = true;
                                 }
                             }
-                        } else if (f.equalsIgnoreCase("n")) {
+                        } else if (f.equalsIgnoreCase("n")) { //Not Setting dates
                             bee = true;
                             p("");
                         } else 
@@ -192,15 +190,15 @@ public class run {
                     }
                 } else if (!backend.checkDates() && backend.checkEndDate()) {
                     boolean deer = false;
-                    while (!deer) {
+                    while (!deer) { 
                         p("There's no starting date set yet, would you like to set that up now?");
                         System.out.print("(y/n) ");
                         k.nextLine();
                         String input = k.nextLine();
-                        if (input.equalsIgnoreCase("y")) {
+                        if (input.equalsIgnoreCase("y")) { //Set starting date
                             boolean x = false;
                             while(!x) {
-                                p("\nSet Ending date:");
+                                p("\nSet Starting date:");
                                 System.out.print("Month: ");
                                 int month = k.nextInt();
                                 p("");
@@ -223,7 +221,7 @@ public class run {
                                 } else 
                                     p("Not valid date");                      
                             }
-                        } else if (input.equalsIgnoreCase("n")) {
+                        } else if (input.equalsIgnoreCase("n")) { //Not setting date
                             p("");
                             deer = true;
                         } else 
@@ -236,7 +234,7 @@ public class run {
                         System.out.print("(y/n) ");
                         k.nextLine();
                         String input = k.nextLine();
-                        if (input.equalsIgnoreCase("y")) {
+                        if (input.equalsIgnoreCase("y")) { //Setting ending date
                             boolean x = false;
                             while(!x) {
                                 p("\nSet Ending date:");
@@ -262,18 +260,20 @@ public class run {
                                 } else 
                                     p("Not valid date");                      
                             }
-                        } else if (input.equalsIgnoreCase("n")) {
+                        } else if (input.equalsIgnoreCase("n")) { //Not setting date
                             p("");
                             deer = true;
                         } else 
                             p("Invalid input\n");
                     }
                 }
+                //Now, actually adding an entry
                 p("Add entry:");
                 boolean overc = false;
                 boolean back1 = false;
                 String entryType = "";
                 while(!overc) {
+                    //Pick type of entry
                     text.whatTypeOfEntry();
                     var choice1 = k.nextInt();
                     if (choice1 == 1) {
@@ -325,51 +325,44 @@ public class run {
                         p("Not valid input\n");  
                 }
                 if (!back1) {
+                    //Input how much it cost
                     clear();
                     System.out.print("How much did it cost? (Keep it above $0.0): ");
                     System.out.print("$");
                     double cost = k.nextDouble();
+                    clear();
+                    //Input date of purchase
                     p("What day did you purchase it?");
-                    System.out.print("Month: ");
-                    //p("What month?");
                     text.monthChoice();
                     int monthChoice;
                     int dayChoice;
                     int yearChoice;
-                    monthChoice = k.nextInt();
+                    monthChoice = k.nextInt(); //Select month
                     if(monthChoice != 1 && monthChoice != 2 && 
                     monthChoice != 3 && monthChoice != 4 &&
                     monthChoice != 5 && monthChoice != 6 && 
                     monthChoice != 7 && monthChoice != 8 && 
                     monthChoice != 9 && monthChoice != 10 && 
-                    monthChoice != 11 && monthChoice != 12) {
-                        //p("Not a valid month");
+                    monthChoice != 11 && monthChoice != 12) 
                         monthChoice = 0;
-                    }
-                    //p("What day?");
                     clear();
-                    System.out.print("Day: ");
+                    System.out.print("Day: "); //Input day
                     dayChoice = k.nextInt();
-                    if (dayChoice < 1 || dayChoice > 31) {
-                        //p("Not a valid day");
+                    if (dayChoice < 1 || dayChoice > 31) 
                         dayChoice = 0;
-                    } else if (monthChoice == 2 && dayChoice > 29 ) {
-                        //p("Not a valid day");
+                    else if (monthChoice == 2 && dayChoice > 29 ) 
                         dayChoice = 0;
-                    } 
                     clear();
-                    System.out.print("Year: ");
+                    System.out.print("Year: "); //Input year
                     yearChoice = k.nextInt();
                     if (yearChoice < 0 && yearChoice > 2050) 
                         yearChoice = 0;
                     date adate = new date(monthChoice, dayChoice, yearChoice);
                     if (adate.check(adate.getMonth(), adate.getDay(), adate.getYear())
-                        && backend.checkDateBounds(adate)) {
+                        && backend.checkDateBounds(adate)) { //Adding entry
                         backend.addEntry(entryType, cost, adate);
-                    } else {
-                        //clear();
+                    } else 
                         p("Not valid date, Entry not added");
-                    }
                     p("");
                     back1 = false;
                 } 
@@ -381,6 +374,7 @@ public class run {
                 else {
                     boolean remove = false;
                     while (!remove) {
+                        //Printing entries to remove by user
                         p("\nWhich entry would you like to remove?");
                         p("(Type number of entry to remove, or 0 to go back)\n");
                         p("0. Back");
@@ -408,21 +402,21 @@ public class run {
                         }       
                     }
                 }
-            } else if (choice == 5) { //check/change dates
+            } else if (choice == 5) { //Check/Change dates
                 boolean g = false;
                 while (!g) {
                     clear();
                     p("Check/Change dates:");
-                    //int choicez = 1;
                     p("1. Check dates");
                     p("2. Change dates");
                     p("9. Back");
                     int choicez = k.nextInt();
-                    if (choicez == 1) { //check dates
+                    if (choicez == 1) { //Check dates
                         clear();
                         p("Check dates:");
                         if (backend.checkDates()) {
-                            p("Starting Date: " + backend.getStartDate().printFull());
+                            p("Starting Date: " + backend.getStartDate().printFull()); //Output starting date
+                            //Checking if no ending date
                             if (!backend.checkEndDate()) {
                                 boolean o = false;
                                 while (!o) {
@@ -475,13 +469,14 @@ public class run {
                                         p("Not valid input");
                                 }
                             } else 
-                                p("Ending Date: " + backend.getEndDate().printFull());
+                                p("Ending Date: " + backend.getEndDate().printFull()); //Printing ending date
                             p("");
                             g = true;
                         } else if (backend.checkEndDate() && !backend.checkDates()){
-                            p("Ending Date: " + backend.getStartDate().printFull());
+                            p("Ending Date: " + backend.getStartDate().printFull()); //Printing ending date
                             boolean o = false;
                                 while (!o) {
+                                    //Checking if no starting date
                                     p("\nThere is no start date set yet, would you like to set one?");
                                     System.out.print("(y/n) ");
                                     k.nextLine();
@@ -535,6 +530,7 @@ public class run {
                             p("No dates set yet!");
                             boolean r = false;
                             while (!r) {
+                                //Setting both dates
                                 p("Would you like to set them now?");
                                 System.out.print("(y/n) ");
                                 k.nextLine();
@@ -549,6 +545,7 @@ public class run {
                                     clear();
                                     boolean xo = false;
                                     while(!xo) {
+                                        //Starting date
                                         p("Set Starting date:");
                                         System.out.print("Month: ");
                                         int month = k.nextInt();
@@ -565,6 +562,7 @@ public class run {
                                     }
                                     boolean z = false;
                                     while(!z) {
+                                        //Ending date
                                         p("\nSet Ending date:");
                                         System.out.print("Month: ");
                                         int month = k.nextInt();
@@ -600,7 +598,7 @@ public class run {
                                     p("Not valid input");
                             }  
                         }
-                    } else if (choicez == 2) {
+                    } else if (choicez == 2) { //Change dates
                         clear();
                         p("Change dates:");
                         if (!backend.checkDates() && !backend.checkEndDate()) 
@@ -622,6 +620,7 @@ public class run {
                         if (abc == 1) {
                             boolean z = false;
                             while(!z) {
+                                //Change starting date
                                 p("Change Starting date:");
                                 System.out.print("Month: ");
                                 int month = k.nextInt();
@@ -654,6 +653,7 @@ public class run {
                             }
                         } else if (abc == 2) {
                             boolean z = false;
+                            //Change ending date
                             while(!z) {
                                 p("Change Ending date:");
                                 System.out.print("Month: ");
@@ -686,6 +686,7 @@ public class run {
                                     p("");
                             }
                         } else if (abc == 3) {
+                            //Change both dates
                             date a = new date();
                             date b = new date();
                             boolean z = false;
@@ -740,11 +741,12 @@ public class run {
                                     y = true;
                                 }
                             }
+                            //Printing new dates
                             p("New starting date: " + a.getMonth() + "/" + a.getDay() + "/" + a.getYear());
                             p("New ending date: " + b.getMonth() + "/" + b.getDay() + "/" + b.getYear());
                             p("");
                             g = true;
-                        } else if (abc == 9) 
+                        } else if (abc == 9) //Back
                             clear();
                         else
                             p("Not valid input\n");
@@ -788,7 +790,7 @@ public class run {
                                 p("");
                             }
                         } 
-                    } else if (choiceg == 8) {//Previous page
+                    } else if (choiceg == 8) { //Previous page
                         overEasy = true;
                         clear();
                     } else if (choiceg == 9) { //Quit program
@@ -797,9 +799,6 @@ public class run {
                     } else
                         p("Not valid input\n");
                 }
-               
-            } else if (choice == 8) {
-                            
             } else if (choice == 9) {//Quit Program
                 over = true;
             } else 
@@ -807,19 +806,19 @@ public class run {
         }
     } 
 
-    public static void end() {
+    public static void end() { //End of program
         p("Saving...");
         backend.saveFile();
         k.close();
         p("Goodbye!");
     }
-    
-    public static void clear() {
+     
+    public static void clear() { //Clear console
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
     
-    public static void p(String s) {
+    public static void p(String s) { //Easier than doing System.out.println
         System.out.println(s);
     }
 }

@@ -3,9 +3,9 @@ public class date {
     private int day;
     private int year;
 
-    public date() {}
+    public date() {} //Default constructor
 
-    public date (int a, int b, int c) {
+    public date (int a, int b, int c) { //Edited constructor
         if(check(a, b, c)) {
             this.setMonth(a);
             this.setDay(b);
@@ -14,11 +14,11 @@ public class date {
             System.out.println("Not a valid date");
     }
 
-    public int getMonth() {
+    public int getMonth() { //Get month
         return month;
     }
 
-    public String getMonthFull() {
+    public String getMonthFull() { //Get month full
         String ret = "";
         if (month == 1) 
             ret = "January";
@@ -49,49 +49,48 @@ public class date {
         return ret;
     }
 
-    public void setMonth(int a) {
+    public void setMonth(int a) { //Set month
         if (a > 0 && a < 13) 
             month = a;
         else 
             month = 0;
     }
 
-    public int getDay() {
+    public int getDay() { //Get day
         return day;
     }
 
-    public void setDay(int b) {
+    public void setDay(int b) { //Set day
         if (b > 0 && b < 32) 
             day = b;
         else 
             day = 0;
     }
 
-    public int getYear() {
+    public int getYear() { //Get year
         return year;
     }
 
-    public void setYear(int c) {
+    public void setYear(int c) { //Set year
         if (c > 1950 && c < 2022) 
             year = c;
         else 
             year = 0;
     }
 
-    public String print () {
+    public String print() { //Print date
         return month + "/" + day + "/" + year;
     }
 
-    public String printFull() {
+    public String printFull() { //Print date full
         return getMonthFull() + " " + day + ", " + year;
     }
 
-    public boolean check(int a, int b, int c) {
+    public boolean check(int a, int b, int c) { //Check if date is valid
         boolean ret = true;
-        if (a == 0 || b == 0 || c == 0) {
-            //System.out.println("Not a valid date");
+        if (a == 0 || b == 0 || c == 0) 
             ret = false;
-        } else if (a == 2 && (b == 30 || b == 31)) {
+        else if (a == 2 && (b == 30 || b == 31)) {
             System.out.println("February doesn't have that many days.");
             ret = false;
         } else if (a == 2 && b == 29 && (c % 4 != 0 || c % 400 == 0)) {
