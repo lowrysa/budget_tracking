@@ -100,6 +100,9 @@ public class date {
             (a == 9 && b == 31) || (a == 11 && b == 31)) {
                 System.out.println("That month does not have that many days.");
                 ret = false;
+        } else if (c < 1950 || c > 2050) {
+            //System.out.println("Not a valid year");
+            ret = false;
         }
         return ret;
     }
