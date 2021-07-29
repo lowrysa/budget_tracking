@@ -67,7 +67,9 @@ public class entryArray {
     public double totalSpentFood() { //Get total spendings on food
         double ret = 0.0;
         for(int i = 0; i < array.size(); i++) {
-            if (array.get(i).getName().equalsIgnoreCase("food")) {
+            if (array.get(i).getName().equalsIgnoreCase("eat out")
+                || array.get(i).getName().equalsIgnoreCase("groceries")
+                || array.get(i).getName().equalsIgnoreCase("ice cream")) {
                 ret += array.get(i).getAmount();
             } 
         }
@@ -127,17 +129,16 @@ public class entryArray {
     public double totalSpentOther() { //Get total spendings on other things
         double ret = 0.0;
         for(int i = 0; i < array.size(); i++) {
-            if (array.get(i).getName() != ("Eat Out") &&
-                array.get(i).getName() != ("Groceries") &&
-                array.get(i).getName() != ("Ice Cream") &&
-                array.get(i).getName() != ("Nintendo") &&
-                array.get(i).getName() != ("Clothes") &&
-                array.get(i).getName() != ("Gas") &&
-                array.get(i).getName() != ("Gecko") &&
-                array.get(i).getName() != ("Splice") &&
-                array.get(i).getName() != ("Nintendo")) {
-                ret += array.get(i).getAmount();
-            } 
+            if (!array.get(i).getName().equalsIgnoreCase("Eat Out") &&
+                !array.get(i).getName().equalsIgnoreCase("groceries") &&
+                !array.get(i).getName().equalsIgnoreCase("ice cream") &&
+                !array.get(i).getName().equalsIgnoreCase("nintendo") &&
+                !array.get(i).getName().equalsIgnoreCase("clothes") &&
+                !array.get(i).getName().equalsIgnoreCase("Gas") &&
+                !array.get(i).getName().equalsIgnoreCase("Gecko") &&
+                !array.get(i).getName().equalsIgnoreCase("Splice") &&
+                !array.get(i).getName().equalsIgnoreCase("Nintendo")) 
+                    ret += array.get(i).getAmount();
         }
         return ret;
     }
@@ -327,17 +328,16 @@ public class entryArray {
         }
 
         for(int i = 0; i < array.size(); i++) {
-            if (array.get(i).getName() != ("Eat Out") &&
-                array.get(i).getName() != ("Groceries") &&
-                array.get(i).getName() != ("Ice Cream") &&
-                array.get(i).getName() != ("Nintendo") &&
-                array.get(i).getName() != ("Clothes") &&
-                array.get(i).getName() != ("Gas") &&
-                array.get(i).getName() != ("Gecko") &&
-                array.get(i).getName() != ("Splice") &&
-                array.get(i).getName() != ("Nintendo")) {
-                other.add(array.get(i));
-            }
+            if (!array.get(i).getName().equalsIgnoreCase("Eat Out") &&
+                !array.get(i).getName().equalsIgnoreCase("groceries") &&
+                !array.get(i).getName().equalsIgnoreCase("ice cream") &&
+                !array.get(i).getName().equalsIgnoreCase("nintendo") &&
+                !array.get(i).getName().equalsIgnoreCase("clothes") &&
+                !array.get(i).getName().equalsIgnoreCase("Gas") &&
+                !array.get(i).getName().equalsIgnoreCase("Gecko") &&
+                !array.get(i).getName().equalsIgnoreCase("Splice") &&
+                !array.get(i).getName().equalsIgnoreCase("Nintendo")) 
+                    other.add(array.get(i));
         }
 
         if(!eatOut.isEmpty()) {
