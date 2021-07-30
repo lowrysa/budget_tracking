@@ -601,6 +601,18 @@ public class backend {
         return array.totalSpentSplice();
     }
 
+    public double totalSpentMovies() {
+        return array.totalSpentMovies();
+    }
+
+    public double totalSpentPlant() {
+        return array.totalSpentPlant();
+    }
+
+    public double totalSpentCVS() {
+        return array.totalSpentCVS();
+    }
+
     public void printCategory() { //Print by various categories
         array.printCategory();
     }
