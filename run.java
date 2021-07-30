@@ -829,10 +829,20 @@ public class run {
     } 
 
     public static void end() { //End of program
-        p("Saving...");
+        System.out.print("Saving");
+        boolean done = false;
+        int count1 = 0;
+        while (!done) {
+            if (count1 == 2) {
+                done = true;
+            }
+            System.out.print(".");
+            backend.wait(1000);
+            count1++;
+        }
         backend.saveFile();
         k.close();
-        p("Goodbye!");
+        p("\nGoodbye!");
     }
      
     public static void clear() { //Clear console

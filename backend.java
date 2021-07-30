@@ -271,18 +271,32 @@ public class backend {
         String line = "";
         boolean reset = false;
         int counter = 0;
+        wait(500);
+        System.out.print("Reading file");
+        boolean done = false;
+        int count1 = 0;
+        while (!done) {
+            if (count1 == 2) {
+                done = true;
+            }
+            System.out.print(".");
+            wait(1000);
+            count1++;
+        }
+        System.out.println("");
         try { //Reading in file
             Scanner fileScanner = new Scanner(new File(FILE));
             if (fileScanner.hasNextLine()) {
+                boolean tampered = false;
                 if (counter == 0) {
                     firstLine = fileScanner.nextLine();
                     if (!firstLine.equalsIgnoreCase("budgettrackingprogram")){ //Checking if file has been tampered
                         System.out.println("File has been tampered with, resetting it...\n");
                         setUpFile();
                         reset = true;
+                        tampered = true;
                     }
                 }
-                boolean tampered = false;
                 while(fileScanner.hasNextLine() && !tampered) { //Reading
                     line = fileScanner.nextLine();
                     if (line.startsWith("Starting Date:")) { //Reading starting date
@@ -365,6 +379,7 @@ public class backend {
                                 startingDate = null;
                                 System.out.println("File has been tampered with, would you like to reset the end date or reset the file?");
                                 boolean hu = false;
+                                tampered = true;
                                 while (!hu) {
                                     System.out.println("1. Reset date");
                                     System.out.println("2. Reset file");
@@ -436,10 +451,13 @@ public class backend {
                     }
                     counter++;
                 }
+                if (!tampered) 
+                    System.out.println("Success!\n");
             } else {
                 System.out.println("Setting up file...\n");
                 setUpFile();
             }
+            wait(500);
             fileScanner.close();
         //Two exceptions that could happen:
         } catch (FileNotFoundException ex) {
@@ -648,4 +666,15 @@ public class backend {
         System.out.println("Resetting file...\n");
         setUpFile();
     }
+
+    public static void wait(int ms) {
+    try
+    {
+        Thread.sleep(ms);
+    }
+    catch(InterruptedException ex)
+    {
+        Thread.currentThread().interrupt();
+    }
+}
 }
