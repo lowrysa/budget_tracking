@@ -9,6 +9,4 @@ public class main {
         //Runs Program
         program = new run(); 
     }
-    //TODO: Add movies, cvs, and plants
-
 }
