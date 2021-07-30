@@ -126,6 +126,36 @@ public class entryArray {
         return ret;
     }
 
+    public double totalSpentMovies() { //Get total spendings on movies
+        double ret = 0.0;
+        for(int i = 0; i < array.size(); i++) {
+            if (array.get(i).getName().equalsIgnoreCase("movies")) {
+                ret += array.get(i).getAmount();
+            } 
+        }
+        return ret;
+    }
+
+    public double totalSpentPlant() { //Get total spendings on plants
+        double ret = 0.0;
+        for(int i = 0; i < array.size(); i++) {
+            if (array.get(i).getName().equalsIgnoreCase("plant")) {
+                ret += array.get(i).getAmount();
+            } 
+        }
+        return ret;
+    }
+
+    public double totalSpentCVS() { //Get total spendings on cvs
+        double ret = 0.0;
+        for(int i = 0; i < array.size(); i++) {
+            if (array.get(i).getName().equalsIgnoreCase("cvs")) {
+                ret += array.get(i).getAmount();
+            } 
+        }
+        return ret;
+    }
+
     public double totalSpentOther() { //Get total spendings on other things
         double ret = 0.0;
         for(int i = 0; i < array.size(); i++) {
@@ -137,6 +167,9 @@ public class entryArray {
                 !array.get(i).getName().equalsIgnoreCase("Gas") &&
                 !array.get(i).getName().equalsIgnoreCase("Gecko") &&
                 !array.get(i).getName().equalsIgnoreCase("Splice") &&
+                !array.get(i).getName().equalsIgnoreCase("Movies") &&
+                !array.get(i).getName().equalsIgnoreCase("Plant") &&
+                !array.get(i).getName().equalsIgnoreCase("CVS") &&
                 !array.get(i).getName().equalsIgnoreCase("Nintendo")) 
                     ret += array.get(i).getAmount();
         }
@@ -285,6 +318,9 @@ public class entryArray {
         ArrayList<entry> gecko = new ArrayList<>();
         ArrayList<entry> nintendo = new ArrayList<>();
         ArrayList<entry> splice = new ArrayList<>();
+        ArrayList<entry> movies = new ArrayList<>();
+        ArrayList<entry> plant = new ArrayList<>();
+        ArrayList<entry> cvs = new ArrayList<>();
         ArrayList<entry> other = new ArrayList<>();
 
         for(int i = 0; i < array.size(); i++) {
@@ -328,6 +364,21 @@ public class entryArray {
         }
 
         for(int i = 0; i < array.size(); i++) {
+            if (array.get(i).getName().equalsIgnoreCase("movies")) 
+                movies.add(array.get(i));
+        }
+
+        for(int i = 0; i < array.size(); i++) {
+            if (array.get(i).getName().equalsIgnoreCase("plant")) 
+                plant.add(array.get(i));
+        }
+
+        for(int i = 0; i < array.size(); i++) {
+            if (array.get(i).getName().equalsIgnoreCase("cvs")) 
+                cvs.add(array.get(i));
+        }
+
+        for(int i = 0; i < array.size(); i++) {
             if (!array.get(i).getName().equalsIgnoreCase("Eat Out") &&
                 !array.get(i).getName().equalsIgnoreCase("groceries") &&
                 !array.get(i).getName().equalsIgnoreCase("ice cream") &&
@@ -336,6 +387,9 @@ public class entryArray {
                 !array.get(i).getName().equalsIgnoreCase("Gas") &&
                 !array.get(i).getName().equalsIgnoreCase("Gecko") &&
                 !array.get(i).getName().equalsIgnoreCase("Splice") &&
+                !array.get(i).getName().equalsIgnoreCase("Movies") &&
+                !array.get(i).getName().equalsIgnoreCase("Plant") &&
+                !array.get(i).getName().equalsIgnoreCase("CVS") &&
                 !array.get(i).getName().equalsIgnoreCase("Nintendo")) 
                     other.add(array.get(i));
         }
@@ -393,6 +447,27 @@ public class entryArray {
             System.out.println("Splice:");
             for(int i = 0; i < splice.size(); i++) 
                 System.out.println(splice.get(i).print());
+            System.out.println("");
+        }
+
+        if (!movies.isEmpty()) {
+            System.out.println("Movies:");
+            for(int i = 0; i < movies.size(); i++) 
+                System.out.println(movies.get(i).print());
+            System.out.println("");
+        }
+
+        if (!plant.isEmpty()) {
+            System.out.println("Plants:");
+            for(int i = 0; i < plant.size(); i++) 
+                System.out.println(plant.get(i).print());
+            System.out.println("");
+        }
+
+        if (!cvs.isEmpty()) {
+            System.out.println("CVS:");
+            for(int i = 0; i < cvs.size(); i++) 
+                System.out.println(cvs.get(i).print());
             System.out.println("");
         }
         

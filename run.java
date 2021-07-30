@@ -73,7 +73,8 @@ public class run {
                             }
                         } else if (choicea == 3) { //Sort by Various Categories
                             clear();
-                            p("Categories:\n");
+                            clear();
+                            p("\nCategories:\n");
                             backend.printCategory();
                             p("");
                             overa = true;
@@ -124,6 +125,18 @@ public class run {
                     System.out.print("You have spent $");
                     System.out.print(backend.totalSpentSplice());
                     System.out.print(" on Splice");
+                    p("");
+                    System.out.print("You have spent $");
+                    System.out.print(backend.totalSpentMovies());
+                    System.out.print(" on Movies");
+                    p("");
+                    System.out.print("You have spent $");
+                    System.out.print(backend.totalSpentPlant());
+                    System.out.print(" on Plants");
+                    p("");
+                    System.out.print("You have spent $");
+                    System.out.print(backend.totalSpentCVS());
+                    System.out.print(" on CVS");
                     p("");
                     System.out.print("You have spent $");
                     System.out.print(backend.totalSpentOther());
@@ -311,13 +324,22 @@ public class run {
                     } else if (choice1 == 6) {
                         entryType = "Splice";
                         overc = true;
+                    } else if (choice1 == 7) {
+                        entryType = "Movies";
+                        overc = true;
                     } else if (choice1 == 8) {
+                        entryType = "Plant";
+                        overc = true;
+                    } else if (choice1 == 9) {
+                        entryType = "CVS";
+                        overc = true;
+                    } else if (choice1 == 10) {
                         clear();
                         p("Please specify what kind of entry:");
                         k.nextLine();
                         entryType = k.nextLine();
                         overc = true;
-                    } else if (choice1 == 9) {
+                    } else if (choice1 == 11) {
                         overc = true;
                         back1 = true;
                         clear();

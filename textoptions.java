@@ -99,8 +99,11 @@ public class textoptions {
         p("4. Gecko");
         p("5. Nintendo");
         p("6. Splice");
-        p("8. Other");
-        p("9. Back");
+        p("7. Movies");
+        p("8. Plants");
+        p("9. CVS");
+        p("10. Other");
+        p("11. Back");
     }
 
     public void monthChoice() {

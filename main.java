@@ -9,7 +9,6 @@ public class main {
         //Runs Program
         program = new run(); 
     }
-    //TODO: Comments
-    //TODO: put real entries in
+    //TODO: Add movies, cvs, and plants
 
 }
