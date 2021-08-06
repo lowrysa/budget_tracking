@@ -104,9 +104,18 @@ public class run {
                     p("Calculating...");
                     System.out.print("Between " + backend.getStartDate().printFull() + " and " + backend.getEndDate().printFull() + ", you have spent $");
                     System.out.print(backend.totalSpent());
-                    p("");
-                    p("");
-                    p("More specifically...");
+                    if (backend.totalEarned() > 0.0) {
+                        System.out.print(" and have earned $" + backend.totalEarned() + "!\n");
+                        double difference = backend.totalEarned() - backend.totalSpent();
+                        if (difference > 0.0)
+                            p("(A difference of +" + difference + ")");
+                        else if (difference < 0.0)
+                            p("(A difference of -" + difference + ")");
+                        else
+                            p("(You have no gained or lost money)");
+                    }
+                    p("\nMore specifically...");
+                    p("Spendings:");
                     if (backend.totalSpentFood() > 0.0)
                         p("You have spent $" + backend.totalSpentFood() + " on Food");
                     if (backend.totalSpentGas() > 0.0) 
@@ -132,8 +141,7 @@ public class run {
                     if (backend.totalSpentOther() > 0.0)
                         p("You have spent $" + backend.totalSpentOther() + " on everything else!");
                     if (backend.totalEarned() > 0.0) {
-                        System.out.println("\n\nIn addition, you have earned $" + backend.totalEarned());
-                        p("\nMore Specifically...");
+                        p("\nEarnings:");
                         if (backend.totalEarnedVicars() > 0.0)
                             p("You have earned $" + backend.totalEarnedVicars() + " from Vicars");
                         if (backend.totalEarnedPublix() > 0.0)
