@@ -1,11 +1,12 @@
 import java.util.Random;
 import java.io.*;
-import java.util.*;
+//import java.util.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 public class backend {
     //Various things needed
     private entryArray array;
+    private earningArray earnings;
     private Random n;
     public date startingDate;
     public date endingDate;
@@ -22,10 +23,15 @@ public class backend {
 
     public void init() { //Initialize array
         array = new entryArray();
+        earnings = new earningArray();
     }
 
     public int getArraySize() { //Get array size
         return array.getSize();
+    }
+
+    public int getEarningArraySize() {
+        return earnings.getSize();
     }
 
     public date getStartDate() { //Get start date
@@ -276,7 +282,7 @@ public class backend {
         boolean done = false;
         int count1 = 0;
         while (!done) {
-            if (count1 == 2) {
+            if (count1 == 3) {
                 done = true;
             }
             System.out.print(".");
@@ -419,6 +425,29 @@ public class backend {
                             }
                         } else 
                             endingDate = null;
+                    } else if (line.equalsIgnoreCase("Earnings:") && (reset == false)) {
+                        while(!line.equalsIgnoreCase("")) {
+                            line = fileScanner.nextLine();
+                            String[] splitLine = line.split(DELIM);
+                            if (splitLine.length > 2) {
+                                String name = splitLine[0];
+                                String amountS = splitLine[1];
+                                String date = splitLine[2];
+                                double amount = Double.parseDouble(amountS);
+                                int seperator = date.indexOf(SEPERATOR);
+                                String monthString = date.substring(0,seperator);
+                                String everythingElse = date.substring(seperator + 1);
+                                int month = Integer.parseInt(monthString);
+                                seperator = everythingElse.indexOf(SEPERATOR);
+                                String dayString = everythingElse.substring(0,seperator);
+                                String yearString = everythingElse.substring(seperator + 1);
+                                int day = Integer.parseInt(dayString);
+                                int year = Integer.parseInt(yearString);
+                                date a = new date(month, day, year);
+                                addAlreadyEarning(name,amount,a);
+                            } else 
+                                break;
+                        }
                     } else if (line.equalsIgnoreCase("Entries:") && (reset == false)) { //Reading in entries
                         int count = 0;
                         while(fileScanner.hasNextLine()) {
@@ -463,9 +492,11 @@ public class backend {
         } catch (FileNotFoundException ex) {
             System.out.println("Setting up file...\n");
             setUpFile();
+            System.out.println("Success!\n");
         } catch (NumberFormatException ex) {
             System.out.println("File formatted incorrectly, resetting...\n");
             setUpFile();
+            System.out.println("Success!\n");
         }
     }
 
@@ -480,13 +511,13 @@ public class backend {
             fileWriter.write("\n");
             fileWriter.write("Ending Date:\t");
             fileWriter.write("\n");
+            fileWriter.write("\nEarnings:\n");
             fileWriter.write("\nEntries:\n");
             fileWriter.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     public void saveFile() { //"Saving" file
         ArrayList<String> copy = new ArrayList<>();
@@ -527,6 +558,46 @@ public class backend {
         array.addAlreadyEntry(name, amount, date);
     }
 
+    public void addEarning(String name, double amount, date date) { //Adding entry
+        earnings.addEntry(name, amount, date);
+        ArrayList<String> copy = new ArrayList<>();
+        try { //Read in file
+            Scanner fileReader = new Scanner(new File(FILE));
+            for (int i = 0; fileReader.hasNextLine(); i++) {
+                String line = fileReader.nextLine();
+                if (line.equalsIgnoreCase("Earnings:")) {
+                    copy.add(line);
+                    while(fileReader.hasNextLine()) {
+                        String lines = fileReader.nextLine();
+                        if (lines.equalsIgnoreCase("")) {
+                            copy.add(name + "\t" + amount + "\t" + date.print() + "\n");
+                            break;
+                        } else 
+                            copy.add(lines);
+                    }
+                } else 
+                    copy.add(line);
+            }
+            fileReader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try { //Write to file
+            BufferedWriter fileWriter = new BufferedWriter( new FileWriter(FILE));
+            for(int i =0; i < copy.size(); i++) {
+                fileWriter.write(copy.get(i) + "\n");
+            }
+            fileWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addAlreadyEarning(String name, double amount, date date) { //Add entry from file
+        earnings.addAlreadyEntry(name, amount, date);
+    }
+
     public void removeEntry(String name, double amount, date date) { //Removing entry
         array.removeEntry(name, amount, date);
         ArrayList<String> copy = new ArrayList<>();
@@ -553,8 +624,38 @@ public class backend {
         }
     }
 
+    public void removeEarning(String name, double amount, date date) { //Removing entry
+        earnings.removeEntry(name, amount, date);
+        ArrayList<String> copy = new ArrayList<>();
+        try {
+            Scanner fileReader = new Scanner(new File(FILE));
+            for (int i = 0; fileReader.hasNextLine(); i++) {
+                String line = fileReader.nextLine();
+                if (!line.equalsIgnoreCase(name + "\t" + amount + "\t" + date.print())) 
+                    copy.add(line);
+            }
+            fileReader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(FILE));
+            for(int i =0; i < copy.size(); i++) {
+                fileWriter.write(copy.get(i) + "\n");
+            }
+            fileWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void printEntries() { //Print out entries
         array.printData();
+    }
+
+    public void printEarnings() {
+        earnings.printData();
     }
 
     public void sortByDateLH() { //Print by date, low->high
@@ -631,16 +732,72 @@ public class backend {
         return array.totalSpentCVS();
     }
 
+    public double totalSpentRent() {
+        return array.totalSpentRent();
+    }
+
+    public double totalSpentUtilities() {
+        return array.totalSpentUtilities();
+    }
+
+    public double totalEarned() {
+        return earnings.totalEarned();
+    }
+
+    public double totalEarnedVicars() {
+        return earnings.totalEarnedVicars();
+    }
+
+    public double totalEarnedPublix() {
+        return earnings.totalEarnedPublix();
+    }
+
+    public double totalEarnedPoshmark() {
+        return earnings.totalEarnedPoshmark();
+    }
+
+    public double totalEarnedDepop() {
+        return earnings.totalEarnedDepop();
+    }
+
+    public double totalEarnedShipt() {
+        return earnings.totalEarnedShipt();
+    }
+
+    public double totalEarnedUSC() {
+        return earnings.totalEarnedUSC();
+    }
+
+    public double totalEarnedStreaming() {
+        return earnings.totalEarnedStreaming();
+    }
+
+    public double totalEarnedOther() {
+        return earnings.totalEarnedOther();
+    }
+
     public void printCategory() { //Print by various categories
         array.printCategory();
+    }
+
+    public void printCategoryEarnings() {
+        earnings.printCategoryEarnings();
     }
 
     public String printIndex(int i) { //Get index of array
         return array.getIndex(i);
     }
 
+    public String printIndey(int i) {
+        return earnings.getIndey(i);
+    }
+
     public entry getEntry(int i) { //Get entry at index of array
         return array.getEntry(i);
+    }
+
+    public entry getEarning(int i) {
+        return earnings.getEarning(i);
     }
 
     public void printFile() { //Print out file
@@ -676,5 +833,5 @@ public class backend {
     {
         Thread.currentThread().interrupt();
     }
-}
+    }
 }

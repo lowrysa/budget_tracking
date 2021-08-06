@@ -42,9 +42,10 @@ public class textoptions {
         p("1. Print entries");
         p("2. Check stats");
         p("3. Add entry");
-        p("4. Remove entry");
-        p("5. Check/Change dates");
-        p("6. Show random entry");
+        p("4. Add earning");
+        p("5. Remove entry");
+        p("6. Remove earning");
+        p("7. Show random entry");
         p("8. Next page");
         p("9. Quit program");
     }
@@ -53,6 +54,7 @@ public class textoptions {
         p("What would you like to do? (Page 2/2)");
         p("1. Print file");
         p("2. Reset file");
+        p("3. Check/Change dates");
         p("8. Previous page");
         p("9. Quit program");
     }
@@ -64,6 +66,7 @@ public class textoptions {
         p("2. Print by amount");
         p("3. Print by category");
         p("4. Print in order of added");
+        p("5. Print Earnings");
         p("9. Back");
     }
 
@@ -102,8 +105,23 @@ public class textoptions {
         p("7. Movies");
         p("8. Plants");
         p("9. CVS");
-        p("10. Other");
-        p("11. Back");
+        p("10. Rent");
+        p("11. Utilities");
+        p("12. Other");
+        p("13. Back");
+    }
+
+    public void whatTypeOfEarning() {
+        p("\nWhat Type of Earning is it?");
+        p("1. Vicars");
+        p("2. Publix");
+        p("3. Poshmark");
+        p("4. Depop");
+        p("5. Shipt");
+        p("6. USC");
+        p("7. Streaming");
+        p("8. Other");
+        p("9. Back");
     }
 
     public void monthChoice() {

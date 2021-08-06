@@ -155,6 +155,26 @@ public class entryArray {
         }
         return ret;
     }
+    public double totalSpentRent() { //Get total spendings on rent
+        double ret = 0.0;
+        for(int i = 0; i < array.size(); i++) {
+            if (array.get(i).getName().equalsIgnoreCase("Rent")) {
+                ret += array.get(i).getAmount();
+            } 
+        }
+        return ret;
+    }
+
+    public double totalSpentUtilities() { //Get total spendings on utilities
+        double ret = 0.0;
+        for(int i = 0; i < array.size(); i++) {
+            if (array.get(i).getName().equalsIgnoreCase("Utilities")) {
+                ret += array.get(i).getAmount();
+            } 
+        }
+        return ret;
+    }
+
 
     public double totalSpentOther() { //Get total spendings on other things
         double ret = 0.0;
@@ -170,6 +190,8 @@ public class entryArray {
                 !array.get(i).getName().equalsIgnoreCase("Movies") &&
                 !array.get(i).getName().equalsIgnoreCase("Plant") &&
                 !array.get(i).getName().equalsIgnoreCase("CVS") &&
+                !array.get(i).getName().equalsIgnoreCase("Rent") &&
+                !array.get(i).getName().equalsIgnoreCase("Utilities") &&
                 !array.get(i).getName().equalsIgnoreCase("Nintendo")) 
                     ret += array.get(i).getAmount();
         }
@@ -321,6 +343,8 @@ public class entryArray {
         ArrayList<entry> movies = new ArrayList<>();
         ArrayList<entry> plant = new ArrayList<>();
         ArrayList<entry> cvs = new ArrayList<>();
+        ArrayList<entry> rent = new ArrayList<>();
+        ArrayList<entry> utilities = new ArrayList<>();
         ArrayList<entry> other = new ArrayList<>();
 
         for(int i = 0; i < array.size(); i++) {
@@ -379,6 +403,16 @@ public class entryArray {
         }
 
         for(int i = 0; i < array.size(); i++) {
+            if (array.get(i).getName().equalsIgnoreCase("rent")) 
+                rent.add(array.get(i));
+        }
+
+        for(int i = 0; i < array.size(); i++) {
+            if (array.get(i).getName().equalsIgnoreCase("utilities")) 
+                utilities.add(array.get(i));
+        }
+
+        for(int i = 0; i < array.size(); i++) {
             if (!array.get(i).getName().equalsIgnoreCase("Eat Out") &&
                 !array.get(i).getName().equalsIgnoreCase("groceries") &&
                 !array.get(i).getName().equalsIgnoreCase("ice cream") &&
@@ -390,6 +424,8 @@ public class entryArray {
                 !array.get(i).getName().equalsIgnoreCase("Movies") &&
                 !array.get(i).getName().equalsIgnoreCase("Plant") &&
                 !array.get(i).getName().equalsIgnoreCase("CVS") &&
+                !array.get(i).getName().equalsIgnoreCase("utlities") &&
+                !array.get(i).getName().equalsIgnoreCase("Rent") &&
                 !array.get(i).getName().equalsIgnoreCase("Nintendo")) 
                     other.add(array.get(i));
         }
@@ -468,6 +504,20 @@ public class entryArray {
             System.out.println("CVS:");
             for(int i = 0; i < cvs.size(); i++) 
                 System.out.println(cvs.get(i).print());
+            System.out.println("");
+        }
+
+        if (!rent.isEmpty()) {
+            System.out.println("Rent:");
+            for(int i = 0; i < cvs.size(); i++) 
+                System.out.println(rent.get(i).print());
+            System.out.println("");
+        }
+
+        if (!utilities.isEmpty()) {
+            System.out.println("Utilities:");
+            for(int i = 0; i < cvs.size(); i++) 
+                System.out.println(utilities.get(i).print());
             System.out.println("");
         }
         
