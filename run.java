@@ -37,16 +37,24 @@ public class run {
                             boolean overDate = false;
                             while(!overDate) {
                                 text.dateChoice();
-                                int choiceDate = k.nextInt();
-                                if (choiceDate == 1) { //Sort by Date, low->high
-                                    backend.sortByDateLH();
+                                int choiceDateABBA = k.nextInt();
+                                if (choiceDateABBA == 1) { //Spending Sort by Date, low->high
+                                    backend.sortByDateLHSpending();
                                     overDate = true;
                                     overa = true;
-                                } else if (choiceDate == 2) { //Sort by Date, high->low
-                                    backend.sortByDateHL();
+                                } else if (choiceDateABBA == 2) { //Spending Sort by Date, high->low
+                                    backend.sortByDateHLSpending();
                                     overDate = true;
                                     overa = true;
-                                } else if (choiceDate == 9) { //Back
+                                } else if (choiceDateABBA == 3) {
+                                    backend.sortByDateLHEarning(); //Earning Sort by Date, low->high
+                                    overDate = true;
+                                    overa = true;
+                                } else if (choiceDateABBA == 4) {
+                                    backend.sortByDateHLEarning(); //Earning Sort by Date, high->low
+                                    overDate = true;
+                                    overa = true;
+                                } else if (choiceDateABBA == 9) { //Back
                                     overDate = true;
                                     clear();
                                 } else
@@ -56,13 +64,22 @@ public class run {
                             boolean overAmount = false;
                             while(!overAmount) {
                                 text.amountChoice();
+                                k.nextLine();
                                 int choiceAmount = k.nextInt();
                                 if (choiceAmount == 1) {
-                                    backend.sortAmountLH(); //Sort by Amount, low->high
+                                    backend.sortAmountLHSpending(); //Spending Sort by Amount, low->high
                                     overAmount = true;
                                     overa = true;
-                                } else if (choiceAmount == 2) { //Sort by Amount, high->low
-                                    backend.sortAmountHL();
+                                } else if (choiceAmount == 2) { //Spending Sort by Amount, high->low
+                                    backend.sortAmountHLSpending();
+                                    overAmount = true;
+                                    overa = true;
+                                } else if (choiceAmount == 3) {
+                                    backend.sortAmountLHEarning(); //Earning Sort by Amount, low->high
+                                    overAmount = true;
+                                    overa = true;
+                                } else if (choiceAmount == 4) {
+                                    backend.sortAmountHLEarning(); //Earning Sort by Amount, high->low
                                     overAmount = true;
                                     overa = true;
                                 } else if (choiceAmount == 9) { //Back
@@ -74,13 +91,35 @@ public class run {
                         } else if (choicea == 3) { //Sort by Various Categories
                             clear();
                             clear();
-                            p("\nCategories:\n");
-                            backend.printCategory();
-                            p("");
-                            overa = true;
+                            p("Print Categories:");
+                            boolean yur = false;
+                            while (!yur) {
+                                p("1. Spendings");
+                                p("2. Earnings");
+                                p("9. Back");
+                                int categoryChoice = k.nextInt();
+                                if (categoryChoice == 1) { //Spendings
+                                    clear();
+                                    p("\nCategories:\n");
+                                    backend.printCategory();
+                                    p("");
+                                    overa = true;
+                                    yur = true;
+                                } else if (categoryChoice == 2) { //Earnings
+                                    clear();
+                                    p("\nCategories:\n");
+                                    backend.printCategoryEarnings();
+                                    p("");
+                                    overa = true;
+                                    yur = true;
+                                } else if (categoryChoice == 9) { //Back
+                                    yur = true;
+                                } else 
+                                    p("Not valid input\n");
+                            }
                         } else if (choicea == 4) { //Sort by added entries
                             clear();
-                            p("Entries:");
+                            p("Spendings:");
                             backend.printEntries();
                             overa = true;
                         } else if (choicea == 5) { //Print Earnings

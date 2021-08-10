@@ -658,33 +658,58 @@ public class backend {
         earnings.printData();
     }
 
-    public void sortByDateLH() { //Print by date, low->high
+    public void sortByDateLHSpending() { //Print by date, low->high
         array.sortByDateLH();
         System.out.println("");
     } 
 
-    public void sortByDateHL() { //Print by date, high->low
+    public void sortByDateHLSpending() { //Print by date, high->low
         array.sortByDateHL();
         System.out.println("");
     }
 
-    public void sortAmountLH() { //Print by amount, low->high
+    public void sortByDateLHEarning() { //Print by date, low->high
+        earnings.sortByDateLH();
+        System.out.println("");
+    }
+
+    public void sortByDateHLEarning() { //Print by date, high->low
+        earnings.sortByDateHL();
+        System.out.println("");
+    }
+
+    public void sortAmountLHSpending() { //Print by amount, low->high
         array.sortAmountLH();
         System.out.println("");
     }
 
-    public void sortAmountHL() { //Print by amount, high->low
+    public void sortAmountHLSpending() { //Print by amount, high->low
         array.sortAmountHL();
+        System.out.println("");
+    }
+
+    public void sortAmountLHEarning() { //Print by amount, low->high
+        earnings.sortAmountLH();
+        System.out.println("");
+    }
+
+    public void sortAmountHLEarning() { //Print by amount, high->low
+        earnings.sortAmountHL();
         System.out.println("");
     }
 
     public void printRandom() { //Print random entry
         n = new Random();
-        if (array.getSize() == 0) {
+        ArrayList<entry> combined = new ArrayList<>();
+        for(int i = 0; i < array.getSize(); i++)
+            combined.add(array.getEntry(i));
+        for (int i = 0; i < earnings.getSize(); i++)
+            combined.add(earnings.getEarning(i));
+        if (combined.size()== 0) {
             System.out.println("No entries yet!");
         } else {
-            int choice = n.nextInt(array.getSize());
-            array.randomEntry(choice);
+            int choice = n.nextInt(combined.size());
+            combined.get(choice).printFull();
         }  
     }
 

@@ -40,7 +40,7 @@ public class entryArray {
 
     public void printData() { //Print data
         if (array.isEmpty()) {
-            System.out.println("No entries");
+            System.out.println("No spendings yet!");
             return;
         } 
         for(int i = 0; i < array.size(); i++) 
@@ -50,10 +50,6 @@ public class entryArray {
 
     public int getSize() { //Get size of array
         return array.size();
-    }
-
-    public void randomEntry(int i) { //Get random entry
-        System.out.println(array.get(i).printFull());
     }
 
     public double totalSpent() { //Get total spendings

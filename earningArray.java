@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 public class earningArray {
     private ArrayList<entry> array;
 
@@ -264,5 +265,138 @@ public class earningArray {
 
     public entry getEarning(int i) { //Get entry at index
         return array.get(i);
+    }
+
+    public void sortByDateLH() { //Sort and print by date, low->high
+        ArrayList<entry> newArray = new ArrayList<>();
+        for(int i = 0; i < array.size(); i++) //Copy Array over
+            newArray.add(array.get(i));
+        
+        boolean done = false;
+        while(!done) {
+            int flip = 0;
+            for(int i = 0; i < newArray.size() - 1; i++) {
+                if(newArray.get(i+1) == null) {
+                    break;
+                }
+                if (newArray.get(i).getDate().getYear() > newArray.get(i + 1).getDate().getYear()) {
+                    Collections.swap(newArray, i, i+1);
+                    flip++;
+                } else if (newArray.get(i).getDate().getMonth() > newArray.get(i + 1).getDate().getMonth()) {
+                    Collections.swap(newArray, i, i+1);
+                    flip++;
+                } else if (newArray.get(i).getDate().getDay() > newArray.get(i + 1).getDate().getDay()) {
+                    Collections.swap(newArray, i, i+1);
+                    flip++;
+                }
+            }
+            if(flip == 0) {
+                done = true;
+            }
+        }
+
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+        System.out.println("Oldest to Newest:");
+        for(int i = 0; i < newArray.size(); i++) //Print newArray
+            System.out.println(newArray.get(i).print());
+        
+    }
+
+    public void sortByDateHL() { //Sort and print by date, high->low
+        ArrayList<entry> newArray = new ArrayList<>();
+        for(int i = 0; i < array.size(); i++) //Copy Array over
+            newArray.add(array.get(i));
+        
+        boolean done = false;
+        int a = 0;
+        while(!done) {
+            int flip = 0;
+            for(int i = 0; i < newArray.size() - 1; i++) {
+                if(newArray.get(i+1) == null) {
+                    break;
+                }
+                if (newArray.get(i).getDate().getYear() < newArray.get(i + 1).getDate().getYear()) {
+                    Collections.swap(newArray, i, i+1);
+                    flip++;
+                } else if (newArray.get(i).getDate().getMonth() < newArray.get(i + 1).getDate().getMonth()) {
+                    Collections.swap(newArray, i, i+1);
+                    flip++;
+                } else if (newArray.get(i).getDate().getDay() < newArray.get(i + 1).getDate().getDay()) {
+                    Collections.swap(newArray, i, i+1);
+                    flip++;
+                }
+            }
+            if(flip == 0) {
+                done = true;
+            }
+        }
+
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+        System.out.println("Newest to Oldest:");
+        for(int i = 0; i < newArray.size(); i++) //Print newArray
+            System.out.println(newArray.get(i).print());
+        
+    }
+
+    public void sortAmountLH() { //Sort and print by amount, low->high
+        ArrayList<entry> newArray = new ArrayList<>();
+        for(int i = 0; i < array.size(); i++) //Copy Array over
+            newArray.add(array.get(i));
+        
+        boolean done = false;
+        while(!done) {
+            int flip = 0;
+            for(int i = 0; i < newArray.size() - 1; i++) {
+                if(newArray.get(i+1) == null) {
+                    break;
+                }
+                if (newArray.get(i).getAmount() > newArray.get(i + 1).getAmount()) {
+                   Collections.swap(newArray, i, i+1);
+                   flip++;
+                }
+            }
+            if(flip == 0) {
+                done = true;
+            }
+        }
+
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+        System.out.println("Low to High:");
+        for(int i = 0; i < newArray.size(); i++) //Print newArray
+            System.out.println(newArray.get(i).print());
+        
+    }
+
+    public void sortAmountHL() { //Sort and print, high->low
+        ArrayList<entry> newArray = new ArrayList<>();
+        for(int i = 0; i < array.size(); i++) //Copy Array over
+            newArray.add(array.get(i));
+    
+        boolean done = false;
+        while(!done) {
+            int flip = 0;
+            for(int i = 0; i < newArray.size() - 1; i++) {
+                if(newArray.get(i+1) == null) {
+                    break;
+                }
+                if (newArray.get(i).getAmount() < newArray.get(i + 1).getAmount()) {
+                   Collections.swap(newArray, i, i+1);
+                   flip++;
+                }
+            }
+            if(flip == 0) {
+                done = true;
+            }
+        }
+
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+        System.out.println("High to Low:");
+        for(int i = 0; i < newArray.size(); i++) //Print newArray
+            System.out.println(newArray.get(i).print());
+        
     }
 }

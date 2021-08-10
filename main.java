@@ -10,3 +10,5 @@ public class main {
         program = new run(); 
     }
 }
+
+//TODO: Fix weird double decimal glitch

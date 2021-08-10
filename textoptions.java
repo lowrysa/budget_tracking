@@ -41,9 +41,9 @@ public class textoptions {
         p("What would you like to do? (Page 1/2)");
         p("1. Print entries");
         p("2. Check stats");
-        p("3. Add entry");
+        p("3. Add spending");
         p("4. Add earning");
-        p("5. Remove entry");
+        p("5. Remove spending");
         p("6. Remove earning");
         p("7. Show random entry");
         p("8. Next page");
@@ -65,7 +65,7 @@ public class textoptions {
         p("1. Print by date");
         p("2. Print by amount");
         p("3. Print by category");
-        p("4. Print in order of added");
+        p("4. Print Spendings");
         p("5. Print Earnings");
         p("9. Back");
     }
@@ -73,24 +73,20 @@ public class textoptions {
     public void dateChoice() {
         clear();
         p("How would you like to sort?");
-        p("1. Sort by oldest to newest");
-        p("2. Sort by newest to oldest");
+        p("1. Spendings -> Sort by oldest to newest");
+        p("2. Spendings -> Sort by newest to oldest");
+        p("3. Earnings -> Sort by oldest to newest");
+        p("4. Earnings -> Sort by newest to oldest");
         p("9. Back");
     }
 
     public void amountChoice() {
         clear();
         p("How would you like to sort?");
-        p("1. Sort by low to high");
-        p("2. Sort by high to low");
-        p("9. Back");
-    }
-
-    public void alphabeticChoice() {
-        clear();
-        p("How would you like to sort?");
-        p("1. Sort from A->Z");
-        p("2. Sort from Z->A");
+        p("1. Spendings -> Sort by low to high");
+        p("2. Spendings -> Sort by high to low");
+        p("3. Earnings -> Sort by low to high");
+        p("4. Earnings -> Sort by high to low");
         p("9. Back");
     }
 
