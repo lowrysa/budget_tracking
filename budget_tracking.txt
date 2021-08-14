@@ -26,6 +26,10 @@ Poshmark	32.55	7/22/2021
 Vicars	293.74	7/30/2021
 Publix	177.3	8/3/2021
 Amazon Prime	119.77	8/6/2021
+Publix	78.38	8/9/2021
+Poshmark	9.05	8/9/2021
+Publix	121.44	8/12/2021
+Vicars	520.84	8/13/2021
 
 Entries:
 Gecko	1.92	5/10/2021
@@ -125,3 +129,9 @@ Michaels	8.59	8/5/2021
 Target	24.35	8/5/2021
 Ice Cream	8.09	8/6/2021
 Plant	10.74	8/6/2021
+Eat Out	14.91	8/9/2021
+Nintendo	2.99	8/9/2021
+Ikea	37.63	8/9/2021
+Dollar Store	3.2	8/12/2021
+Gecko	1.58	8/12/2021
+Gecko	1.77	8/14/2021
