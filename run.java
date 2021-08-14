@@ -338,7 +338,7 @@ public class run {
                     }
                 }
                 //Now, actually adding an entry
-                p("Add entry:");
+                p("Add Spending:");
                 boolean overc = false;
                 boolean back1 = false;
                 String entryType = "";
@@ -588,7 +588,7 @@ public class run {
                     }
                 }
                 //Now, actually adding an earning
-                p("Add earning:");
+                p("Add Earning:");
                 boolean overc = false;
                 boolean back1 = false;
                 String entryType = "";
