@@ -149,7 +149,7 @@ public class run {
                         if (difference > 0.0)
                             p("(A difference of +" + difference + ")");
                         else if (difference < 0.0)
-                            p("(A difference of -" + difference + ")");
+                            p("(A difference of " + difference + ")");
                         else
                             p("(You have no gained or lost money)");
                     }
