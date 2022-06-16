@@ -1,10 +1,13 @@
+
 public class textoptions {
     public textoptions() {}
 
     public void greetings() {
+        //System.out.println("Welcome to the budget tracking program!");
         //p("*******************************************************************************************");
         //p("*                                                                                         *");
         //System.out.print("*                         ");
+        run.p("\n\n");
         System.out.println("░██╗░░░░░░░██╗███████╗██╗░░░░░░█████╗░░█████╗░███╗░░░███╗███████╗  ████████╗░█████╗░  ████████╗██╗░░██╗███████╗");
         System.out.println("░██║░░██╗░░██║██╔════╝██║░░░░░██╔══██╗██╔══██╗████╗░████║██╔════╝  ╚══██╔══╝██╔══██╗  ╚══██╔══╝██║░░██║██╔════╝");
         System.out.println("░╚██╗████╗██╔╝█████╗░░██║░░░░░██║░░╚═╝██║░░██║██╔████╔██║█████╗░░  ░░░██║░░░██║░░██║  ░░░██║░░░███████║█████╗░░");
@@ -31,18 +34,18 @@ public class textoptions {
 
     public void foodChoice() {
         clear();
-        p("What kind of food purchase?");
+        run.pb("What kind of food purchase?");
         p("1. Eat Out");
         p("2. Groceries");
         p("3. Ice Cream");
     }
 
     public void printLoop() {
-        p("What would you like to do? (Page 1/2)");
+        run.pb("What would you like to do? (Page 1/2)");
         p("1. Print entries");
         p("2. Check stats");
-        p("3. Add spending");
-        p("4. Add earning");
+        p("3. Add a spending");
+        p("4. Add an earning");
         p("5. Remove spending");
         p("6. Remove earning");
         p("7. Show random entry");
@@ -51,17 +54,18 @@ public class textoptions {
     }
 
     public void printLoop2() {
-        p("What would you like to do? (Page 2/2)");
-        p("1. Print file");
-        p("2. Reset file");
-        p("3. Check/Change dates");
+        run.pb("What would you like to do? (Page 2/2)");
+        p("1. Check/Change dates");
+        p("2. Print file");
+        p("3. Reset file");
+        p("4. Change file");
         p("8. Previous page");
         p("9. Quit program");
     }
     
 
     public void firstChoice() {
-        p("How would you like to print?");
+        run.pb("\nHow would you like to print?");
         p("1. Print by date");
         p("2. Print by amount");
         p("3. Print by category");
@@ -72,7 +76,7 @@ public class textoptions {
 
     public void dateChoice() {
         clear();
-        p("How would you like to sort?");
+        run.pb("How would you like to sort?");
         p("1. Spendings -> Sort by oldest to newest");
         p("2. Spendings -> Sort by newest to oldest");
         p("3. Earnings -> Sort by oldest to newest");
@@ -82,7 +86,7 @@ public class textoptions {
 
     public void amountChoice() {
         clear();
-        p("How would you like to sort?");
+        run.pb("How would you like to sort?");
         p("1. Spendings -> Sort by low to high");
         p("2. Spendings -> Sort by high to low");
         p("3. Earnings -> Sort by low to high");
@@ -91,7 +95,7 @@ public class textoptions {
     }
 
     public void whatTypeOfEntry() {
-        p("\nWhat Type of Entry is it?");
+        run.pb("\nWhat Type of Spending is it?");
         p("1. Food");
         p("2. Gas");
         p("3. Clothes");
@@ -108,7 +112,7 @@ public class textoptions {
     }
 
     public void whatTypeOfEarning() {
-        p("\nWhat Type of Earning is it?");
+        run.pb("\nWhat Type of Earning is it?");
         p("1. Vicars");
         p("2. Publix");
         p("3. Poshmark");
@@ -121,7 +125,7 @@ public class textoptions {
     }
 
     public void monthChoice() {
-        p("Select the correct month:");
+        run.pi("Select the correct month:");
         p("1. January");
         p("2. February");
         p("3. March");
@@ -134,6 +138,42 @@ public class textoptions {
         p("10. October");
         p("11. November");
         p("12. December");
+    }
+
+    public String numberToMonth(int aInt) {
+        String ret = "";
+
+        if (aInt == 1) 
+            ret = "January";
+        else if (aInt == 2) 
+            ret = "February";
+        else if (aInt == 3) 
+            ret = "March";
+        else if (aInt == 4) 
+            ret = "April";
+        else if (aInt == 5) 
+            ret = "May";
+        else if (aInt == 6) 
+            ret = "June";
+        else if (aInt == 7) 
+            ret = "July";
+        else if (aInt == 8) 
+            ret = "August";
+        else if (aInt == 9) 
+            ret = "September";
+        else if (aInt == 10) 
+            ret = "October";
+        else if (aInt == 11) 
+            ret = "November";
+        else if (aInt == 12) 
+            ret = "December";
+        else 
+            ret = "";
+
+        if (ret.equals("")) {
+            ret = "Something went wrong here...";
+        }
+        return ret;
     }
 
     public static void clear() {

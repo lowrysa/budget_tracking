@@ -1,10 +1,11 @@
+
 import java.util.ArrayList;
 import java.util.Collections;
 public class earningArray {
     private ArrayList<entry> array;
 
     public earningArray() { //Constructor
-        array = new ArrayList<>();
+        array = new ArrayList<entry>();
     }
 
     public void addEntry(String name, double amount, date date) { //Adding entry
@@ -13,7 +14,7 @@ public class earningArray {
         a.setName(name);
         a.setDate(date);
         array.add(a);
-        System.out.println("Added Successfully!");
+        System.out.println("Added an Earning of " + name + " for $" + run.roundNumber(amount) + " on " + date.print());
     }
 
     public void addAlreadyEntry(String name, double amount, date date) { //Adding entry from file
@@ -43,9 +44,11 @@ public class earningArray {
             System.out.println("No earnings yet!\n");
             return;
         } 
+        if (array.size() > 4)
+            run.p("\n\n");
         for(int i = 0; i < array.size(); i++) 
             System.out.println(array.get(i).print());
-        System.out.println("");
+        run.p("");
     }
 
     public int getSize() { //Get size of array
@@ -146,14 +149,14 @@ public class earningArray {
     }
 
     public void printCategoryEarnings() { //Sort and print categories
-        ArrayList<entry> vicars = new ArrayList<>();
-        ArrayList<entry> publix = new ArrayList<>();
-        ArrayList<entry> usc = new ArrayList<>();
-        ArrayList<entry> poshmark = new ArrayList<>();
-        ArrayList<entry> depop = new ArrayList<>();
-        ArrayList<entry> streaming = new ArrayList<>();
-        ArrayList<entry> shipt = new ArrayList<>();
-        ArrayList<entry> other = new ArrayList<>();
+        ArrayList<entry> vicars = new ArrayList<entry>();
+        ArrayList<entry> publix = new ArrayList<entry>();
+        ArrayList<entry> usc = new ArrayList<entry>();
+        ArrayList<entry> poshmark = new ArrayList<entry>();
+        ArrayList<entry> depop = new ArrayList<entry>();
+        ArrayList<entry> streaming = new ArrayList<entry>();
+        ArrayList<entry> shipt = new ArrayList<entry>();
+        ArrayList<entry> other = new ArrayList<entry>();
         
 
         for(int i = 0; i < array.size(); i++) {
@@ -202,6 +205,7 @@ public class earningArray {
                     other.add(array.get(i));
         }
 
+        run.p("\n\n");
         if(!vicars.isEmpty()) {
             System.out.println("Vicars:");
             for(int i = 0; i < vicars.size(); i++) 
@@ -260,7 +264,7 @@ public class earningArray {
     }
 
     public String getIndey(int i) { //Print full entry at index
-        return array.get(i).printFull();
+        return array.get(i).print();
     }
 
     public entry getEarning(int i) { //Get entry at index
@@ -268,7 +272,7 @@ public class earningArray {
     }
 
     public void sortByDateLH() { //Sort and print by date, low->high
-        ArrayList<entry> newArray = new ArrayList<>();
+        ArrayList<entry> newArray = new ArrayList<entry>();
         for(int i = 0; i < array.size(); i++) //Copy Array over
             newArray.add(array.get(i));
         
@@ -295,16 +299,17 @@ public class earningArray {
             }
         }
 
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-        System.out.println("Oldest to Newest:");
+        run.clear();
+        if (newArray.size() > 4)
+            run.p("\n\n");
+        System.out.println("Earnings Oldest to Newest:");
         for(int i = 0; i < newArray.size(); i++) //Print newArray
             System.out.println(newArray.get(i).print());
         
     }
 
     public void sortByDateHL() { //Sort and print by date, high->low
-        ArrayList<entry> newArray = new ArrayList<>();
+        ArrayList<entry> newArray = new ArrayList<entry>();
         for(int i = 0; i < array.size(); i++) //Copy Array over
             newArray.add(array.get(i));
         
@@ -332,16 +337,17 @@ public class earningArray {
             }
         }
 
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-        System.out.println("Newest to Oldest:");
+        run.clear();
+        if (newArray.size() > 4)
+            run.p("\n\n");
+        System.out.println("Earnings Newest to Oldest:");
         for(int i = 0; i < newArray.size(); i++) //Print newArray
             System.out.println(newArray.get(i).print());
         
     }
 
     public void sortAmountLH() { //Sort and print by amount, low->high
-        ArrayList<entry> newArray = new ArrayList<>();
+        ArrayList<entry> newArray = new ArrayList<entry>();
         for(int i = 0; i < array.size(); i++) //Copy Array over
             newArray.add(array.get(i));
         
@@ -362,16 +368,17 @@ public class earningArray {
             }
         }
 
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-        System.out.println("Low to High:");
+        run.clear();
+        if (newArray.size() > 4)
+            run.p("\n\n");
+        System.out.println("Earnings Low to High:");
         for(int i = 0; i < newArray.size(); i++) //Print newArray
             System.out.println(newArray.get(i).print());
         
     }
 
     public void sortAmountHL() { //Sort and print, high->low
-        ArrayList<entry> newArray = new ArrayList<>();
+        ArrayList<entry> newArray = new ArrayList<entry>();
         for(int i = 0; i < array.size(); i++) //Copy Array over
             newArray.add(array.get(i));
     
@@ -392,9 +399,10 @@ public class earningArray {
             }
         }
 
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-        System.out.println("High to Low:");
+        run.clear();
+        if (newArray.size() > 4)
+            run.p("\n\n");
+        System.out.println("Earnings High to Low:");
         for(int i = 0; i < newArray.size(); i++) //Print newArray
             System.out.println(newArray.get(i).print());
         

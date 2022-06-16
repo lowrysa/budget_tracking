@@ -1,11 +1,21 @@
-import java.util.Scanner;
 
+import java.util.Scanner;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 public class run {
     private static backend backend;
     private static Scanner k;
     private static textoptions text;
+    private static String fileName = "";
 
-    public run() { //Meat and Potatos of Program
+    // public run() { //Meat and Potatos of Program
+    //     intro();
+    //     loop();
+    //     end();
+    // }
+
+    public static void main() { //Meat and Potatos of Program
+        //fileName = args;
         intro();
         loop();
         end();
@@ -23,11 +33,13 @@ public class run {
     public static void loop() { //Main loop of program
         boolean over = false;
         while (!over) {
+            //System.out.println(System.currentTimeMillis());
             text.printLoop();
+            //System.out.println(System.currentTimeMillis());
             int choice = k.nextInt();
             if (choice == 1) { //Print Entries
                 clear();
-                p("Print entries:");
+                pb("Print entries:");
                 if (backend.totalSpent() > 0.0) {
                     boolean overa = false;
                     while (!overa) {
@@ -37,7 +49,9 @@ public class run {
                             boolean overDate = false;
                             while(!overDate) {
                                 text.dateChoice();
+                                k.nextLine();
                                 int choiceDateABBA = k.nextInt();
+
                                 if (choiceDateABBA == 1) { //Spending Sort by Date, low->high
                                     backend.sortByDateLHSpending();
                                     overDate = true;
@@ -90,26 +104,24 @@ public class run {
                             }
                         } else if (choicea == 3) { //Sort by Various Categories
                             clear();
-                            clear();
-                            p("Print Categories:");
+                            pb("Print Categories:");
                             boolean yur = false;
                             while (!yur) {
                                 p("1. Spendings");
                                 p("2. Earnings");
                                 p("9. Back");
+                                k.nextLine();
                                 int categoryChoice = k.nextInt();
                                 if (categoryChoice == 1) { //Spendings
                                     clear();
-                                    p("\nCategories:\n");
+                                    pb("\nSpending Categories:\n");
                                     backend.printCategory();
-                                    p("");
                                     overa = true;
                                     yur = true;
                                 } else if (categoryChoice == 2) { //Earnings
                                     clear();
-                                    p("\nCategories:\n");
+                                    pb("\nEarning Categories:\n");
                                     backend.printCategoryEarnings();
-                                    p("");
                                     overa = true;
                                     yur = true;
                                 } else if (categoryChoice == 9) { //Back
@@ -117,14 +129,14 @@ public class run {
                                 } else 
                                     p("Not valid input\n");
                             }
-                        } else if (choicea == 4) { //Sort by added entries
+                        } else if (choicea == 4) { //Sort by added spendings
                             clear();
-                            p("Spendings:");
+                            pb("Spendings:");
                             backend.printEntries();
                             overa = true;
                         } else if (choicea == 5) { //Print Earnings
                             clear();
-                            p("Earnings:");
+                            pb("Earnings:");
                             backend.printEarnings();
                             overa = true;
                         } else if (choicea == 9) { //Back
@@ -137,23 +149,25 @@ public class run {
                     p("No entries yet!\n");
             } else if (choice == 2) { //Check Stats
                 clear();
-                p("Checking stats:");
+                pb("\n\nChecking stats:");
                 if (backend.totalSpent() > 0.0) {
                     //Printing stats
-                    p("Calculating...");
+                    pi("Calculating...");
                     System.out.print("Between " + backend.getStartDate().printFull() + " and " + backend.getEndDate().printFull() + ", you have spent $");
-                    System.out.print(backend.totalSpent());
+                    System.out.print(round(backend.totalSpent(),2));
                     if (backend.totalEarned() > 0.0) {
-                        System.out.print(" and have earned $" + backend.totalEarned() + "!\n");
+                        System.out.print(" and have earned $" + roundNumber(backend.totalEarned()) + "!\n");
                         double difference = backend.totalEarned() - backend.totalSpent();
+                        double differencePrint = roundNumber(difference);
                         if (difference > 0.0)
-                            p("(A difference of +" + difference + ")");
+                            p("(A difference of $+" + differencePrint + ")");
                         else if (difference < 0.0)
-                            p("(A difference of " + difference + ")");
+                            p("(A difference of $" + differencePrint + ")");
                         else
                             p("(You have no gained or lost money)");
                     }
                     p("\nMore specifically...");
+                    //Need to fix all this so its dependent on what categories the user wants
                     p("Spendings:");
                     if (backend.totalSpentFood() > 0.0)
                         p("You have spent $" + backend.totalSpentFood() + " on Food");
@@ -201,151 +215,19 @@ public class run {
                         p("\nNo earnings yet!\n");
                 } else 
                     p("No entries yet!\n");
-            } else if (choice == 3) { //Add Entry
+            } else if (choice == 3) { //Add Spending
                 clear();
-                if (!backend.checkEndDate() && !backend.checkDates()) {
-                    p("There's no starting or ending dates set yet, would you like to set them now?");
-                    boolean bee = false;
-                    while (!bee) {
-                        System.out.print("(y/n) ");
-                        k.nextLine();
-                        String f = k.nextLine();
-                        if (f.equalsIgnoreCase("y")) { //Adding Starting and Ending Dates
-                            date cat = new date();
-                            date a = new date();
-                            clear();
-                            boolean xo = false;
-                            while(!xo) { //Set starting date
-                                p("Set Starting date:");
-                                System.out.print("Month: ");
-                                int month = k.nextInt();
-                                System.out.print("Day: ");
-                                int day = k.nextInt();
-                                System.out.print("Year: ");
-                                int year = k.nextInt();
-                                cat = new date(month,day,year);
-                                if(cat.check(cat.getMonth(), cat.getDay(), cat.getYear()) 
-                                   && backend.compareEndDate(cat)) {
-                                    backend.setStartDate(cat);
-                                    xo = true;
-                                }
-                            }
-                            boolean z = false;
-                            while(!z) { //Set ending date
-                                p("\nSet Ending date:");
-                                System.out.print("Month: ");
-                                int month = k.nextInt();
-                                System.out.print("Day: ");
-                                int day = k.nextInt();
-                                System.out.print("Year: ");
-                                int year = k.nextInt();
-                                a = new date(month,day,year);
-                                if(a.check(a.getMonth(), a.getDay(), a.getYear()) 
-                                    && backend.compareStartDate(a)) {
-                                    clear();
-                                    p("Dates set successfully!");
-                                    p("Starting date: " + cat.getMonth() + "/" + cat.getDay() + "/" + cat.getYear());
-                                    p("Ending date: " + a.getMonth() + "/" + a.getDay() + "/" + a.getYear());
-                                    p("");
-                                    backend.setEndDate(a);
-                                    z = true;
-                                    bee = true;
-                                }
-                            }
-                        } else if (f.equalsIgnoreCase("n")) { //Not Setting dates
-                            bee = true;
-                            p("");
-                        } else 
-                            p("Invalid input\n");
-                    }
-                } else if (!backend.checkDates() && backend.checkEndDate()) {
-                    boolean deer = false;
-                    while (!deer) { 
-                        p("There's no starting date set yet, would you like to set that up now?");
-                        System.out.print("(y/n) ");
-                        k.nextLine();
-                        String input = k.nextLine();
-                        if (input.equalsIgnoreCase("y")) { //Set starting date
-                            boolean x = false;
-                            while(!x) {
-                                p("\nSet Starting date:");
-                                System.out.print("Month: ");
-                                int month = k.nextInt();
-                                p("");
-                                System.out.print("Day: ");
-                                int day = k.nextInt();
-                                p("");
-                                System.out.print("Year: ");
-                                int year = k.nextInt();
-                                p("");
-                                date a = new date(month,day,year);
-                                if(a.check(a.getMonth(), a.getDay(), a.getYear()) 
-                                    && backend.compareEndDate(a)) {
-                                    clear();
-                                    p("Date set successfully!");
-                                    p("Starting date: " + month + "/" + day + "/" + year);
-                                    p("");
-                                    backend.setStartDate(a);
-                                    x = true;
-                                    deer = true;
-                                } else 
-                                    p("Not valid date");                      
-                            }
-                        } else if (input.equalsIgnoreCase("n")) { //Not setting date
-                            p("");
-                            deer = true;
-                        } else 
-                            p("Invalid input\n");
-                    }
-                } else if (!backend.checkEndDate() && backend.checkDates()) {
-                    boolean deer = false;
-                    while (!deer) {
-                        p("There's no ending date set yet, would you like to set that up now?");
-                        System.out.print("(y/n) ");
-                        k.nextLine();
-                        String input = k.nextLine();
-                        if (input.equalsIgnoreCase("y")) { //Setting ending date
-                            boolean x = false;
-                            while(!x) {
-                                p("\nSet Ending date:");
-                                System.out.print("Month: ");
-                                int month = k.nextInt();
-                                p("");
-                                System.out.print("Day: ");
-                                int day = k.nextInt();
-                                p("");
-                                System.out.print("Year: ");
-                                int year = k.nextInt();
-                                p("");
-                                date a = new date(month,day,year);
-                                if(a.check(a.getMonth(), a.getDay(), a.getYear()) 
-                                    && backend.compareStartDate(a)) {
-                                    clear();
-                                    p("Date set successfully!");
-                                    p("Ending date: " + month + "/" + day + "/" + year);
-                                    p("");
-                                    backend.setEndDate(a);
-                                    x = true;
-                                    deer = true;
-                                } else 
-                                    p("Not valid date");                      
-                            }
-                        } else if (input.equalsIgnoreCase("n")) { //Not setting date
-                            p("");
-                            deer = true;
-                        } else 
-                            p("Invalid input\n");
-                    }
-                }
-                //Now, actually adding an entry
-                p("Add Spending:");
+                backend.checkWhatDatesSet();
+
+                //Now, actually adding a spending
+                pb("Add a Spending:");
                 boolean overc = false;
                 boolean back1 = false;
                 String entryType = "";
                 while(!overc) {
                     //Pick type of entry
                     text.whatTypeOfEntry();
-                    var choice1 = k.nextInt();
+                    int choice1 = k.nextInt();
                     if (choice1 == 1) {
                         boolean over2 = false;
                         while (!over2) {
@@ -416,186 +298,69 @@ public class run {
                     System.out.print("$");
                     double cost = k.nextDouble();
                     clear();
+
                     //Input date of purchase
-                    p("What day did you purchase it?");
-                    text.monthChoice();
-                    int monthChoice;
-                    int dayChoice;
-                    int yearChoice;
-                    monthChoice = k.nextInt(); //Select month
-                    if(monthChoice != 1 && monthChoice != 2 && 
-                    monthChoice != 3 && monthChoice != 4 &&
-                    monthChoice != 5 && monthChoice != 6 && 
-                    monthChoice != 7 && monthChoice != 8 && 
-                    monthChoice != 9 && monthChoice != 10 && 
-                    monthChoice != 11 && monthChoice != 12) 
-                        monthChoice = 0;
-                    clear();
-                    System.out.print("Day: "); //Input day
-                    dayChoice = k.nextInt();
-                    if (dayChoice < 1 || dayChoice > 31) 
-                        dayChoice = 0;
-                    else if (monthChoice == 2 && dayChoice > 29 ) 
-                        dayChoice = 0;
-                    clear();
-                    System.out.print("Year: "); //Input year
-                    yearChoice = k.nextInt();
-                    if (yearChoice < 0 && yearChoice > 2050) 
-                        yearChoice = 0;
-                    date adate = new date(monthChoice, dayChoice, yearChoice);
-                    if (adate.check(adate.getMonth(), adate.getDay(), adate.getYear())
-                        && backend.checkDateBounds(adate)) { //Adding entry
-                        backend.addEntry(entryType, cost, adate);
-                    } else 
-                        p("Not valid date, Entry not added");
-                    p("");
+                    if(backend.datesEqual()) {
+                        backend.addEntry(entryType, cost, backend.startingDate);
+                    } else {
+                        int monthChoice;
+                        int dayChoice;
+                        int yearChoice;
+
+                        if (!backend.datesMonthEqual()) {
+                            p("What month did you spend it?");
+                            text.monthChoice();
+                            monthChoice = k.nextInt(); //Select month
+                            if(monthChoice != 1 && monthChoice != 2 && 
+                            monthChoice != 3 && monthChoice != 4 &&
+                            monthChoice != 5 && monthChoice != 6 && 
+                            monthChoice != 7 && monthChoice != 8 && 
+                            monthChoice != 9 && monthChoice != 10 && 
+                            monthChoice != 11 && monthChoice != 12) 
+                                monthChoice = 0;
+                        } else 
+                            monthChoice = backend.startingDate.getMonth();
+                        
+                        clear();
+                        System.out.print("What day did you spend it?: "); //Input day
+                        dayChoice = k.nextInt();
+                        if (dayChoice < 1 || dayChoice > 31) 
+                            dayChoice = 0;
+                        else if (monthChoice == 2 && dayChoice > 29 ) 
+                            dayChoice = 0;
+                        
+                        if (!backend.datesYearEqual()) {
+                            clear();
+                            System.out.print("What year did you spend it?: "); //Input year
+                            yearChoice = k.nextInt();
+                            if (yearChoice < 0 && yearChoice > 2050) 
+                                yearChoice = 0;
+                        } else 
+                            yearChoice = backend.getStartDate().getYear();
+                        
+                        date adate = new date(monthChoice, dayChoice, yearChoice);
+                        if (adate.check(adate.getMonth(), adate.getDay(), adate.getYear())
+                            && backend.checkDateBounds(adate)) { //Adding entry
+                            backend.addEntry(entryType, cost, adate);
+                        } else 
+                            p("Not valid date, Spending not added");
+                        p("");
+                    }                  
                     back1 = false;
                 } 
             } else if (choice == 4) { //Add Earning
                 clear();
-                if (!backend.checkEndDate() && !backend.checkDates()) {
-                    p("There's no starting or ending dates set yet, would you like to set them now?");
-                    boolean bee = false;
-                    while (!bee) {
-                        System.out.print("(y/n) ");
-                        k.nextLine();
-                        String f = k.nextLine();
-                        if (f.equalsIgnoreCase("y")) { //Adding Starting and Ending Dates
-                            date cat = new date();
-                            date a = new date();
-                            clear();
-                            boolean xo = false;
-                            while(!xo) { //Set starting date
-                                p("Set Starting date:");
-                                System.out.print("Month: ");
-                                int month = k.nextInt();
-                                System.out.print("Day: ");
-                                int day = k.nextInt();
-                                System.out.print("Year: ");
-                                int year = k.nextInt();
-                                cat = new date(month,day,year);
-                                if(cat.check(cat.getMonth(), cat.getDay(), cat.getYear()) 
-                                   && backend.compareEndDate(cat)) {
-                                    backend.setStartDate(cat);
-                                    xo = true;
-                                }
-                            }
-                            boolean z = false;
-                            while(!z) { //Set ending date
-                                p("\nSet Ending date:");
-                                System.out.print("Month: ");
-                                int month = k.nextInt();
-                                System.out.print("Day: ");
-                                int day = k.nextInt();
-                                System.out.print("Year: ");
-                                int year = k.nextInt();
-                                a = new date(month,day,year);
-                                if(a.check(a.getMonth(), a.getDay(), a.getYear()) 
-                                    && backend.compareStartDate(a)) {
-                                    clear();
-                                    p("Dates set successfully!");
-                                    p("Starting date: " + cat.getMonth() + "/" + cat.getDay() + "/" + cat.getYear());
-                                    p("Ending date: " + a.getMonth() + "/" + a.getDay() + "/" + a.getYear());
-                                    p("");
-                                    backend.setEndDate(a);
-                                    z = true;
-                                    bee = true;
-                                }
-                            }
-                        } else if (f.equalsIgnoreCase("n")) { //Not Setting dates
-                            bee = true;
-                            p("");
-                        } else 
-                            p("Invalid input\n");
-                    }
-                } else if (!backend.checkDates() && backend.checkEndDate()) {
-                    boolean deer = false;
-                    while (!deer) { 
-                        p("There's no starting date set yet, would you like to set that up now?");
-                        System.out.print("(y/n) ");
-                        k.nextLine();
-                        String input = k.nextLine();
-                        if (input.equalsIgnoreCase("y")) { //Set starting date
-                            boolean x = false;
-                            while(!x) {
-                                p("\nSet Starting date:");
-                                System.out.print("Month: ");
-                                int month = k.nextInt();
-                                p("");
-                                System.out.print("Day: ");
-                                int day = k.nextInt();
-                                p("");
-                                System.out.print("Year: ");
-                                int year = k.nextInt();
-                                p("");
-                                date a = new date(month,day,year);
-                                if(a.check(a.getMonth(), a.getDay(), a.getYear()) 
-                                    && backend.compareEndDate(a)) {
-                                    clear();
-                                    p("Date set successfully!");
-                                    p("Starting date: " + month + "/" + day + "/" + year);
-                                    p("");
-                                    backend.setStartDate(a);
-                                    x = true;
-                                    deer = true;
-                                } else 
-                                    p("Not valid date");                      
-                            }
-                        } else if (input.equalsIgnoreCase("n")) { //Not setting date
-                            p("");
-                            deer = true;
-                        } else 
-                            p("Invalid input\n");
-                    }
-                } else if (!backend.checkEndDate() && backend.checkDates()) {
-                    boolean deer = false;
-                    while (!deer) {
-                        p("There's no ending date set yet, would you like to set that up now?");
-                        System.out.print("(y/n) ");
-                        k.nextLine();
-                        String input = k.nextLine();
-                        if (input.equalsIgnoreCase("y")) { //Setting ending date
-                            boolean x = false;
-                            while(!x) {
-                                p("\nSet Ending date:");
-                                System.out.print("Month: ");
-                                int month = k.nextInt();
-                                p("");
-                                System.out.print("Day: ");
-                                int day = k.nextInt();
-                                p("");
-                                System.out.print("Year: ");
-                                int year = k.nextInt();
-                                p("");
-                                date a = new date(month,day,year);
-                                if(a.check(a.getMonth(), a.getDay(), a.getYear()) 
-                                    && backend.compareStartDate(a)) {
-                                    clear();
-                                    p("Date set successfully!");
-                                    p("Ending date: " + month + "/" + day + "/" + year);
-                                    p("");
-                                    backend.setEndDate(a);
-                                    x = true;
-                                    deer = true;
-                                } else 
-                                    p("Not valid date");                      
-                            }
-                        } else if (input.equalsIgnoreCase("n")) { //Not setting date
-                            p("");
-                            deer = true;
-                        } else 
-                            p("Invalid input\n");
-                    }
-                }
+                backend.checkWhatDatesSet();
+    
                 //Now, actually adding an earning
-                p("Add Earning:");
+                pb("Add Earning:");
                 boolean overc = false;
                 boolean back1 = false;
                 String entryType = "";
                 while(!overc) {
                     //Pick type of entry
                     text.whatTypeOfEarning();
-                    var choice1 = k.nextInt();
+                    int choice1 = k.nextInt();
                     if (choice1 == 1) {
                         entryType = "Vicars";
                         overc = true;
@@ -638,43 +403,57 @@ public class run {
                     double cost = k.nextDouble();
                     clear();
                     //Input date of earning
-                    p("What day did you earn it?");
-                    text.monthChoice();
-                    int monthChoice;
-                    int dayChoice;
-                    int yearChoice;
-                    monthChoice = k.nextInt(); //Select month
-                    if(monthChoice != 1 && monthChoice != 2 && 
-                    monthChoice != 3 && monthChoice != 4 &&
-                    monthChoice != 5 && monthChoice != 6 && 
-                    monthChoice != 7 && monthChoice != 8 && 
-                    monthChoice != 9 && monthChoice != 10 && 
-                    monthChoice != 11 && monthChoice != 12) 
-                        monthChoice = 0;
-                    clear();
-                    System.out.print("Day: "); //Input day
-                    dayChoice = k.nextInt();
-                    if (dayChoice < 1 || dayChoice > 31) 
-                        dayChoice = 0;
-                    else if (monthChoice == 2 && dayChoice > 29 ) 
-                        dayChoice = 0;
-                    clear();
-                    System.out.print("Year: "); //Input year
-                    yearChoice = k.nextInt();
-                    if (yearChoice < 0 && yearChoice > 2050) 
-                        yearChoice = 0;
-                    date adate = new date(monthChoice, dayChoice, yearChoice);
-                    if (adate.check(adate.getMonth(), adate.getDay(), adate.getYear())
-                        && backend.checkDateBounds(adate)) { //Adding entry
-                        backend.addEarning(entryType, cost, adate);
-                    } else 
-                        p("Not valid date, Earning not added");
-                    p("");
+                    if(backend.datesEqual()) {
+                        backend.addEarning(entryType, cost, backend.startingDate);
+                    } else {
+                        int monthChoice;
+                        int dayChoice;
+                        int yearChoice;
+
+                        if (!backend.datesMonthEqual()) {
+                            p("What month did you earn it?");
+                            text.monthChoice();
+                            monthChoice = k.nextInt(); //Select month
+                            if(monthChoice != 1 && monthChoice != 2 && 
+                            monthChoice != 3 && monthChoice != 4 &&
+                            monthChoice != 5 && monthChoice != 6 && 
+                            monthChoice != 7 && monthChoice != 8 && 
+                            monthChoice != 9 && monthChoice != 10 && 
+                            monthChoice != 11 && monthChoice != 12) 
+                                monthChoice = 0;
+                        } else 
+                            monthChoice = backend.startingDate.getMonth();
+                        
+                        clear();
+                        System.out.print("What day did you earn it?: "); //Input day
+                        dayChoice = k.nextInt();
+                        if (dayChoice < 1 || dayChoice > 31) 
+                            dayChoice = 0;
+                        else if (monthChoice == 2 && dayChoice > 29 ) 
+                            dayChoice = 0;
+                        
+                        if (!backend.datesYearEqual()) {
+                            clear();
+                            System.out.print("What year did you earn it?: "); //Input year
+                            yearChoice = k.nextInt();
+                            if (yearChoice < 0 && yearChoice > 2050) 
+                                yearChoice = 0;
+                        } else 
+                            yearChoice = backend.getStartDate().getYear();
+                        
+                        date adate = new date(monthChoice, dayChoice, yearChoice);
+                        if (adate.check(adate.getMonth(), adate.getDay(), adate.getYear())
+                            && backend.checkDateBounds(adate)) { //Adding entry
+                            backend.addEarning(entryType, cost, adate);
+                        } else 
+                            p("Not valid date, Earning not added");
+                        p("");
+                    }                  
                     back1 = false;
                 } 
             } else if (choice == 5) { //Remove Entry
                 clear();
-                p("Removing entry:");
+                pb("Removing entry:");
                 if (backend.getArraySize() == 0) 
                     p("No entries yet!\n");
                 else {
@@ -710,7 +489,7 @@ public class run {
                 }
             } else if (choice == 6) { //Remove Earning
                 clear();
-                p("Removing earning:");
+                pb("Removing earning:");
                 if (backend.getEarningArraySize() == 0) 
                     p("No entries yet!\n");
                 else {
@@ -746,7 +525,7 @@ public class run {
                 }
             } else if (choice == 7) { //Show Random Entry
                 clear();
-                p("Random entry:");
+                pb("Random entry:");
                 backend.printRandom();
                 p("");
             } else if (choice == 8) { //Next page
@@ -755,20 +534,50 @@ public class run {
                 while (!overEasy) {
                     text.printLoop2();
                     int choiceg = k.nextInt();
-                    if (choiceg == 1) { //Print file
+                    if (choiceg == 2) { //Print file
                         backend.printFile();
-                    } else if (choiceg == 2) { //Reset file
+                    } else if (choiceg == 3) { //Reset file
                         clear();
                         boolean u = false;
                         while (!u) {
                             p("Are you sure you would like to reset the file?");
-                            System.out.print("(y/n)");
+                            System.out.print("(y/n) ");
                             k.nextLine();
                             String ahh = k.nextLine();
                             if (ahh.equalsIgnoreCase("y")) {
-                                clear();
-                                backend.resetFile();
-                                u = true;
+                                boolean h = false;
+                                while (!h) {
+                                    p("\nWould you like to save your file to a new name? ");
+                                    System.out.print("(y/n) ");
+                                    //k.nextLine();
+                                    String ahhh = k.nextLine();
+                                    if (ahhh.equalsIgnoreCase("y")) {
+                                        boolean b = false;
+                                        while (!b) {
+                                            p("What description do you want to add for the file? (press 'n' to go back)");
+                                            pi("(Ex. Summer '22)");
+                                            String ne = k.nextLine();
+                                            if (!ne.equalsIgnoreCase("n")) {
+                                                String newName = "budget_tracking(" + ne + ").txt";
+                                                p("");
+                                                clear();
+                                                backend.saveToNewFile(newName);
+                                            } else {
+                                                clear();
+                                            }
+                                            b = true;
+                                            h = true;
+                                            u = true;
+                                            overEasy = true;
+                                        }
+                                    } else if (ahhh.equalsIgnoreCase("n")) {
+                                        clear();
+                                        backend.resetFile();
+                                        h = true;
+                                        u = true;
+                                    } else if (!ahhh.equalsIgnoreCase("n") && !ahhh.equalsIgnoreCase("y")) 
+                                        p("Not valid input\n");
+                                }
                             }
                             else if (!ahh.equalsIgnoreCase("n") && !ahh.equalsIgnoreCase("y"))
                                 p("Not valid input\n");
@@ -777,418 +586,100 @@ public class run {
                                 p("");
                             }
                         } 
-                    } else if (choiceg == 3) { //Change/Check Dates
+                    } else if (choiceg == 1) { //Change/Check Dates
                         boolean g = false;
-                while (!g) {
-                    clear();
-                    p("Check/Change dates:");
-                    p("1. Check dates");
-                    p("2. Change dates");
-                    p("9. Back");
-                    int choicez = k.nextInt();
-                    if (choicez == 1) { //Check dates
-                        clear();
-                        p("Check dates:");
-                        if (backend.checkDates()) {
-                            p("Starting Date: " + backend.getStartDate().printFull()); //Output starting date
-                            //Checking if no ending date
-                            if (!backend.checkEndDate()) {
-                                boolean o = false;
-                                while (!o) {
-                                    p("\nThere is no end date set yet, would you like to set one?");
-                                    System.out.print("(y/n) ");
-                                    k.nextLine();
-                                    String input = k.nextLine();
-                                    if (input.equalsIgnoreCase("y")) {
-                                        boolean x = false;
-                                        while(!x) {
-                                            p("\nSet Ending date:");
-                                            System.out.print("Month: ");
-                                            int month = k.nextInt();
-                                            System.out.print("Day: ");
-                                            int day = k.nextInt();
-                                            System.out.print("Year: ");
-                                            int year = k.nextInt();
-                                            date a = new date(month,day,year);
-                                            if(a.check(a.getMonth(), a.getDay(), a.getYear()) 
-                                                && backend.compareStartDate(a)) {
-                                                clear();
-                                                p("Date set successfully!");
-                                                p("Ending date: " + month + "/" + day + "/" + year);
-                                                p("");
-                                                backend.setEndDate(a);
-                                                for(int i = 0; i < backend.getArraySize(); i++) {
-                                                    if (!backend.checkDateBounds(backend.getEntry(i).getDate())) {
-                                                        p("Entry no longer in bounds, removing...");
-                                                        String name = backend.getEntry(i).getName();
-                                                        double amount = backend.getEntry(i).getAmount();
-                                                        date date = backend.getEntry(i).getDate();
-                                                        backend.removeEntry(name,amount,date);
-                                                        p("Removed!\n");
-                                                    } 
-                                                }
-                                                for (int i = 0; i < backend.getEarningArraySize(); i++) {
-                                                    if (!backend.checkDateBounds(backend.getEarning(i).getDate())) {
-                                                        p("Earning no longer in bounds, removing...");
-                                                        String name = backend.getEarning(i).getName();
-                                                        double amount = backend.getEarning(i).getAmount();
-                                                        date date = backend.getEarning(i).getDate();
-                                                        backend.removeEarning(name,amount,date);
-                                                        p("Removed!\n");
-                                                    }
-                                                }
-                                                x = true;
-                                                g = true;
-                                                o = true;
-                                            } else 
-                                                p("Not valid date");                      
-                                        }
-                                    } else if (input.equalsIgnoreCase("n")) {
-                                        p("");
-                                        o = true;
-                                        g = true;
-                                    } else
-                                        p("Not valid input");
-                                }
-                            } else 
-                                p("Ending Date: " + backend.getEndDate().printFull()); //Printing ending date
-                            p("");
-                            g = true;
-                        } else if (backend.checkEndDate() && !backend.checkDates()){
-                            p("Ending Date: " + backend.getStartDate().printFull()); //Printing ending date
-                            boolean o = false;
-                                while (!o) {
-                                    //Checking if no starting date
-                                    p("\nThere is no start date set yet, would you like to set one?");
-                                    System.out.print("(y/n) ");
-                                    k.nextLine();
-                                    String input = k.nextLine();
-                                    if (input.equalsIgnoreCase("y")) {
-                                        //clear();
-                                        boolean x = false;
-                                        while(!x) {
-                                            p("\nSet Ending date:");
-                                            System.out.print("Month: ");
-                                            int month = k.nextInt();
-                                            p("");
-                                            System.out.print("Day: ");
-                                            int day = k.nextInt();
-                                            p("");
-                                            System.out.print("Year: ");
-                                            int year = k.nextInt();
-                                            p("");
-                                            date a = new date(month,day,year);
-                                            if(a.check(a.getMonth(), a.getDay(), a.getYear()) 
-                                                && backend.compareEndDate(a)) {
-                                                clear();
-                                                p("Date set successfully!");
-                                                p("Starting date: " + month + "/" + day + "/" + year);
-                                                p("");
-                                                backend.setStartDate(a);
-                                                for(int i = 0; i < backend.getArraySize(); i++) {
-                                                    if (!backend.checkDateBounds(backend.getEntry(i).getDate())) {
-                                                        p("Entry no longer in bounds, removing...");
-                                                        String name = backend.getEntry(i).getName();
-                                                        double amount = backend.getEntry(i).getAmount();
-                                                        date date = backend.getEntry(i).getDate();
-                                                        backend.removeEntry(name,amount,date);
-                                                        p("Removed!\n");
-                                                    } 
-                                                }
-                                                for (int i = 0; i < backend.getEarningArraySize(); i++) {
-                                                    if (!backend.checkDateBounds(backend.getEarning(i).getDate())) {
-                                                        p("Earning no longer in bounds, removing...");
-                                                        String name = backend.getEarning(i).getName();
-                                                        double amount = backend.getEarning(i).getAmount();
-                                                        date date = backend.getEarning(i).getDate();
-                                                        backend.removeEarning(name,amount,date);
-                                                        p("Removed!\n");
-                                                    }
-                                                }
-                                                x = true;
-                                                g = true;
-                                                o = true;
-                                            } else 
-                                                p("Not valid date");                      
-                                        }
-                                    } else if (input.equalsIgnoreCase("n")) {
-                                        p("");
-                                        o = true;
-                                        g = true;
-                                    } else
-                                        p("Not valid input");
-                                }
-                        } else {
-                            p("No dates set yet!");
-                            boolean r = false;
-                            while (!r) {
-                                //Setting both dates
-                                p("Would you like to set them now?");
-                                System.out.print("(y/n) ");
-                                k.nextLine();
-                                String input = k.nextLine();
-                                date cat = new date();
-                                date a = new date();
-                                if (input.equalsIgnoreCase("n")) {
-                                    p("");
-                                    g = true;
-                                    r = true;
-                                } else if (input.equalsIgnoreCase("y")) {
-                                    clear();
-                                    boolean xo = false;
-                                    while(!xo) {
-                                        //Starting date
-                                        p("Set Starting date:");
-                                        System.out.print("Month: ");
-                                        int month = k.nextInt();
-                                        System.out.print("Day: ");
-                                        int day = k.nextInt();
-                                        System.out.print("Year: ");
-                                        int year = k.nextInt();
-                                        cat = new date(month,day,year);
-                                        if(cat.check(cat.getMonth(), cat.getDay(), cat.getYear()) 
-                                            && backend.compareEndDate(cat)) {
-                                            backend.setStartDate(cat);
-                                            xo = true;
-                                        }
-                                    }
-                                    boolean z = false;
-                                    while(!z) {
-                                        //Ending date
-                                        p("\nSet Ending date:");
-                                        System.out.print("Month: ");
-                                        int month = k.nextInt();
-                                        System.out.print("Day: ");
-                                        int day = k.nextInt();
-                                        System.out.print("Year: ");
-                                        int year = k.nextInt();
-                                        a = new date(month,day,year);
-                                        if(a.check(a.getMonth(), a.getDay(), a.getYear()) 
-                                            && backend.compareStartDate(a)) {
-                                            clear();
-                                            p("Dates set successfully!");
-                                            p("Starting date: " + cat.getMonth() + "/" + cat.getDay() + "/" + cat.getYear());
-                                            p("Ending date: " + a.getMonth() + "/" + a.getDay() + "/" + a.getYear());
-                                            p("");
-                                            backend.setEndDate(a);
-                                            for(int i = 0; i < backend.getArraySize(); i++) {
-                                                if (!backend.checkDateBounds(backend.getEntry(i).getDate())) {
-                                                    p("Entry no longer in bounds, removing...");
-                                                    String name = backend.getEntry(i).getName();
-                                                    double amount = backend.getEntry(i).getAmount();
-                                                    date date = backend.getEntry(i).getDate();
-                                                    backend.removeEntry(name,amount,date);
-                                                    p("Removed!\n");
-                                                } 
-                                            }
-                                            for (int i = 0; i < backend.getEarningArraySize(); i++) {
-                                                if (!backend.checkDateBounds(backend.getEarning(i).getDate())) {
-                                                    p("Earning no longer in bounds, removing...");
-                                                    String name = backend.getEarning(i).getName();
-                                                    double amount = backend.getEarning(i).getAmount();
-                                                    date date = backend.getEarning(i).getDate();
-                                                    backend.removeEarning(name,amount,date);
-                                                    p("Removed!\n");
-                                                }
-                                            }
-                                            z = true;
-                                            g = true;
-                                            r = true;
-                                        }
-                                    }
-                                } else 
-                                    p("Not valid input");
-                            }  
-                        }
-                    } else if (choicez == 2) { //Change dates
-                        clear();
-                        p("Change dates:");
-                        if (!backend.checkDates() && !backend.checkEndDate()) 
-                            p("Neither of the dates have been set!");
-                        else if (backend.checkDates() && !backend.checkEndDate()) {
-                            p("The Starting Date is: " + backend.getStartDate().print());
-                            p("The Ending Date hasn't been set yet!");
-                        } else {
-                            p("The Starting Date is: " + backend.getStartDate().print());
-                            p("The Ending Date is: " + backend.getEndDate().print());
-                        }
-                        p("\nWhich one would you like to change?");
-                        p("1. Starting date");
-                        p("2. Ending date");
-                        p("3. Both");
-                        p("9. Back");
-                        int abc = k.nextInt();
-                        clear();
-                        if (abc == 1) {
-                            boolean z = false;
-                            while(!z) {
-                                //Change starting date
-                                p("Change Starting date:");
-                                System.out.print("Month: ");
-                                int month = k.nextInt();
-                                System.out.print("Day: ");
-                                int day = k.nextInt();
-                                System.out.print("Year: ");
-                                int year = k.nextInt();
-                                date a = new date(month,day,year);
-                                if(a.check(a.getMonth(), a.getDay(), a.getYear())
-                                    && backend.compareEndDate(a)) {
-                                    clear();
-                                    p("Date changed successfully!");
-                                    p("New starting date: " + month + "/" + day + "/" + year);
-                                    p("");
-                                    backend.setStartDate(a);
-                                    for(int i = 0; i < backend.getArraySize(); i++) {
-                                        if (!backend.checkDateBounds(backend.getEntry(i).getDate())) {
-                                            p("Entry no longer in bounds, removing...");
-                                            String name = backend.getEntry(i).getName();
-                                            double amount = backend.getEntry(i).getAmount();
-                                            date date = backend.getEntry(i).getDate();
-                                            backend.removeEntry(name,amount,date);
-                                            p("Removed!\n");
-                                        }
-                                    }
-                                    for (int i = 0; i < backend.getEarningArraySize(); i++) {
-                                        if (!backend.checkDateBounds(backend.getEarning(i).getDate())) {
-                                            p("Earning no longer in bounds, removing...");
-                                            String name = backend.getEarning(i).getName();
-                                            double amount = backend.getEarning(i).getAmount();
-                                            date date = backend.getEarning(i).getDate();
-                                            backend.removeEarning(name,amount,date);
-                                            p("Removed!\n");
-                                        }
-                                    }
-                                    z = true;
-                                    g = true;
-                                } else 
-                                    p("");
-                            }
-                        } else if (abc == 2) {
-                            boolean z = false;
-                            //Change ending date
-                            while(!z) {
-                                p("Change Ending date:");
-                                System.out.print("Month: ");
-                                int month = k.nextInt();
-                                System.out.print("Day: ");
-                                int day = k.nextInt();
-                                System.out.print("Year: ");
-                                int year = k.nextInt();
-                                date a = new date(month,day,year);
-                                if(a.check(a.getMonth(), a.getDay(), a.getYear())
-                                    && backend.compareStartDate(a)) {
-                                    clear();
-                                    p("Date changed successfully!");
-                                    p("New ending date: " + month + "/" + day + "/" + year);
-                                    p("");
-                                    backend.setEndDate(a);
-                                    for(int i = 0; i < backend.getArraySize(); i++) {
-                                        if (!backend.checkDateBounds(backend.getEntry(i).getDate())) {
-                                            p("Entry no longer in bounds, removing...");
-                                            String name = backend.getEntry(i).getName();
-                                            double amount = backend.getEntry(i).getAmount();
-                                            date date = backend.getEntry(i).getDate();
-                                            backend.removeEntry(name,amount,date);
-                                            p("Removed!\n");
-                                        }
-                                    }
-                                    for (int i = 0; i < backend.getEarningArraySize(); i++) {
-                                        if (!backend.checkDateBounds(backend.getEarning(i).getDate())) {
-                                            p("Earning no longer in bounds, removing...");
-                                            String name = backend.getEarning(i).getName();
-                                            double amount = backend.getEarning(i).getAmount();
-                                            date date = backend.getEarning(i).getDate();
-                                            backend.removeEarning(name,amount,date);
-                                            p("Removed!\n");
-                                        }
-                                    }
-                                    z = true;
-                                    g = true;
-                                } else 
-                                    p("");
-                            }
-                        } else if (abc == 3) {
-                            //Change both dates
-                            date a = new date();
-                            date b = new date();
-                            boolean z = false;
-                            while(!z) {
-                                p("Change Starting date:");
-                                System.out.print("Month: ");
-                                int month = k.nextInt();
-                                System.out.print("Day: ");
-                                int day = k.nextInt();
-                                System.out.print("Year: ");
-                                int year = k.nextInt();
-                                a.setDay(day);
-                                a.setMonth(month);
-                                a.setYear(year);
-                                if(a.check(a.getMonth(), a.getDay(), a.getYear())
-                                   && backend.compareEndDate(a)) {
-                                    //p("Date changed successfully!");
-                                    p("");
-                                    backend.setStartDate(a);
-                                    z = true;
-                                } else
-                                    p("");
-                            }
-                            boolean y = false;
-                            while(!y) {
-                                p("Change Ending date:");
-                                System.out.print("Month: ");
-                                int month = k.nextInt();
-                                System.out.print("Day: ");
-                                int day = k.nextInt();
-                                System.out.print("Year: ");
-                                int year = k.nextInt();
-                                b.setMonth(month);
-                                b.setDay(day);
-                                b.setYear(year);
-                                if(b.check(b.getMonth(), b.getDay(), b.getYear())
-                                    && backend.compareStartDate(b)) {
-                                    clear();
-                                    p("Dates changed successfully!");
-                                    p("");
-                                    backend.setEndDate(b);
-                                    for(int i = 0; i < backend.getArraySize(); i++) {
-                                        if (!backend.checkDateBounds(backend.getEntry(i).getDate())) {
-                                            p("Entry no longer in bounds, removing...");
-                                            String name = backend.getEntry(i).getName();
-                                            double amount = backend.getEntry(i).getAmount();
-                                            date date = backend.getEntry(i).getDate();
-                                            backend.removeEntry(name,amount,date);
-                                            p("Removed!\n");
-                                        }
-                                    }
-                                    for (int i = 0; i < backend.getEarningArraySize(); i++) {
-                                        if (!backend.checkDateBounds(backend.getEarning(i).getDate())) {
-                                            p("Earning no longer in bounds, removing...");
-                                            String name = backend.getEarning(i).getName();
-                                            double amount = backend.getEarning(i).getAmount();
-                                            date date = backend.getEarning(i).getDate();
-                                            backend.removeEarning(name,amount,date);
-                                            p("Removed!\n");
-                                        }
-                                    }
-                                    y = true;
-                                }
-                            }
-                            //Printing new dates
-                            p("New starting date: " + a.getMonth() + "/" + a.getDay() + "/" + a.getYear());
-                            p("New ending date: " + b.getMonth() + "/" + b.getDay() + "/" + b.getYear());
-                            p("");
-                            g = true;
-                        } else if (abc == 9) //Back
+                        while (!g) {
                             clear();
-                        else
-                            p("Not valid input\n");
-                    } else if (choicez == 9) {
+                            pb("Check/Change dates:");
+                            p("1. Check dates");
+                            p("2. Change dates");
+                            p("9. Back");
+                            int choicez = k.nextInt();
+                            
+                            if (choicez == 1) { //Check dates
+                                clear();
+                                pb("Check dates:");
+                                if (backend.checkStartDate()) {
+                                    p("Starting Date: " + backend.getStartDate().printFull()); //Output starting date
+        
+                                    //Checking if no ending date
+                                    if (!backend.checkEndDate()) 
+                                        backend.checkWhatDatesSet();
+                                    else 
+                                        p("Ending Date: " + backend.getEndDate().printFull() + "\n"); //Printing ending date
+        
+                                    g = true;
+                                } else if (backend.checkEndDate() && !backend.checkStartDate()){
+                                    p("Ending Date: " + backend.getStartDate().printFull() + "\n"); //Printing ending date
+                                    backend.checkWhatDatesSet();
+                                } else {
+                                    p("No dates set yet!");
+                                    backend.checkWhatDatesSet();
+                                }
+                            } else if (choicez == 2) { //Change dates
+                                clear();
+                                pb("Change dates:");
+        
+                                if (!backend.checkStartDate() && !backend.checkEndDate()) 
+                                    p("Neither of the dates have been set!");
+                                else if (backend.checkStartDate() && !backend.checkEndDate()) {
+                                    p("The Starting Date is: " + backend.getStartDate().print());
+                                    p("The Ending Date hasn't been set yet!");
+                                } else {
+                                    p("The Starting Date is: " + backend.getStartDate().print());
+                                    p("The Ending Date is: " + backend.getEndDate().print());
+                                }
+        
+                                p("\nWhich one would you like to change?");
+                                p("1. Starting date");
+                                p("2. Ending date");
+                                p("3. Both");
+                                p("9. Back");
+                                int abc = k.nextInt();
+        
+                                clear();
+                                if (abc == 1) {
+                                    backend.noStartDateSet();
+                                    g = true;
+                                } else if (abc == 2) {
+                                    backend.noEndDateSet();
+                                    g = true;
+                                } else if (abc == 3) {
+                                    //Change both dates
+                                    backend.noStartDateSet();
+                                    backend.noEndDateSet();
+        
+                                    clear();
+                                    p("New Dates:");
+                                    if (backend.getStartDate() != null) p("Starting Date: " + backend.getStartDate().printFull());
+                                    if (backend.getEndDate() != null) p("Ending Date: " + backend.getEndDate().printFull());
+                                    p("");
+                        
+                                    g = true;
+                                } else if (abc == 9) //Back
+                                    clear();
+                                else
+                                    p("Not valid input\n");
+                            } else if (choicez == 9) {
+                                clear();
+                                g = true;
+                            } 
+                             else 
+                                p("Not valid input"); 
+                        }
+                    } else if (choiceg == 4) { //Change file
                         clear();
-                        g = true;
-                    } 
-                     else 
-                        p("Not valid input"); 
-                }
+                        pb("Change File:\n");
+                        p("Input new file name: "); 
+                        k.nextLine();
+                        String newFile = k.nextLine();
+
+                        if (newFile.equalsIgnoreCase(fileName)) 
+                            p("This is the same file bruh\n");
+                        else {
+                            backend.readFile();
+                            overEasy = true;
+                        }
                     } else if (choiceg == 8) { //Previous page
                         overEasy = true;
                         clear();
@@ -1229,5 +720,25 @@ public class run {
     
     public static void p(String s) { //Easier than doing System.out.println
         System.out.println(s);
+    }
+
+    public static void pb(String s) { //System.out.println but bold
+        System.out.println("\033[0;1m" + s + "\033[0m");
+    }
+
+    public static void pi(String s) { //System.out.println but bold
+        System.out.println("\033[3m" + s + "\033[0m");
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+    
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
+
+    public static double roundNumber(double value) {
+        return round(value, 2);
     }
 }

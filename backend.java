@@ -1,3 +1,4 @@
+
 import java.util.Random;
 import java.io.*;
 //import java.util.*;
@@ -5,29 +6,29 @@ import java.util.ArrayList;
 import java.util.Scanner;
 public class backend {
     //Various things needed
-    private entryArray array;
+    private entryArray spendings;
     private earningArray earnings;
     private Random n;
     public date startingDate;
     public date endingDate;
     private static Scanner k;
-    private static final String FILE = "budget_tracking.txt";
+    private static textoptions textoptions = new textoptions();
+    private static String FILE = "";
+    private static String FILEPATH = "/Users/lmao/Desktop/Coding Projects/Budget Tracking/budget_tracking/files/";
     private static final String DELIM = "\t";
     private static final String SEPERATOR = "/";
 
 
-    public backend() { //Initialize the backend of program 
-        init();
+    public backend() { init(); }//Initialize the backend of program 
+
+    public void init() { //Initialize array
+        spendings = new entryArray();
+        earnings = new earningArray();
         k = new Scanner(System.in);
     }
 
-    public void init() { //Initialize array
-        array = new entryArray();
-        earnings = new earningArray();
-    }
-
     public int getArraySize() { //Get array size
-        return array.getSize();
+        return spendings.getSize();
     }
 
     public int getEarningArraySize() {
@@ -55,11 +56,24 @@ public class backend {
             startingDate = new date(0,0,0);
     }
 
+    public void setEndDate(date a) { //Set end date
+        if(a.check(a.getMonth(), a.getDay(), a.getYear())) {
+            date oldDate;
+            if (endingDate != null) 
+                oldDate = endingDate;
+            else 
+                oldDate = null;
+            endingDate = a;
+            setEndFile(a, oldDate);
+        } else
+            endingDate = new date(0,0,0);
+    }
+
     public void setStartFile(date a, date old) { //Edit start date on file
-        ArrayList<String> copy = new ArrayList<>();
+        ArrayList<String> copy = new ArrayList<String>();
         try { //Read in file
             Scanner fileReader = new Scanner(new File(FILE));
-            for (int i = 0; fileReader.hasNextLine(); i++) {
+            while (fileReader.hasNextLine()) {
                 String line = fileReader.nextLine();
                 if (line.equalsIgnoreCase("Starting Date:\t")) {
                     String something = "Starting Date:\t" + a.print();
@@ -88,21 +102,8 @@ public class backend {
         }
     }
 
-    public void setEndDate(date a) { //Set end date
-        if(a.check(a.getMonth(), a.getDay(), a.getYear())) {
-            date oldDate;
-            if (endingDate != null) 
-                oldDate = endingDate;
-            else 
-                oldDate = null;
-            endingDate = a;
-            setEndFile(a, oldDate);
-        } else
-            endingDate = new date(0,0,0);
-    }
-
     public void setEndFile(date a, date old) { //Set end date on file
-        ArrayList<String> copy = new ArrayList<>();
+        ArrayList<String> copy = new ArrayList<String>();
         try { //Read in file
             Scanner fileReader = new Scanner(new File(FILE));
             for (int i = 0; fileReader.hasNextLine(); i++) {
@@ -134,22 +135,16 @@ public class backend {
         }
     }
     
-    public boolean checkDates() { //Check if starting date is null
-        if (startingDate == null) 
-            return false;
-        else
-            return true;
+    public boolean checkStartDate() { //Check if starting date is null
+        return (startingDate != null);
     }
 
     public boolean checkEndDate() { //Check if ending date is null
-        if (endingDate == null) 
-            return false;
-         else
-            return true;
+        return (endingDate != null);
     }
 
     public boolean checkDateBounds(date a) { //Check if date is within bounds
-        if (!checkEndDate() && !checkDates()) { //No ending or starting dates
+        if (!checkEndDate() && !checkStartDate()) { //No ending or starting dates
             return true;
         } else if (!checkEndDate()) { //No ending date
             if (a.getYear() > startingDate.getYear()) {
@@ -165,7 +160,7 @@ public class backend {
                 System.out.println("Date not within bounds");
                 return false;
             }
-        } else if (!checkDates()) { //No starting date
+        } else if (!checkStartDate()) { //No starting date
             if (a.getYear() < endingDate.getYear()) {
                 return true;
             } else if (a.getYear() == endingDate.getYear() 
@@ -233,7 +228,7 @@ public class backend {
     }
 
     public boolean compareStartDate(date b) { //Compare date to start date
-        if (!checkDates()) {
+        if (!checkStartDate()) {
             return true;
         } else {
             if (b.getYear() > startingDate.getYear()) {
@@ -272,13 +267,227 @@ public class backend {
         }
     }
 
+    public boolean datesEqual() {
+        boolean ret = false;
+        if (startingDate != null && endingDate != null) {
+            if (startingDate.getDay() == endingDate .getDay()
+                && startingDate.getMonth() == endingDate.getMonth()
+                && startingDate.getYear() == endingDate.getYear())
+                ret = true;
+        }
+        return ret;
+    }
+
+    public boolean datesMonthEqual() {
+        boolean ret = false;
+        if (startingDate != null && endingDate != null) {
+            if (startingDate.getMonth() == endingDate.getMonth()) 
+                ret = true;
+        }
+        return ret;
+    }
+
+    public boolean datesYearEqual() {
+        boolean ret = false;
+        if (startingDate != null && endingDate != null) {
+            if (startingDate.getYear() == endingDate.getYear()) 
+                ret = true;
+        }
+        return ret;
+    }
+
+    public void checkWhatDatesSet() {
+        if (!checkStartDate() && !checkEndDate()) 
+            noDatesSet();
+        else if (!checkStartDate() && checkEndDate()) {
+            boolean deer = false;
+            while (!deer) { 
+                run.p("There's no starting date set yet, would you like to set that up now?");
+                System.out.print("(y/n) ");
+                String input = k.nextLine();
+
+                if (input.equalsIgnoreCase("y")) { //Set starting date
+                    noStartDateSet();
+                    deer = true;
+                } else if (input.equalsIgnoreCase("n")) { //Not setting date
+                    run.p("");
+                    deer = true;
+                } else 
+                    run.p("Invalid input\n");
+            }
+        } 
+        else if (checkStartDate() && !checkEndDate()) {
+            boolean deer = false;
+            while (!deer) {
+                run.p("There's no ending date set yet, would you like to set that up now?");
+                System.out.print("(y/n) ");
+                String input = k.nextLine();
+
+                if (input.equalsIgnoreCase("y")) { //Setting ending date
+                    noEndDateSet();
+                    deer = true;
+                } else if (input.equalsIgnoreCase("n")) { //Not setting date
+                    run.p("");
+                    deer = true;
+                } else 
+                    run.p("Invalid input\n");
+            }
+        }
+    }
+
+    public void noDatesSet() {
+        boolean deer = false;
+        while (!deer) { 
+            run.p("There's no starting date set yet, would you like to set that up now?");
+            System.out.print("(y/n) ");
+            String input = k.nextLine();
+
+            if (input.equalsIgnoreCase("y")) { //Set starting date
+                noStartDateSet();
+                deer = true;
+            } else if (input.equalsIgnoreCase("n")) { //Not setting date
+                run.p("");
+                deer = true;
+            } else 
+                run.p("Invalid input\n");
+        }
+
+        deer = false;
+        while (!deer) {
+            run.p("There's no ending date set yet, would you like to set that up now?");
+            System.out.print("(y/n) ");
+            String input = k.nextLine();
+
+            if (input.equalsIgnoreCase("y")) { //Setting ending date
+                noEndDateSet();
+                deer = true;
+            } else if (input.equalsIgnoreCase("n")) { //Not setting date
+                run.p("");
+                deer = true;
+            } else 
+                run.p("Invalid input\n");
+        }
+    }
+
+    public void noStartDateSet() {
+        run.clear();
+        boolean x = false;
+        while(!x) {
+            run.pb("Set Starting date:\n");
+
+            textoptions.monthChoice();
+            int month = k.nextInt();
+            System.out.print("\nMonth Selected: " + textoptions.numberToMonth(month));
+
+            System.out.print("\nDay: ");
+            int day = k.nextInt();
+
+            System.out.print("Year: ");
+            int year = k.nextInt();
+
+            date a = new date(month,day,year);
+            if(a.check(a.getMonth(), a.getDay(), a.getYear()) 
+                && compareEndDate(a)) {
+                run.clear();
+                run.p("Date set successfully!");
+                run.p("Starting date: " + month + "/" + day + "/" + year);
+                run.p("");
+                setStartDate(a);
+                x = true;
+                
+                for(int i = 0; i < getArraySize(); i++) {
+                    if (!checkDateBounds(getEntry(i).getDate())) {
+                        run.p("Entry no longer in bounds, removing...");
+                        String name = getEntry(i).getName();
+                        double amount = getEntry(i).getAmount();
+                        date date = getEntry(i).getDate();
+                        removeEntry(name,amount,date);
+                        run.p("Removed!\n");
+                    } 
+                }
+            } else {
+                run.clear();
+                run.p("Not valid date\n");      
+            }                
+        }
+    }
+
+    public void noEndDateSet() {
+        run.clear();
+        boolean x = false;
+        while(!x) {
+            run.pb("Set Ending date:\n");
+
+            textoptions.monthChoice();
+            int month = k.nextInt();
+            System.out.print("\nMonth Selected: " + textoptions.numberToMonth(month));
+
+            System.out.print("\nDay: ");
+            int day = k.nextInt();
+
+            System.out.print("Year: ");
+            int year = k.nextInt();
+
+            date a = new date(month,day,year);
+            if(a.check(a.getMonth(), a.getDay(), a.getYear()) 
+                && compareStartDate(a)) {
+                run.clear();
+                run.p("Date set successfully!");
+                run.p("Ending date: " + month + "/" + day + "/" + year);
+                run.p("");
+                setEndDate(a);
+                x = true;
+                
+                for (int i = 0; i < getEarningArraySize(); i++) {
+                    if (!checkDateBounds(getEarning(i).getDate())) {
+                        run.p("Earning no longer in bounds, removing...");
+                        String name = getEarning(i).getName();
+                        double amount = getEarning(i).getAmount();
+                        date date = getEarning(i).getDate();
+                        removeEarning(name,amount,date);
+                        run.p("Removed!\n");
+                    }
+                }
+            } else {
+                run.clear();
+                run.p("Not valid date\n");       
+            }               
+        }
+    }
+
     public void readFile() { //Reading in the file
         String firstLine = "";
         String line = "";
         boolean reset = false;
         int counter = 0;
+        
+        File f = new File(FILEPATH);
+        String[] files = f.list();
+        if (files.length != 0) {
+            run.pb("Which file would you like to select?");
+            for(int i = 0; i < files.length; i++) {
+                if (files[i].equalsIgnoreCase("budget_tracking.txt")) {
+                   
+                    run.p((i+1) + ". Default " + "\033[3m(budget_tracking.txt)\033[0m"); 
+                    
+                } else
+                    run.p((i+1) + ". " + files[i]);
+            }
+            run.p((files.length+1) + ". Quit Program");
+            int choice = k.nextInt();
+            if (choice == (files.length+1)) {
+                run.p("\nQuitting program, goodbye");
+                System.exit(0);
+            } else {
+                FILE = files[choice-1];
+            }
+        } else {
+            FILE = "budget_tracking.txt";
+            run.p("Setting up new file...");
+        }
+        
         wait(500);
-        System.out.print("Reading file");
+        System.out.print("\nReading file " + FILE);
         boolean done = false;
         int count1 = 0;
         while (!done) {
@@ -290,8 +499,18 @@ public class backend {
             count1++;
         }
         System.out.println("");
+
+        //Removing Spendings and Earnings
+        while(spendings.getSize() > 0) 
+            spendings.removeEntry(spendings.getEntry(0).getName(), spendings.getEntry(0).getAmount(), spendings.getEntry(0).getDate());
+        
+        while(earnings.getSize() > 0) 
+            earnings.removeEntry(earnings.getEarning(0).getName(), earnings.getEarning(0).getAmount(), earnings.getEarning(0).getDate());
+        
         try { //Reading in file
-            Scanner fileScanner = new Scanner(new File(FILE));
+            //File f = new File("/Users/lmao/Desktop/Coding Projects/Budget Tracking/budget_tracking/files");
+            Scanner fileScanner = new Scanner(new File(FILEPATH + FILE));
+            //PrintStream print = new File(FILE).list();
             if (fileScanner.hasNextLine()) {
                 boolean tampered = false;
                 if (counter == 0) {
@@ -416,8 +635,7 @@ public class backend {
                                         tampered = true;
                                         hu = true;
                                         setUpFile();
-                                        System.out.print("\033[H\033[2J");
-                                        System.out.flush();
+                                        run.clear();
                                         System.out.println("File reset!\n");
                                     } else 
                                         System.out.println("Not valid input\n");
@@ -445,6 +663,7 @@ public class backend {
                                 int year = Integer.parseInt(yearString);
                                 date a = new date(month, day, year);
                                 addAlreadyEarning(name,amount,a);
+                                //run.p("Earning added: " + name + " " + amount + " " + a.printFull());
                             } else 
                                 break;
                         }
@@ -473,6 +692,7 @@ public class backend {
                                 int year = Integer.parseInt(yearString);
                                 date a = new date(month, day, year);
                                 addAlreadyEntry(name,amount,a);
+                                //run.p("Spendings added: " + name + " " + amount + " " + a.printFull());
                                 count++;
                             } else 
                                 break;
@@ -504,7 +724,7 @@ public class backend {
         startingDate = null;
         endingDate = null;
         try {
-            PrintWriter fileWriter = new PrintWriter(new FileOutputStream(FILE));
+            PrintWriter fileWriter = new PrintWriter(new FileOutputStream(FILEPATH + FILE));
             fileWriter.write("budgettrackingprogram\n");
             fileWriter.write("\n");
             fileWriter.write("Starting Date:\t");
@@ -520,10 +740,35 @@ public class backend {
     }
 
     public void saveFile() { //"Saving" file
-        ArrayList<String> copy = new ArrayList<>();
+        ArrayList<String> copy = new ArrayList<String>();
         try {
-            Scanner fileReader = new Scanner(new File(FILE));
+            Scanner fileReader = new Scanner(new File(FILEPATH + FILE));
             for (int i = 0; fileReader.hasNextLine(); i++) {
+                String line = fileReader.nextLine();
+                copy.add(line);
+            }
+            fileReader.close();
+        } catch (FileNotFoundException exception) {
+            run.p("Somethings wrong, goodbye");
+            System.exit(0);
+        }
+
+        try {
+            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(FILEPATH + FILE));
+            for(int i = 0; i < copy.size(); i++) {
+                fileWriter.write(copy.get(i) + "\n");
+            }
+            fileWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveToNewFile(String fileName) {
+        ArrayList<String> copy = new ArrayList<String>();
+        try {
+            Scanner fileReader = new Scanner(new File(FILEPATH + FILE));
+            while(fileReader.hasNextLine()) {
                 String line = fileReader.nextLine();
                 copy.add(line);
             }
@@ -533,18 +778,47 @@ public class backend {
         }
 
         try {
-            BufferedWriter fileWriter = new BufferedWriter( new FileWriter(FILE));
-            for(int i =0; i < copy.size(); i++) {
+            BufferedWriter fileWriter = new BufferedWriter( new FileWriter(FILEPATH + fileName));
+            for(int i = 0; i < copy.size(); i++) {
                 fileWriter.write(copy.get(i) + "\n");
             }
             fileWriter.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        System.out.println("File renamed to " + fileName + "...");
+        System.out.println("Resetting file...");
+        setUpFile();
+        System.out.println("New file created!\n");
+    }
+
+    public void printFile() { //Print out file
+        ArrayList<String> print = new ArrayList<String>();
+        try {
+            Scanner t = new Scanner(new File(FILEPATH + FILE));
+            while (t.hasNextLine()) {
+                String line = t.nextLine();
+                print.add(line);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        run.p("FILE: " + FILE + ":\n");
+        for(int i = 0; i < print.size(); i++) {
+            System.out.println(print.get(i));
+        }
+        System.out.println("");
+    }
+
+    public void resetFile() { //Reset file
+        System.out.println("Resetting file...\n");
+        setUpFile();
     }
 
     public void addEntry(String name, double amount, date date) { //Adding entry
-        array.addEntry(name, amount, date);
+        spendings.addEntry(name, amount, date);
         try {
             BufferedWriter a = new BufferedWriter(new FileWriter(FILE,true));
             a.append(name + "\t" + amount + "\t" + date.print() + "\n");
@@ -555,15 +829,15 @@ public class backend {
     }
 
     public void addAlreadyEntry(String name, double amount, date date) { //Add entry from file
-        array.addAlreadyEntry(name, amount, date);
+        spendings.addAlreadyEntry(name, amount, date);
     }
 
     public void addEarning(String name, double amount, date date) { //Adding entry
         earnings.addEntry(name, amount, date);
-        ArrayList<String> copy = new ArrayList<>();
+        ArrayList<String> copy = new ArrayList<String>();
         try { //Read in file
             Scanner fileReader = new Scanner(new File(FILE));
-            for (int i = 0; fileReader.hasNextLine(); i++) {
+            while (fileReader.hasNextLine()) {
                 String line = fileReader.nextLine();
                 if (line.equalsIgnoreCase("Earnings:")) {
                     copy.add(line);
@@ -599,8 +873,8 @@ public class backend {
     }
 
     public void removeEntry(String name, double amount, date date) { //Removing entry
-        array.removeEntry(name, amount, date);
-        ArrayList<String> copy = new ArrayList<>();
+        spendings.removeEntry(name, amount, date);
+        ArrayList<String> copy = new ArrayList<String>();
         try {
             Scanner fileReader = new Scanner(new File(FILE));
             for (int i = 0; fileReader.hasNextLine(); i++) {
@@ -626,7 +900,7 @@ public class backend {
 
     public void removeEarning(String name, double amount, date date) { //Removing entry
         earnings.removeEntry(name, amount, date);
-        ArrayList<String> copy = new ArrayList<>();
+        ArrayList<String> copy = new ArrayList<String>();
         try {
             Scanner fileReader = new Scanner(new File(FILE));
             for (int i = 0; fileReader.hasNextLine(); i++) {
@@ -651,7 +925,7 @@ public class backend {
     }
 
     public void printEntries() { //Print out entries
-        array.printData();
+        spendings.printData();
     }
 
     public void printEarnings() {
@@ -659,12 +933,12 @@ public class backend {
     }
 
     public void sortByDateLHSpending() { //Print by date, low->high
-        array.sortByDateLH();
+        spendings.sortByDateLH();
         System.out.println("");
     } 
 
     public void sortByDateHLSpending() { //Print by date, high->low
-        array.sortByDateHL();
+        spendings.sortByDateHL();
         System.out.println("");
     }
 
@@ -679,12 +953,12 @@ public class backend {
     }
 
     public void sortAmountLHSpending() { //Print by amount, low->high
-        array.sortAmountLH();
+        spendings.sortAmountLH();
         System.out.println("");
     }
 
     public void sortAmountHLSpending() { //Print by amount, high->low
-        array.sortAmountHL();
+        spendings.sortAmountHL();
         System.out.println("");
     }
 
@@ -700,69 +974,72 @@ public class backend {
 
     public void printRandom() { //Print random entry
         n = new Random();
-        ArrayList<entry> combined = new ArrayList<>();
-        for(int i = 0; i < array.getSize(); i++)
-            combined.add(array.getEntry(i));
+        ArrayList<entry> combined = new ArrayList<entry>();
+        for(int i = 0; i < spendings.getSize(); i++)
+            combined.add(spendings.getEntry(i));
         for (int i = 0; i < earnings.getSize(); i++)
             combined.add(earnings.getEarning(i));
         if (combined.size()== 0) {
             System.out.println("No entries yet!");
         } else {
             int choice = n.nextInt(combined.size());
-            combined.get(choice).printFull();
-        }  
+            if (choice < spendings.getSize()) 
+                System.out.print(combined.get(choice).printFullSpending()+"\n");
+            else 
+                System.out.print(combined.get(choice).printFullEarning()+"\n");
+        }   
     }
 
     public double totalSpent() { //Get total spendings
-        return array.totalSpent();
+        return spendings.totalSpent();
     }
 
     public double totalSpentFood() { //Get total spendings on food
-        return array.totalSpentFood();
+        return spendings.totalSpentFood();
     }
 
     public double totalSpentGas() { //Get total spendings on gas
-        return array.totalSpentGas();
+        return spendings.totalSpentGas();
     }
 
     public double totalSpentClothes() { //Get total spendings on clothes
-        return array.totalSpentClothes();
+        return spendings.totalSpentClothes();
     }
 
     public double totalSpentGecko() { //Get total spendings on gecko
-        return array.totalSpentGecko();
+        return spendings.totalSpentGecko();
     }
 
     public double totalSpentNintendo() { //Get total spendings on nintendo
-        return array.totalSpentNintendo();
+        return spendings.totalSpentNintendo();
     }
 
     public double totalSpentOther() { //Get total spendings on other things
-        return array.totalSpentOther();
+        return spendings.totalSpentOther();
     }
 
     public double totalSpentSplice() { //Get total spendings on splice
-        return array.totalSpentSplice();
+        return spendings.totalSpentSplice();
     }
 
     public double totalSpentMovies() {
-        return array.totalSpentMovies();
+        return spendings.totalSpentMovies();
     }
 
     public double totalSpentPlant() {
-        return array.totalSpentPlant();
+        return spendings.totalSpentPlant();
     }
 
     public double totalSpentCVS() {
-        return array.totalSpentCVS();
+        return spendings.totalSpentCVS();
     }
 
     public double totalSpentRent() {
-        return array.totalSpentRent();
+        return spendings.totalSpentRent();
     }
 
     public double totalSpentUtilities() {
-        return array.totalSpentUtilities();
+        return spendings.totalSpentUtilities();
     }
 
     public double totalEarned() {
@@ -802,7 +1079,7 @@ public class backend {
     }
 
     public void printCategory() { //Print by various categories
-        array.printCategory();
+        spendings.printCategory();
     }
 
     public void printCategoryEarnings() {
@@ -810,7 +1087,7 @@ public class backend {
     }
 
     public String printIndex(int i) { //Get index of array
-        return array.getIndex(i);
+        return spendings.getIndex(i);
     }
 
     public String printIndey(int i) {
@@ -818,35 +1095,11 @@ public class backend {
     }
 
     public entry getEntry(int i) { //Get entry at index of array
-        return array.getEntry(i);
+        return spendings.getEntry(i);
     }
 
     public entry getEarning(int i) {
         return earnings.getEarning(i);
-    }
-
-    public void printFile() { //Print out file
-        ArrayList<String> print = new ArrayList<>();
-        try {
-            Scanner t = new Scanner(new File(FILE));
-            while (t.hasNextLine()) {
-                String line = t.nextLine();
-                print.add(line);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        System.out.println(FILE + ":\n");
-        for(int i = 0; i < print.size(); i++) {
-            System.out.println(print.get(i));
-        }
-        System.out.println("");
-    }
-
-    public void resetFile() { //Reset file
-        System.out.println("Resetting file...\n");
-        setUpFile();
     }
 
     public static void wait(int ms) {

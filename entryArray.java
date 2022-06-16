@@ -1,10 +1,11 @@
+
 import java.util.ArrayList;
 import java.util.Collections;
 public class entryArray {
     private ArrayList<entry> array;
 
     public entryArray() { //Constructor
-        array = new ArrayList<>();
+        array = new ArrayList<entry>();
     }
 
     public void addEntry(String name, double amount, date date) { //Adding entry
@@ -13,7 +14,7 @@ public class entryArray {
         a.setName(name);
         a.setDate(date);
         array.add(a);
-        System.out.println("Added Successfully!");
+        System.out.println("Added a Spending of " + name + " for $" + run.roundNumber(amount) + " on " + date.print());
     }
 
     public void addAlreadyEntry(String name, double amount, date date) { //Adding entry from file
@@ -43,9 +44,11 @@ public class entryArray {
             System.out.println("No spendings yet!");
             return;
         } 
+        if (array.size() > 4)
+            run.p("\n\n");
         for(int i = 0; i < array.size(); i++) 
             System.out.println(array.get(i).print());
-        System.out.println("");
+        run.p("");
     }
 
     public int getSize() { //Get size of array
@@ -195,26 +198,32 @@ public class entryArray {
     }
 
     public void sortByDateLH() { //Sort and print by date, low->high
-        ArrayList<entry> newArray = new ArrayList<>();
+        ArrayList<entry> newArray = new ArrayList<entry>();
         for(int i = 0; i < array.size(); i++) //Copy Array over
             newArray.add(array.get(i));
         
         boolean done = false;
         while(!done) {
             int flip = 0;
+            //run.p("Gotta go again");
             for(int i = 0; i < newArray.size() - 1; i++) {
                 if(newArray.get(i+1) == null) {
                     break;
                 }
                 if (newArray.get(i).getDate().getYear() > newArray.get(i + 1).getDate().getYear()) {
+                    //run.p("Swapping " + newArray.get(i).getDate().print() + " and " + newArray.get(i+1).getDate().print() + " because a");
                     Collections.swap(newArray, i, i+1);
                     flip++;
                 } else if (newArray.get(i).getDate().getMonth() > newArray.get(i + 1).getDate().getMonth()) {
+                    //run.p("Swapping " + newArray.get(i).getDate().print() + " and " + newArray.get(i+1).getDate().print() + " because b");
                     Collections.swap(newArray, i, i+1);
                     flip++;
-                } else if (newArray.get(i).getDate().getDay() > newArray.get(i + 1).getDate().getDay()) {
-                    Collections.swap(newArray, i, i+1);
-                    flip++;
+                } else if (newArray.get(i).getDate().getDay() > newArray.get(i + 1).getDate().getDay() && 
+                    newArray.get(i).getDate().getMonth() == newArray.get(i + 1).getDate().getMonth() && 
+                    newArray.get(i).getDate().getYear() == newArray.get(i + 1).getDate().getYear()) {
+                        //run.p("Swapping " + newArray.get(i).getDate().print() + " and " + newArray.get(i+1).getDate().print() + " because c");
+                        Collections.swap(newArray, i, i+1);
+                        flip++;
                 }
             }
             if(flip == 0) {
@@ -222,16 +231,17 @@ public class entryArray {
             }
         }
 
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-        System.out.println("Oldest to Newest:");
+        run.clear();
+        if (newArray.size() > 4)
+            run.p("\n\n");
+        run.p("Oldest to Newest:");
         for(int i = 0; i < newArray.size(); i++) //Print newArray
             System.out.println(newArray.get(i).print());
         
     }
 
     public void sortByDateHL() { //Sort and print by date, high->low
-        ArrayList<entry> newArray = new ArrayList<>();
+        ArrayList<entry> newArray = new ArrayList<entry>();
         for(int i = 0; i < array.size(); i++) //Copy Array over
             newArray.add(array.get(i));
         
@@ -249,7 +259,9 @@ public class entryArray {
                 } else if (newArray.get(i).getDate().getMonth() < newArray.get(i + 1).getDate().getMonth()) {
                     Collections.swap(newArray, i, i+1);
                     flip++;
-                } else if (newArray.get(i).getDate().getDay() < newArray.get(i + 1).getDate().getDay()) {
+                } else if (newArray.get(i).getDate().getDay() < newArray.get(i + 1).getDate().getDay() &&
+                    newArray.get(i).getDate().getMonth() == newArray.get(i + 1).getDate().getMonth() && 
+                    newArray.get(i).getDate().getYear() == newArray.get(i + 1).getDate().getYear()) {
                     Collections.swap(newArray, i, i+1);
                     flip++;
                 }
@@ -261,14 +273,16 @@ public class entryArray {
 
         System.out.print("\033[H\033[2J");
         System.out.flush();
-        System.out.println("Newest to Oldest:");
+        if (newArray.size() > 4)
+            run.p("\n\n");
+        System.out.println("Spendings Newest to Oldest:");
         for(int i = 0; i < newArray.size(); i++) //Print newArray
             System.out.println(newArray.get(i).print());
         
     }
 
     public void sortAmountLH() { //Sort and print by amount, low->high
-        ArrayList<entry> newArray = new ArrayList<>();
+        ArrayList<entry> newArray = new ArrayList<entry>();
         for(int i = 0; i < array.size(); i++) //Copy Array over
             newArray.add(array.get(i));
         
@@ -289,16 +303,17 @@ public class entryArray {
             }
         }
 
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-        System.out.println("Low to High:");
+        run.clear();
+        if (newArray.size() > 4)
+            run.p("\n\n");
+        System.out.println("Spendings Low to High:");
         for(int i = 0; i < newArray.size(); i++) //Print newArray
             System.out.println(newArray.get(i).print());
         
     }
 
     public void sortAmountHL() { //Sort and print, high->low
-        ArrayList<entry> newArray = new ArrayList<>();
+        ArrayList<entry> newArray = new ArrayList<entry>();
         for(int i = 0; i < array.size(); i++) //Copy Array over
             newArray.add(array.get(i));
     
@@ -319,29 +334,30 @@ public class entryArray {
             }
         }
 
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-        System.out.println("High to Low:");
+        run.clear();
+        if (newArray.size() > 4)
+            run.p("\n\n");
+        System.out.println("Spendings High to Low:");
         for(int i = 0; i < newArray.size(); i++) //Print newArray
             System.out.println(newArray.get(i).print());
         
     }
 
     public void printCategory() { //Sort and print categories
-        ArrayList<entry> eatOut = new ArrayList<>();
-        ArrayList<entry> groceries = new ArrayList<>();
-        ArrayList<entry> iceCream = new ArrayList<>();
-        ArrayList<entry> gas = new ArrayList<>();
-        ArrayList<entry> clothes = new ArrayList<>();
-        ArrayList<entry> gecko = new ArrayList<>();
-        ArrayList<entry> nintendo = new ArrayList<>();
-        ArrayList<entry> splice = new ArrayList<>();
-        ArrayList<entry> movies = new ArrayList<>();
-        ArrayList<entry> plant = new ArrayList<>();
-        ArrayList<entry> cvs = new ArrayList<>();
-        ArrayList<entry> rent = new ArrayList<>();
-        ArrayList<entry> utilities = new ArrayList<>();
-        ArrayList<entry> other = new ArrayList<>();
+        ArrayList<entry> eatOut = new ArrayList<entry>();
+        ArrayList<entry> groceries = new ArrayList<entry>();
+        ArrayList<entry> iceCream = new ArrayList<entry>();
+        ArrayList<entry> gas = new ArrayList<entry>();
+        ArrayList<entry> clothes = new ArrayList<entry>();
+        ArrayList<entry> gecko = new ArrayList<entry>();
+        ArrayList<entry> nintendo = new ArrayList<entry>();
+        ArrayList<entry> splice = new ArrayList<entry>();
+        ArrayList<entry> movies = new ArrayList<entry>();
+        ArrayList<entry> plant = new ArrayList<entry>();
+        ArrayList<entry> cvs = new ArrayList<entry>();
+        ArrayList<entry> rent = new ArrayList<entry>();
+        ArrayList<entry> utilities = new ArrayList<entry>();
+        ArrayList<entry> other = new ArrayList<entry>();
 
         for(int i = 0; i < array.size(); i++) {
             if (array.get(i).getName().equalsIgnoreCase("eat out")) 
@@ -426,6 +442,7 @@ public class entryArray {
                     other.add(array.get(i));
         }
 
+        run.p("\n\n");
         if(!eatOut.isEmpty()) {
             System.out.println("Eat Out:");
             for(int i = 0; i < eatOut.size(); i++) 
@@ -526,7 +543,7 @@ public class entryArray {
     }
 
     public String getIndex(int i) { //Print full entry at index
-        return array.get(i).printFull();
+        return array.get(i).print();
     }
 
     public entry getEntry(int i) { //Get entry at index

@@ -1,3 +1,4 @@
+
 public class date {
     private int month;
     private int day;
@@ -72,7 +73,7 @@ public class date {
     }
 
     public void setYear(int c) { //Set year
-        if (c > 1950 && c < 2022) 
+        if (c > 1950 && c < 2050) 
             year = c;
         else 
             year = 0;

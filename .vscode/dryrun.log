@@ -1,0 +1,6 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/lmao/Desktop/Coding Projects/Budget Tracking/budget_tracking'
+make: Leaving directory `/Users/lmao/Desktop/Coding Projects/Budget Tracking/budget_tracking'
+ 
+make: *** No targets specified and no makefile found.  Stop.
+

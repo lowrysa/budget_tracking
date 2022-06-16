@@ -1,3 +1,4 @@
+
 public class entry {
     private String name;
     private double amount;
@@ -58,11 +59,17 @@ public class entry {
         a.setDate(null);
     }
 
+    //All Things Printing
     public String print() { //Print entry
         return name + " $" + amount + " " + date.print();
     }
 
-    public String printFull() { //Print full entry
+    public String printFullSpending() { //Print full spending
         return "Paid $" + amount + " for " + name + " on " + date.printFull();
     }
+
+    public String printFullEarning() { //Print full earning
+        return "Earned $" + amount + " from " + name + " on " + date.printFull();
+    }
+    //
 }
