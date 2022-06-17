@@ -880,7 +880,7 @@ public class backend {
         earnings.addAlreadyEntry(name, amount, date);
     }
 
-    public void removeEntry(String name, double amount, date date) { //Removing entry
+    public void removeSpending(String name, double amount, date date) { //Removing entry
         spendings.removeEntry(name, amount, date);
         ArrayList<String> copy = new ArrayList<String>();
         try {
@@ -904,6 +904,14 @@ public class backend {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void purgeSpendings() {
+        while(!spendings.getArray().isEmpty())
+            spendings.removeEntry(spendings.getEntry(0).getName(), spendings.getEntry(0).getAmount(), spendings.getEntry(0).getDate());
+        IO Stuff;
+        run.clear();
+        run.p("Spendings purged!");
     }
 
     public void removeEarning(String name, double amount, date date) { //Removing entry
@@ -930,6 +938,14 @@ public class backend {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void purgeEarnings() {
+        while(!earnings.getArray().isEmpty())
+            earnings.removeEntry(earnings.getEarning(0).getName(), earnings.getEarning(0).getAmount(), earnings.getEarning(0).getDate());
+        File IO Stuff;
+        run.clear();
+        run.p("Spendings purged!");
     }
 
     public void printEntries() { //Print out entries
@@ -1006,6 +1022,11 @@ public class backend {
         return spendings.totalSpentCategory(aCategory);
     }
 
+    public void removeSpendingCategory(String aCategory) {
+        spendings.removeCategory(aCategory);
+        Add file I/O stuff
+    }
+
     // public double totalSpentFood() { //Get total spendings on food
     //     return spendings.totalSpentFood();
     // }
@@ -1060,6 +1081,22 @@ public class backend {
 
     public double totalSpentCategoryEarning(String aCategory) {
         return earnings.totalEarnedCategory(aCategory);
+    }
+
+    public void removeEarningCategory(String aCategory) {
+        earnings.removeCategory(aCategory);
+        Add file I/O stuff
+    }
+
+    public void purgeAllCategories() {
+        
+        while(!spendings.getCategories().isEmpty())
+            spendings.removeCategory(spendings.getCategories().get(0));
+
+        while(!earnings.getCategories().isEmpty())
+            earnings.removeCategory(earnings.getCategories().get(0));
+        
+            Add file I/O stuff
     }
 
     // public double totalEarnedVicars() {

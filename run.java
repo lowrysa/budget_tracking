@@ -249,70 +249,135 @@ public class run {
                 String entryType = "";
                 while(!overc) {
                     //Pick type of entry
-                    text.whatTypeOfEntry();
-                    int choice1 = k.nextInt();
-                    if (choice1 == 1) {
-                        boolean over2 = false;
-                        while (!over2) {
-                            text.foodChoice();
-                            int choic = k.nextInt();
-                            if (choic == 1) {
-                                entryType = "Eat Out";
-                                over2 = true;
-                                overc = true;
-                            } else if (choic == 2) {
-                                entryType = "Groceries";
-                                over2 = true;
-                                overc = true;
-                            } else if (choic == 3) {
-                                entryType = "Ice Cream";
-                                over2 = true;
+                    if(backend.spendings.getCategories().isEmpty()) {
+                        p("No Categories yet, time to make the first!");
+                        boolean overd = false;
+                        while (!overd) {
+                            p("What type of entry is it?");
+                            String entryTypeMaybe = k.nextLine();
+                            if (!entryTypeMaybe.equalsIgnoreCase("")) {
+                                backend.spendings.addCategory(entryTypeMaybe);
+                                entryType = entryTypeMaybe;
+                                overd = true;
                                 overc = true;
                             } else 
                                 p("Not valid input\n");
                         }
-                    } else if (choice1 == 2) {
-                        entryType = "Gas";
-                        overc = true;
-                    } else if (choice1 == 3) {
-                        entryType = "Clothes";
-                        overc = true;
-                    } else if (choice1 == 4) {
-                        entryType = "Gecko";
-                        overc = true;
-                    } else if (choice1 == 5) {
-                        entryType = "Nintendo";
-                        overc = true;
-                    } else if (choice1 == 6) {
-                        entryType = "Splice";
-                        overc = true;
-                    } else if (choice1 == 7) {
-                        entryType = "Movies";
-                        overc = true;
-                    } else if (choice1 == 8) {
-                        entryType = "Plant";
-                        overc = true;
-                    } else if (choice1 == 9) {
-                        entryType = "CVS";
-                        overc = true;
-                    } else if (choice1 == 10) {
-                        entryType = "Rent";
-                        overc = true;
-                    } else if (choice1 == 11) {
-                        entryType = "Utilities";
-                        overc = true;
-                    } else if (choice1 == 12) {
-                        clear();
-                        p("Please specify what kind of entry:");
-                        k.nextLine();
-                        entryType = k.nextLine();
-                        overc = true;
-                    } else if (choice1 == 13) {
-                        overc = true;
-                        back1 = true;
-                        clear();
-                    } else 
-                        p("Not valid input\n");  
+                    } else {
+                        boolean overd = false;
+                        boolean skip = false;
+                        while (!overd) {
+                            p("What type of entry is it?");
+                            for(int i = 0; i < backend.spendings.getCategories().size(); i++) 
+                                p((i+1) + ". " + backend.spendings.getCategories().get(i));
+                            p(backend.spendings.getCategories().size()+1 + ". New Category");
+                            p(backend.spendings.getCategories().size()+2 + ". Other");
+
+                            int choiceEntryType = k.nextInt(); 
+                            if (choiceEntryType < 1 || choiceEntryType > backend.spendings.getCategories().size()+3 )
+                                p("Not valid input\n");
+                            else if (choiceEntryType == backend.spendings.getCategories().size()+2) {
+                                clear();
+                                boolean otherBool = false;
+                                while(!otherBool) {
+                                    pb("What is the entry type?");
+                                    String otherEntryType = k.nextLine();
+                                    if (!otherEntryType.equalsIgnoreCase("")) {
+                                        entryType = otherEntryType;
+                                        otherBool = true;
+                                        overd = true;
+                                        overc = true;
+                                    } else  
+                                        p("Not valid\n");
+                                }
+                            } else if (choiceEntryType == backend.spendings.getCategories().size()+1) {
+                                clear();
+                                boolean newBool = false;
+                                while(!newBool) {
+                                    pb("What will the new category be?");
+                                    String newType = k.nextLine();
+                                    if (!newType.equalsIgnoreCase("")) {
+                                        entryType = newType;
+                                        backend.spendings.addCategory(newType);
+                                        newBool = true;
+                                        overd = true;
+                                        overc = true;
+                                    } else  
+                                        p("Not valid\n");
+                                }
+                            } else {
+                                entryType = backend.spendings.getCategories().get(choiceEntryType);
+                                overd = true;
+                                overc = true;
+                            }
+                        }
+                    }
+                        
+
+                    // text.whatTypeOfEntry();
+                    // int choice1 = k.nextInt();
+                    // if (choice1 == 1) {
+                    //     boolean over2 = false;
+                    //     while (!over2) {
+                    //         text.foodChoice();
+                    //         int choic = k.nextInt();
+                    //         if (choic == 1) {
+                    //             entryType = "Eat Out";
+                    //             over2 = true;
+                    //             overc = true;
+                    //         } else if (choic == 2) {
+                    //             entryType = "Groceries";
+                    //             over2 = true;
+                    //             overc = true;
+                    //         } else if (choic == 3) {
+                    //             entryType = "Ice Cream";
+                    //             over2 = true;
+                    //             overc = true;
+                    //         } else 
+                    //             p("Not valid input\n");
+                    //     }
+                    // } else if (choice1 == 2) {
+                    //     entryType = "Gas";
+                    //     overc = true;
+                    // } else if (choice1 == 3) {
+                    //     entryType = "Clothes";
+                    //     overc = true;
+                    // } else if (choice1 == 4) {
+                    //     entryType = "Gecko";
+                    //     overc = true;
+                    // } else if (choice1 == 5) {
+                    //     entryType = "Nintendo";
+                    //     overc = true;
+                    // } else if (choice1 == 6) {
+                    //     entryType = "Splice";
+                    //     overc = true;
+                    // } else if (choice1 == 7) {
+                    //     entryType = "Movies";
+                    //     overc = true;
+                    // } else if (choice1 == 8) {
+                    //     entryType = "Plant";
+                    //     overc = true;
+                    // } else if (choice1 == 9) {
+                    //     entryType = "CVS";
+                    //     overc = true;
+                    // } else if (choice1 == 10) {
+                    //     entryType = "Rent";
+                    //     overc = true;
+                    // } else if (choice1 == 11) {
+                    //     entryType = "Utilities";
+                    //     overc = true;
+                    // } else if (choice1 == 12) {
+                    //     clear();
+                    //     p("Please specify what kind of entry:");
+                    //     k.nextLine();
+                    //     entryType = k.nextLine();
+                    //     overc = true;
+                    // } else if (choice1 == 13) {
+                    //     overc = true;
+                    //     back1 = true;
+                    //     clear();
+                    // } else 
+                    //     p("Not valid input\n");  
                 }
                 if (!back1) {
                     //Input how much it cost
@@ -381,42 +446,106 @@ public class run {
                 boolean back1 = false;
                 String entryType = "";
                 while(!overc) {
+                    if(backend.earnings.getCategories().isEmpty()) {
+                        p("No Categories yet, time to make the first!");
+                        boolean overd = false;
+                        while (!overd) {
+                            p("What type of entry is it?");
+                            String entryTypeMaybe = k.nextLine();
+                            if (!entryTypeMaybe.equalsIgnoreCase("")) {
+                                backend.earnings.addCategory(entryTypeMaybe);
+                                entryType = entryTypeMaybe;
+                                overd = true;
+                                overc = true;
+                            } else 
+                                p("Not valid input\n");
+                        }
+                    } else {
+                        boolean overd = false;
+                        boolean skip = false;
+                        while (!overd) {
+                            p("What type of entry is it?");
+                            for(int i = 0; i < backend.earnings.getCategories().size(); i++) 
+                                p((i+1) + ". " + backend.earnings.getCategories().get(i));
+                            p(backend.earnings.getCategories().size()+1 + ". New Category");
+                            p(backend.earnings.getCategories().size()+2 + ". Other");
+
+                            int choiceEntryType = k.nextInt(); 
+                            if (choiceEntryType < 1 || choiceEntryType > backend.earnings.getCategories().size()+3 )
+                                p("Not valid input\n");
+                            else if (choiceEntryType == backend.earnings.getCategories().size()+2) {
+                                clear();
+                                boolean otherBool = false;
+                                while(!otherBool) {
+                                    pb("What is the entry type?");
+                                    String otherEntryType = k.nextLine();
+                                    if (!otherEntryType.equalsIgnoreCase("")) {
+                                        entryType = otherEntryType;
+                                        otherBool = true;
+                                        overd = true;
+                                        overc = true;
+                                    } else  
+                                        p("Not valid\n");
+                                }
+                            } else if (choiceEntryType == backend.earnings.getCategories().size()+1) {
+                                clear();
+                                boolean newBool = false;
+                                while(!newBool) {
+                                    pb("What will the new category be?");
+                                    String newType = k.nextLine();
+                                    if (!newType.equalsIgnoreCase("")) {
+                                        entryType = newType;
+                                        backend.earnings.addCategory(newType);
+                                        newBool = true;
+                                        overd = true;
+                                        overc = true;
+                                    } else  
+                                        p("Not valid\n");
+                                }
+                            } else {
+                                entryType = backend.earnings.getCategories().get(choiceEntryType);
+                                overd = true;
+                                overc = true;
+                            }
+                        }
+                    }
+
                     //Pick type of entry
-                    text.whatTypeOfEarning();
-                    int choice1 = k.nextInt();
-                    if (choice1 == 1) {
-                        entryType = "Vicars";
-                        overc = true;
-                    } else if (choice1 == 2) {
-                        entryType = "Publix";
-                        overc = true;
-                    } else if (choice1 == 3) {
-                        entryType = "Poshmark";
-                        overc = true;
-                    } else if (choice1 == 4) {
-                        entryType = "Depop";
-                        overc = true;
-                    } else if (choice1 == 5) {
-                        entryType = "Shipt";
-                        overc = true;
-                    } else if (choice1 == 6) {
-                        entryType = "USC";
-                        overc = true;
-                    } else if (choice1 == 7) {
-                        entryType = "Streaming";
-                        overc = true;
-                    } else if (choice1 == 8) {
-                        clear();
-                        p("Please specify what kind of earning:");
-                        k.nextLine();
-                        entryType = k.nextLine();
-                        overc = true;
-                    } else if (choice1 == 9) {
-                        overc = true;
-                        back1 = true;
-                        clear();
-                    } else 
-                        p("Not valid input\n");  
+                    // text.whatTypeOfEarning();
+                    // int choice1 = k.nextInt();
+                    // if (choice1 == 1) {
+                    //     entryType = "Vicars";
+                    //     overc = true;
+                    // } else if (choice1 == 2) {
+                    //     entryType = "Publix";
+                    //     overc = true;
+                    // } else if (choice1 == 3) {
+                    //     entryType = "Poshmark";
+                    //     overc = true;
+                    // } else if (choice1 == 4) {
+                    //     entryType = "Depop";
+                    //     overc = true;
+                    // } else if (choice1 == 5) {
+                    //     entryType = "Shipt";
+                    //     overc = true;
+                    // } else if (choice1 == 6) {
+                    //     entryType = "USC";
+                    //     overc = true;
+                    // } else if (choice1 == 7) {
+                    //     entryType = "Streaming";
+                    //     overc = true;
+                    // } else if (choice1 == 8) {
+                    //     clear();
+                    //     p("Please specify what kind of earning:");
+                    //     k.nextLine();
+                    //     entryType = k.nextLine();
+                    //     overc = true;
+                    // } else if (choice1 == 9) {
+                    //     overc = true;
+                    //     back1 = true;
+                    //     clear();
+                    // } else 
+                    //     p("Not valid input\n");  
                 }
                 if (!back1) {
                     //Input how much you earned
@@ -483,22 +612,46 @@ public class run {
                     boolean remove = false;
                     while (!remove) {
                         //Printing entries to remove by user
-                        p("\nWhich entry would you like to remove?");
-                        p("(Type number of entry to remove, or 0 to go back)\n");
-                        p("0. Back");
+                        pb("\nWhich entry would you like to remove?");
+                        pi("(Type number of entry to remove, or " + backend.spendings.getSize()+1 + " to purge all entries, or " + backend.spendings.getSize()+2 + " to go back)\n");
+    
                         for (int i = 1; i < backend.spendings.getSize() + 1; i++) 
                             System.out.println(i + ": " + backend.printIndex(i-1));
+                        p(backend.spendings.getSize()+1 + ". Purge Entries");
+                        p(backend.spendings.getSize()+2 + ". Back");
+
                         int choicey = k.nextInt();
-                        if (choicey == 0) {
+                        if (choicey == backend.spendings.getSize()+2) {
                             remove = true;
                             clear();
-                        } else if (choicey > 0 && choicey <= (backend.spendings.getSize())){
+                        } else if (choicey == backend.spendings.getSize()+1) {
+                            boolean purgeAll = false;
+                            while (!purgeAll) {
+                                clear();
+                                pb("Are you sure you want to purge all entries?");
+                                pi("This cannot be undone");
+                                System.out.print("(y/n) ");
+
+                                String purgeChoice = k.nextLine();
+                                if (purgeChoice.equalsIgnoreCase("y")) {
+                                    clear();
+                                    backend.purgeSpendings();
+                                    purgeAll = true;
+                                    remove = true;
+                                } else if (purgeChoice.equalsIgnoreCase("n")) {
+                                    clear();
+                                    purgeAll = true;
+                                    remove = true;
+                                } else 
+                                    p("Not valid input\n");
+                            }
+                        } else if (choicey > 0 && choicey < (backend.spendings.getSize())){
                             for (int i = 0; i < backend.spendings.getSize(); i++) {
                                 if (choicey == (i+1)) {
                                     String name = backend.getEntry(i).getName();
                                     double amount = backend.getEntry(i).getAmount();
                                     date date = backend.getEntry(i).getDate();
-                                    backend.removeEntry(name,amount,date);
+                                    backend.removeSpending(name,amount,date);
                                     remove = true;
                                     clear();
                                     p("Removed!\n");
@@ -520,15 +673,48 @@ public class run {
                     while (!remove) {
                         //Printing earnings to remove by user
                         p("\nWhich entry would you like to remove?");
-                        p("(Type number of entry to remove, or 0 to go back)\n");
-                        p("0. Back");
+                        pi("(Type number of entry to remove, or " + backend.earnings.getSize()+1 + " to purge all entries, or " + backend.earnings.getSize()+2 + " to go back)\n");
+    
                         for (int i = 1; i < backend.earnings.getSize() + 1; i++) 
-                            System.out.println(i + ": " + backend.printIndey(i-1));
+                            System.out.println(i + ": " + backend.printIndex(i-1));
+                        p(backend.earnings.getSize()+1 + ". Purge Entries");
+                        p(backend.earnings.getSize()+2 + ". Back");
+
                         int choicey = k.nextInt();
-                        if (choicey == 0) {
+                        if (choicey == backend.earnings.getSize()+2) {
                             remove = true;
                             clear();
-                        } else if (choicey > 0 && choicey <= (backend.earnings.getSize())){
+                        } else if (choicey == backend.earnings.getSize()+1) {
+                            boolean purgeAll = false;
+                            while (!purgeAll) {
+                                clear();
+                                pb("Are you sure you want to purge all entries?");
+                                pi("This cannot be undone");
+                                System.out.print("(y/n) ");
+
+                                String purgeChoice = k.nextLine();
+                                if (purgeChoice.equalsIgnoreCase("y")) {
+                                    clear();
+                                    backend.purgeEarnings();
+                                    purgeAll = true;
+                                    remove = true;
+                                } else if (purgeChoice.equalsIgnoreCase("n")) {
+                                    clear();
+                                    purgeAll = true;
+                                    remove = true;
+                                } else 
+                                    p("Not valid input\n");
+                            }
+                        //}
+                        // p("(Type number of entry to remove, or 0 to go back)\n");
+                        // p("0. Back");
+                        // for (int i = 1; i < backend.earnings.getSize() + 1; i++) 
+                        //     System.out.println(i + ": " + backend.printIndey(i-1));
+                        // int choicey = k.nextInt();
+                        // if (choicey == 0) {
+                        //     remove = true;
+                        //     clear();
+                        } else if (choicey > 0 && choicey < (backend.earnings.getSize())){
                             for (int i = 0; i < backend.earnings.getSize(); i++) {
                                 if (choicey == (i+1)) {
                                     String name = backend.getEarning(i).getName();
@@ -803,7 +989,7 @@ public class run {
                                                         } else {
                                                             overCat2 = true;
                                                             picked = true;
-                                                            Remove Category 
+                                                            backend.removeSpendingCategory(backend.getSpendings().getCategories().get(spendingRemove-1));
                                                         }
                                                     }
                                                     
@@ -812,9 +998,60 @@ public class run {
                                                 
 
                                             } else if (catRemove == 2) { //Remove a earning
+                                                // try {
+                                                    clear();
+                                                    if (backend.getEarnings().getCategories().isEmpty()) {
+                                                        p("There are no earning categories yet!");
+                                                        //over
+                                                        overCat2 = true;
+                                                    } else {
+                                                        boolean picked = false;
+                                                        while (!picked){
+                                                            pb("Which earning category?");
+                                                            for(int i = 0; i < backend.getEarnings().getCategories().size(); i++) {
+                                                                p((i+1) + ". " + backend.getEarnings().getCategories().get(i));
+                                                            } 
+                                                            p(backend.getEarnings().getCategories().size()+2 + ". Go Back");
+                                                            int spendingRemove = k.nextInt();
+                                                            if (spendingRemove < 0 || spendingRemove > backend.getEarnings().getCategories().size()+2) {
+                                                                p("Not valid input");
+                                                            } else if (spendingRemove == backend.getEarnings().getCategories().size()+2) {
+                                                                overCat2 = true;
+                                                                picked = true;
+                                                            } else {
+                                                                overCat2 = true;
+                                                                picked = true;
+                                                                backend.removeEarningCategory(backend.getEarnings().getCategories().get(spendingRemove-1)); 
+                                                            }
+                                                        }
+                                                        
+                                                        
+                                                    }
+                                                // } catch (TypeMismatch e) {
 
+                                                // }
                                             } else if (catRemove == 3) { //Purge everythi g
-
+                                                clear();
+                                                boolean sureThing = false;
+                                                while (!sureThing) {
+                                                    pb("Are you sure you want to purge everything?");
+                                                    pi("This cannot be undone");
+                                                    System.out.print("(y/n): ");
+                                                    String sure = k.nextLine();
+    
+                                                    if (sure.equalsIgnoreCase("y")) {
+                                                        p("\nPurging categories...");
+                                                        sureThing = true;
+                                                        overCat2 = true;
+                                                        backend.purgeAllCategories();
+                                                        
+                                                    } else if (sure.equalsIgnoreCase("n")) {
+                                                        sureThing = true;
+                                                        overCat2 = true;
+                                                    } else 
+                                                        p("Not valid input\n");
+                                                }
+                                                
                                             } else if (catRemove == 9) { //Quit
                                                 overCat2 = true;
                                             } else 

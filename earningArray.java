@@ -10,6 +10,10 @@ public class earningArray {
         categories = new ArrayList<String>();
     }
 
+    public ArrayList<entry> getArray() {
+        return array;
+    }
+
     public void addEntry(String name, double amount, date date) { //Adding entry
         entry a = new entry();
         a.setAmount(amount);
@@ -101,6 +105,20 @@ public class earningArray {
             }
         }
         return ret;
+    }
+
+    public void removeCategory(String aCategory) {
+        boolean found = false;
+        for(int i = 0; i < categories.size(); i++) {
+            if (categories.get(i).equalsIgnoreCase(aCategory)) {
+                run.p("Removing Category " + categories.get(i) + "...");
+                found = true;
+                categories.remove(i);
+                run.p("Removed!");
+            } 
+        }
+        if (!found) 
+            run.p("Category not found!");
     }
 
 
