@@ -55,10 +55,12 @@ public class textoptions {
 
     public void printLoop2() {
         run.pb("What would you like to do? (Page 2/2)");
-        p("1. Check/Change dates");
-        p("2. Print file");
-        p("3. Reset file");
-        p("4. Change file");
+        p("1. Print Categories");
+        p("2. Add/Remove Category");
+        p("3. Check/Change dates");
+        p("4. Print file");
+        p("5. Reset file");
+        p("6. Change file");
         p("8. Previous page");
         p("9. Quit program");
     }

@@ -79,9 +79,9 @@ public class earningArray {
         return ret;
     }
 
-    public double totalEarnedCategory(String aCategorie) {
+    public double totalEarnedCategory(String aCategory) {
         double ret = 0.0;
-        if (aCategorie.equalsIgnoreCase("Other")) {
+        if (aCategory.equalsIgnoreCase("Other")) {
             for(int i = 0; i < array.size(); i++) {
                 boolean triggered = true;
                 for (int j = 0; j < categories.size(); j++) {
@@ -95,7 +95,7 @@ public class earningArray {
             }
         } else {
             for(int i = 0; i < array.size(); i++) {
-                if (array.get(i).getName().equalsIgnoreCase(aCategorie)) {
+                if (array.get(i).getName().equalsIgnoreCase(aCategory)) {
                     ret += array.get(i).getAmount();
                 }
             }

@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 public class backend {
     //Various things needed
-    private entryArray spendings;
-    private earningArray earnings;
+    public entryArray spendings;
+    public earningArray earnings;
     private Random n;
     public date startingDate;
     public date endingDate;
@@ -27,13 +27,21 @@ public class backend {
         k = new Scanner(System.in);
     }
 
-    public int getArraySize() { //Get array size
-        return spendings.getSize();
+    public entryArray getSpendings() {
+        return spendings;
     }
 
-    public int getEarningArraySize() {
-        return earnings.getSize();
+    public earningArray getEarnings() {
+        return earnings;
     }
+
+    // public int getArraySize() { //Get array size
+    //     return spendings.getSize();
+    // }
+
+    // public int getEarningArraySize() {
+    //     return earnings.getSize();
+    // }
 
     public date getStartDate() { //Get start date
         return startingDate;
@@ -395,7 +403,7 @@ public class backend {
                 setStartDate(a);
                 x = true;
                 
-                for(int i = 0; i < getArraySize(); i++) {
+                for(int i = 0; i < spendings.getSize(); i++) {
                     if (!checkDateBounds(getEntry(i).getDate())) {
                         run.p("Entry no longer in bounds, removing...");
                         String name = getEntry(i).getName();
@@ -438,7 +446,7 @@ public class backend {
                 setEndDate(a);
                 x = true;
                 
-                for (int i = 0; i < getEarningArraySize(); i++) {
+                for (int i = 0; i < earnings.getSize(); i++) {
                     if (!checkDateBounds(getEarning(i).getDate())) {
                         run.p("Earning no longer in bounds, removing...");
                         String name = getEarning(i).getName();
@@ -994,96 +1002,104 @@ public class backend {
         return spendings.totalSpent();
     }
 
-    public double totalSpentFood() { //Get total spendings on food
-        return spendings.totalSpentFood();
+    public double totalSpentCategorySpending(String aCategory) {
+        return spendings.totalSpentCategory(aCategory);
     }
 
-    public double totalSpentGas() { //Get total spendings on gas
-        return spendings.totalSpentGas();
-    }
+    // public double totalSpentFood() { //Get total spendings on food
+    //     return spendings.totalSpentFood();
+    // }
 
-    public double totalSpentClothes() { //Get total spendings on clothes
-        return spendings.totalSpentClothes();
-    }
+    // public double totalSpentGas() { //Get total spendings on gas
+    //     return spendings.totalSpentGas();
+    // }
 
-    public double totalSpentGecko() { //Get total spendings on gecko
-        return spendings.totalSpentGecko();
-    }
+    // public double totalSpentClothes() { //Get total spendings on clothes
+    //     return spendings.totalSpentClothes();
+    // }
 
-    public double totalSpentNintendo() { //Get total spendings on nintendo
-        return spendings.totalSpentNintendo();
-    }
+    // public double totalSpentGecko() { //Get total spendings on gecko
+    //     return spendings.totalSpentGecko();
+    // }
 
-    public double totalSpentOther() { //Get total spendings on other things
-        return spendings.totalSpentOther();
-    }
+    // public double totalSpentNintendo() { //Get total spendings on nintendo
+    //     return spendings.totalSpentNintendo();
+    // }
 
-    public double totalSpentSplice() { //Get total spendings on splice
-        return spendings.totalSpentSplice();
-    }
+    // public double totalSpentOther() { //Get total spendings on other things
+    //     return spendings.totalSpentOther();
+    // }
 
-    public double totalSpentMovies() {
-        return spendings.totalSpentMovies();
-    }
+    // public double totalSpentSplice() { //Get total spendings on splice
+    //     return spendings.totalSpentSplice();
+    // }
 
-    public double totalSpentPlant() {
-        return spendings.totalSpentPlant();
-    }
+    // public double totalSpentMovies() {
+    //     return spendings.totalSpentMovies();
+    // }
 
-    public double totalSpentCVS() {
-        return spendings.totalSpentCVS();
-    }
+    // public double totalSpentPlant() {
+    //     return spendings.totalSpentPlant();
+    // }
 
-    public double totalSpentRent() {
-        return spendings.totalSpentRent();
-    }
+    // public double totalSpentCVS() {
+    //     return spendings.totalSpentCVS();
+    // }
 
-    public double totalSpentUtilities() {
-        return spendings.totalSpentUtilities();
-    }
+    // public double totalSpentRent() {
+    //     return spendings.totalSpentRent();
+    // }
+
+    // public double totalSpentUtilities() {
+    //     return spendings.totalSpentUtilities();
+    // }
 
     public double totalEarned() {
         return earnings.totalEarned();
     }
 
-    public double totalEarnedVicars() {
-        return earnings.totalEarnedVicars();
+    public double totalSpentCategoryEarning(String aCategory) {
+        return earnings.totalEarnedCategory(aCategory);
     }
 
-    public double totalEarnedPublix() {
-        return earnings.totalEarnedPublix();
+    // public double totalEarnedVicars() {
+    //     return earnings.totalEarnedVicars();
+    // }
+
+    // public double totalEarnedPublix() {
+    //     return earnings.totalEarnedPublix();
+    // }
+
+    // public double totalEarnedPoshmark() {
+    //     return earnings.totalEarnedPoshmark();
+    // }
+
+    // public double totalEarnedDepop() {
+    //     return earnings.totalEarnedDepop();
+    // }
+
+    // public double totalEarnedShipt() {
+    //     return earnings.totalEarnedShipt();
+    // }
+
+    // public double totalEarnedUSC() {
+    //     return earnings.totalEarnedUSC();
+    // }
+
+    // public double totalEarnedStreaming() {
+    //     return earnings.totalEarnedStreaming();
+    // }
+
+    // public double totalEarnedOther() {
+    //     return earnings.totalEarnedOther();
+    // }
+
+    public void printCategoriesSpendings() { //Print by various categories
+        spendings.printCategories();
     }
 
-    public double totalEarnedPoshmark() {
-        return earnings.totalEarnedPoshmark();
-    }
-
-    public double totalEarnedDepop() {
-        return earnings.totalEarnedDepop();
-    }
-
-    public double totalEarnedShipt() {
-        return earnings.totalEarnedShipt();
-    }
-
-    public double totalEarnedUSC() {
-        return earnings.totalEarnedUSC();
-    }
-
-    public double totalEarnedStreaming() {
-        return earnings.totalEarnedStreaming();
-    }
-
-    public double totalEarnedOther() {
-        return earnings.totalEarnedOther();
-    }
-
-    public void printCategory() { //Print by various categories
-        spendings.printCategory();
-    }
-
-    public void printCategoryEarnings() {
-        earnings.printCategoryEarnings();
+    public void printCategoriesEarnings() {
+        earnings.printCategories();
     }
 
     public String printIndex(int i) { //Get index of array
