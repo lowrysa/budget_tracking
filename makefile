@@ -2,6 +2,7 @@
 run: 
 	javac *.java
 	java main
+	rm *.class
 #open -a Terminal "/Users/lmao/Desktop/Coding Projects/Budget Tracking/budget_tracking" 
 
 cleanup:

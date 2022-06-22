@@ -35,6 +35,10 @@ public class backend {
         return earnings;
     }
 
+    public String getFileName() {
+        return FILE;
+    }
+
     // public int getArraySize() { //Get array size
     //     return spendings.getSize();
     // }
@@ -409,7 +413,7 @@ public class backend {
                         String name = getEntry(i).getName();
                         double amount = getEntry(i).getAmount();
                         date date = getEntry(i).getDate();
-                        removeEntry(name,amount,date);
+                        removeSpending(name,amount,date);
                         run.p("Removed!\n");
                     } 
                 }
@@ -469,29 +473,36 @@ public class backend {
         boolean reset = false;
         int counter = 0;
         
-        File f = new File(FILEPATH);
-        String[] files = f.list();
-        if (files.length != 0) {
-            run.pb("Which file would you like to select?");
-            for(int i = 0; i < files.length; i++) {
-                if (files[i].equalsIgnoreCase("budget_tracking.txt")) {
-                   
-                    run.p((i+1) + ". Default " + "\033[3m(budget_tracking.txt)\033[0m"); 
-                    
-                } else
-                    run.p((i+1) + ". " + files[i]);
-            }
-            run.p((files.length+1) + ". Quit Program");
-            int choice = k.nextInt();
-            if (choice == (files.length+1)) {
-                run.p("\nQuitting program, goodbye");
-                System.exit(0);
+        if (FILE.equalsIgnoreCase("")) {
+            File f = new File(FILEPATH);
+            String[] files = f.list();
+            if (files.length != 0) {
+                run.pb("Which file would you like to select?");
+                for(int i = 0; i < files.length; i++) {
+                    if (files[i].equalsIgnoreCase("budget_tracking.txt")) {
+                       
+                        run.p((i+1) + ". Default " + "\033[3m(budget_tracking.txt)\033[0m"); 
+                        
+                    } else
+                        run.p((i+1) + ". " + files[i]);
+                }
+                if (files.length > 9)
+                    run.p((files.length+1) + ". Quit Program");
+                else    
+                    run.p("9. Quit Program");
+
+                int choice = k.nextInt();
+                if ((files.length > 9 && choice == (files.length+1) || (files.length <= 9 && choice == 9))) {
+                    run.p("\nQuitting program, goodbye");
+                    run.p("\nCleaning up files...");
+                    System.exit(0);
+                } else {
+                    FILE = files[choice-1];
+                }
             } else {
-                FILE = files[choice-1];
+                FILE = "budget_tracking.txt";
+                run.p("Setting up new file...");
             }
-        } else {
-            FILE = "budget_tracking.txt";
-            run.p("Setting up new file...");
         }
         
         wait(500);
@@ -533,6 +544,7 @@ public class backend {
                 while(fileScanner.hasNextLine() && !tampered) { //Reading
                     line = fileScanner.nextLine();
                     if (line.startsWith("Starting Date:")) { //Reading starting date
+                        run.p("Importing dates...");
                         String[] splitLine = line.split(DELIM);
                         if(splitLine.length == 2) {
                             String date = splitLine[1];
@@ -651,7 +663,20 @@ public class backend {
                             }
                         } else 
                             endingDate = null;
+                    } else if (line.equalsIgnoreCase("Earning Categories:") && (reset == false)) {
+                        run.p("Importing earning categories...");
+                        while(!line.equalsIgnoreCase("")) {
+                            line = fileScanner.nextLine();
+                            earnings.addCategory(line);
+                        }
+                    } else if (line.equalsIgnoreCase("Spending Categories:") && (reset == false)) {
+                        run.p("Importing spending categories...");
+                        while(!line.equalsIgnoreCase("")) {
+                            line = fileScanner.nextLine();
+                            spendings.addCategory(line);
+                        }
                     } else if (line.equalsIgnoreCase("Earnings:") && (reset == false)) {
+                        run.p("Importing earnings...");
                         while(!line.equalsIgnoreCase("")) {
                             line = fileScanner.nextLine();
                             String[] splitLine = line.split(DELIM);
@@ -677,6 +702,7 @@ public class backend {
                         }
                     } else if (line.equalsIgnoreCase("Entries:") && (reset == false)) { //Reading in entries
                         int count = 0;
+                        run.p("Importing spendings...");
                         while(fileScanner.hasNextLine()) {
                             if (count > 1000) { //Max 1000 entries
                                 System.out.println("Infinite while loop, resetting file...\n");
@@ -728,6 +754,112 @@ public class backend {
         }
     }
 
+    public boolean changeFile() {
+        boolean ret = false; //For determining if the file actually changed
+        File f = new File(FILEPATH);
+        String[] files = f.list();
+        boolean done = false;
+
+        while (!done) {
+
+            if (files.length != 0) {
+                run.pb("Which file would you like to select?");
+                for(int i = 0; i < files.length; i++) {
+                    if (!files[i].equalsIgnoreCase(FILE)) 
+                        run.p((i+1) + ". " + files[i]); 
+                }
+                run.p((files.length+1) + ". Input manual file name");
+                if (files.length > 9)
+                    run.p((files.length+2) + ". Quit");
+                else    
+                    run.p("9. Quit");
+
+                int choice = k.nextInt();
+                if ((files.length > 9 && choice == (files.length+1) || (files.length <= 9 && choice == 9))) {
+                    run.clear();
+                    done = true;
+                } else if (choice == (files.length+1)) { 
+                    run.clear();
+                    boolean done2 = false;
+                    
+                    while (!done2) {
+                        run.p("What would you like the new file to be called?");
+                        String choice2 = k.nextLine();
+                        
+                        if (!choice2.equalsIgnoreCase("")) {
+                            FILE = choice2;
+                            System.out.print("New file will be called ");
+                            if (FILE.charAt(FILE.length()-4) == '.' && 
+                                FILE.charAt(FILE.length()-3) == 't' &&
+                                FILE.charAt(FILE.length()-2) == 'x' &&
+                                FILE.charAt(FILE.length()-1) == 't') {
+                                    System.out.print(FILE);
+                            } else {
+                                System.out.print(FILE + ".txt");
+                                FILE = FILE + ".txt";
+                            }
+                            
+                            readFile();
+                            ret = true;
+                            done2 = true;
+                            done = true;
+                        } else {
+                            run.p("You have to actually input a name\n");
+                        }
+                    }
+                } else if (choice > files.length+2 && files.length > 9) {
+                    run.p("Not an allowed input");
+                } else {
+                    FILE = files[choice-1];
+                    readFile();
+                    ret = true;
+                    done = true;
+                }
+            } else {
+                run.p("No files to change to!");
+                run.p("Create a new file?");
+                System.out.print("(y/n) ");
+
+                String choice = k.nextLine();
+                run.clear();
+                if (choice.equalsIgnoreCase("y")) {
+                    boolean done2 = false;
+                    
+                    while (!done2) {
+                        run.p("What would you like the new file to be called?");
+                        String choice2 = k.nextLine();
+                        
+                        if (!choice2.equalsIgnoreCase("")) {
+                            FILE = choice2;
+                            System.out.print("New file will be called ");
+                            if (FILE.charAt(FILE.length()-4) == '.' && 
+                                FILE.charAt(FILE.length()-3) == 't' &&
+                                FILE.charAt(FILE.length()-2) == 'x' &&
+                                FILE.charAt(FILE.length()-1) == 't') {
+                                    System.out.print(FILE);
+                            } else {
+                                System.out.print(FILE + ".txt");
+                                FILE = FILE + ".txt";
+                            }
+                            
+                            readFile();
+                            ret = true;
+                            done2 = true;
+                            done = true;
+                        } else {
+                            run.p("You have to actually input a name\n");
+                        }
+                    }
+                } else if (choice.equalsIgnoreCase("n")) {
+                    run.clear();
+                    done = true;
+                } else 
+                    run.p("Not proper input\n");
+            }
+        }
+        return ret;
+    }
+
     public void setUpFile() { //Set up blank file
         startingDate = null;
         endingDate = null;
@@ -739,6 +871,8 @@ public class backend {
             fileWriter.write("\n");
             fileWriter.write("Ending Date:\t");
             fileWriter.write("\n");
+            fileWriter.write("\nEarning Categories:\n");
+            fileWriter.write("\nSpending Categories:\n");
             fileWriter.write("\nEarnings:\n");
             fileWriter.write("\nEntries:\n");
             fileWriter.close();
@@ -828,7 +962,7 @@ public class backend {
     public void addEntry(String name, double amount, date date) { //Adding entry
         spendings.addEntry(name, amount, date);
         try {
-            BufferedWriter a = new BufferedWriter(new FileWriter(FILE,true));
+            BufferedWriter a = new BufferedWriter(new FileWriter(FILEPATH+FILE,true));
             a.append(name + "\t" + amount + "\t" + date.print() + "\n");
             a.close();
         } catch (Exception e) {
@@ -844,7 +978,7 @@ public class backend {
         earnings.addEntry(name, amount, date);
         ArrayList<String> copy = new ArrayList<String>();
         try { //Read in file
-            Scanner fileReader = new Scanner(new File(FILE));
+            Scanner fileReader = new Scanner(new File(FILEPATH+FILE));
             while (fileReader.hasNextLine()) {
                 String line = fileReader.nextLine();
                 if (line.equalsIgnoreCase("Earnings:")) {
@@ -866,7 +1000,7 @@ public class backend {
         }
 
         try { //Write to file
-            BufferedWriter fileWriter = new BufferedWriter( new FileWriter(FILE));
+            BufferedWriter fileWriter = new BufferedWriter( new FileWriter(FILEPATH+FILE));
             for(int i =0; i < copy.size(); i++) {
                 fileWriter.write(copy.get(i) + "\n");
             }
@@ -884,7 +1018,7 @@ public class backend {
         spendings.removeEntry(name, amount, date);
         ArrayList<String> copy = new ArrayList<String>();
         try {
-            Scanner fileReader = new Scanner(new File(FILE));
+            Scanner fileReader = new Scanner(new File(FILEPATH+FILE));
             for (int i = 0; fileReader.hasNextLine(); i++) {
                 String line = fileReader.nextLine();
                 if (!line.equalsIgnoreCase(name + "\t" + amount + "\t" + date.print())) 
@@ -896,7 +1030,7 @@ public class backend {
         }
 
         try {
-            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(FILE));
+            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(FILEPATH+FILE));
             for(int i =0; i < copy.size(); i++) {
                 fileWriter.write(copy.get(i) + "\n");
             }
@@ -909,7 +1043,37 @@ public class backend {
     public void purgeSpendings() {
         while(!spendings.getArray().isEmpty())
             spendings.removeEntry(spendings.getEntry(0).getName(), spendings.getEntry(0).getAmount(), spendings.getEntry(0).getDate());
-        IO Stuff;
+        //IO Stuff;
+        ArrayList<String> copy = new ArrayList<String>();
+        try {
+            Scanner fileReader = new Scanner(new File(FILEPATH+FILE));
+            for (int i = 0; fileReader.hasNextLine(); i++) {
+                String line = fileReader.nextLine();
+                if (!line.equalsIgnoreCase("Entries:")) 
+                    copy.add(line);
+                else
+                    fileReader.nextLine();
+                    copy.add("Entries:");
+                    while(!fileReader.nextLine().equalsIgnoreCase(""))
+                        fileReader.nextLine();
+                    while(!fileReader.hasNextLine())
+                        copy.add(fileReader.nextLine());
+                    break;
+            }
+            fileReader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(FILEPATH+FILE));
+            for(int i =0; i < copy.size(); i++) {
+                fileWriter.write(copy.get(i) + "\n");
+            }
+            fileWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         run.clear();
         run.p("Spendings purged!");
     }
@@ -918,7 +1082,7 @@ public class backend {
         earnings.removeEntry(name, amount, date);
         ArrayList<String> copy = new ArrayList<String>();
         try {
-            Scanner fileReader = new Scanner(new File(FILE));
+            Scanner fileReader = new Scanner(new File(FILEPATH+FILE));
             for (int i = 0; fileReader.hasNextLine(); i++) {
                 String line = fileReader.nextLine();
                 if (!line.equalsIgnoreCase(name + "\t" + amount + "\t" + date.print())) 
@@ -930,7 +1094,7 @@ public class backend {
         }
 
         try {
-            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(FILE));
+            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(FILEPATH+FILE));
             for(int i =0; i < copy.size(); i++) {
                 fileWriter.write(copy.get(i) + "\n");
             }
@@ -943,9 +1107,39 @@ public class backend {
     public void purgeEarnings() {
         while(!earnings.getArray().isEmpty())
             earnings.removeEntry(earnings.getEarning(0).getName(), earnings.getEarning(0).getAmount(), earnings.getEarning(0).getDate());
-        File IO Stuff;
+        //File IO Stuff;
+        ArrayList<String> copy = new ArrayList<String>();
+        try {
+            Scanner fileReader = new Scanner(new File(FILEPATH+FILE));
+            for (int i = 0; fileReader.hasNextLine(); i++) {
+                String line = fileReader.nextLine();
+                if (!line.equalsIgnoreCase("Earnings:")) 
+                    copy.add(line);
+                else
+                    fileReader.nextLine();
+                    copy.add("Earnings:");
+                    while(!fileReader.nextLine().equalsIgnoreCase(""))
+                        fileReader.nextLine();
+                    while(!fileReader.hasNextLine())
+                        copy.add(fileReader.nextLine());
+                    break;
+            }
+            fileReader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(FILEPATH+FILE));
+            for(int i =0; i < copy.size(); i++) {
+                fileWriter.write(copy.get(i) + "\n");
+            }
+            fileWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         run.clear();
-        run.p("Spendings purged!");
+        run.p("Earnings purged!");
     }
 
     public void printEntries() { //Print out entries
@@ -1024,7 +1218,44 @@ public class backend {
 
     public void removeSpendingCategory(String aCategory) {
         spendings.removeCategory(aCategory);
-        Add file I/O stuff
+        ArrayList<String> copy = new ArrayList<String>();
+        try {
+            Scanner fileReader = new Scanner(new File(FILEPATH+FILE));
+            while(fileReader.hasNextLine()) {
+                String line = fileReader.nextLine();
+                if (!line.equalsIgnoreCase("Spending Categories:")) 
+                    copy.add(line);
+                else {
+                    while(!line.equalsIgnoreCase("")) {
+                        line = fileReader.nextLine();
+                        if (!line.equalsIgnoreCase(aCategory));
+                            copy.add(line);
+                    }
+                }
+            }
+            fileReader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(FILEPATH+FILE));
+            for(int i =0; i < copy.size(); i++) {
+                fileWriter.write(copy.get(i) + "\n");
+            }
+            fileWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean checkSpendingCategory(String addCat) {
+        boolean ret = true;
+        for(int i = 0; i < spendings.getCategories().size(); i++) {
+            if (spendings.getCategories().get(i).equalsIgnoreCase(addCat)) 
+                ret = false;
+        }
+        return ret;
     }
 
     // public double totalSpentFood() { //Get total spendings on food
@@ -1085,18 +1316,56 @@ public class backend {
 
     public void removeEarningCategory(String aCategory) {
         earnings.removeCategory(aCategory);
-        Add file I/O stuff
+        //Add file I/O stuff
+        ArrayList<String> copy = new ArrayList<String>();
+        try {
+            Scanner fileReader = new Scanner(new File(FILEPATH+FILE));
+            while(fileReader.hasNextLine()) {
+                String line = fileReader.nextLine();
+                if (!line.equalsIgnoreCase("Earning Categories:")) 
+                    copy.add(line);
+                else {
+                    while(!line.equalsIgnoreCase("")) {
+                        line = fileReader.nextLine();
+                        if (!line.equalsIgnoreCase(aCategory));
+                            copy.add(line);
+                    }
+                }
+            }
+            fileReader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(FILEPATH+FILE));
+            for(int i =0; i < copy.size(); i++) {
+                fileWriter.write(copy.get(i) + "\n");
+            }
+            fileWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean checkEarningCategory(String addCat) {
+        boolean ret = true;
+        for(int i = 0; i < earnings.getCategories().size(); i++) {
+            if (earnings.getCategories().get(i).equalsIgnoreCase(addCat)) 
+                ret = false;
+        }
+        return ret;
     }
 
     public void purgeAllCategories() {
         
         while(!spendings.getCategories().isEmpty())
-            spendings.removeCategory(spendings.getCategories().get(0));
+            removeSpendingCategory(spendings.getCategories().get(0));
 
         while(!earnings.getCategories().isEmpty())
-            earnings.removeCategory(earnings.getCategories().get(0));
+            removeEarningCategory(earnings.getCategories().get(0));
         
-            Add file I/O stuff
+            //Add file I/O stuff
     }
 
     // public double totalEarnedVicars() {
@@ -1137,6 +1406,11 @@ public class backend {
 
     public void printCategoriesEarnings() {
         earnings.printCategories();
+    }
+
+    //TODO: This
+    public void analyzeForCategories() {
+
     }
 
     public String printIndex(int i) { //Get index of array

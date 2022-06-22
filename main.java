@@ -21,3 +21,4 @@ public class main {
 //TODO: make try catch blocks for errors of inputting something that isn't an integer
 //TODO: track time and automatically log someone out
 //TODO: make a class that contains all the spendings, entries, dates, categories
+//TODO: replace all "entries" with "spendings"

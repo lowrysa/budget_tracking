@@ -1,9 +1,9 @@
 
 import java.util.Scanner;
 
-import javax.lang.model.util.ElementScanner6;
+//import javax.lang.model.util.ElementScanner6;
 
-import org.omg.CORBA.DynAnyPackage.TypeMismatch;
+//import org.omg.CORBA.DynAnyPackage.TypeMismatch;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -178,8 +178,12 @@ public class run {
                         p("Spendings:");
                         for(int i = 0; i < backend.getSpendings().getCategories().size(); i++) {
                             double moneys = roundNumber(backend.getSpendings().totalSpentCategory(backend.getSpendings().getCategories().get(i)));
-                            p("You have spent $" + moneys + " on " + backend.getSpendings().getCategories().get(i));
+                            if (moneys > 0.0)
+                                p("You have spent $" + moneys + " on " + backend.getSpendings().getCategories().get(i));
                         }
+                        double moneys = roundNumber(backend.getSpendings().totalSpentCategory("Other"));
+                        if (moneys > 0.0)
+                            p("You have spent $" + moneys + " on everything else!");
                     } else 
                         p("\nNo spendings yet!");
                     
@@ -211,8 +215,12 @@ public class run {
                         p("\nEarnings:");
                         for(int i = 0; i < backend.getEarnings().getCategories().size(); i++) {
                             double moneys = roundNumber(backend.getEarnings().totalEarnedCategory(backend.getEarnings().getCategories().get(i)));
-                            p("You have earned $" + moneys + " from " + backend.getEarnings().getCategories().get(i));
+                            if (moneys > 0.0)
+                                p("You have earned $" + moneys + " from " + backend.getEarnings().getCategories().get(i));
                         }
+                        double moneys = roundNumber(backend.getEarnings().totalEarnedCategory("Other"));
+                        if (moneys > 0.0)
+                            p("You have earned $" + moneys + " from everything else!");
                     } else
                         p("No earnings yet!");
                     
@@ -238,6 +246,7 @@ public class run {
                     //     p("\nNo earnings yet!\n");
                 } else 
                     p("No entries yet!\n");
+                p("");
             } else if (choice == 3) { //Add Spending
                 clear();
                 backend.checkWhatDatesSet();
@@ -254,6 +263,7 @@ public class run {
                         boolean overd = false;
                         while (!overd) {
                             p("What type of entry is it?");
+                            k.nextLine();
                             String entryTypeMaybe = k.nextLine();
                             if (!entryTypeMaybe.equalsIgnoreCase("")) {
                                 backend.spendings.addCategory(entryTypeMaybe);
@@ -265,7 +275,7 @@ public class run {
                         }
                     } else {
                         boolean overd = false;
-                        boolean skip = false;
+                        //boolean skip = false;
                         while (!overd) {
                             p("What type of entry is it?");
                             for(int i = 0; i < backend.spendings.getCategories().size(); i++) 
@@ -281,6 +291,7 @@ public class run {
                                 boolean otherBool = false;
                                 while(!otherBool) {
                                     pb("What is the entry type?");
+                                    k.nextLine();
                                     String otherEntryType = k.nextLine();
                                     if (!otherEntryType.equalsIgnoreCase("")) {
                                         entryType = otherEntryType;
@@ -295,6 +306,7 @@ public class run {
                                 boolean newBool = false;
                                 while(!newBool) {
                                     pb("What will the new category be?");
+                                    k.nextLine();
                                     String newType = k.nextLine();
                                     if (!newType.equalsIgnoreCase("")) {
                                         entryType = newType;
@@ -306,7 +318,7 @@ public class run {
                                         p("Not valid\n");
                                 }
                             } else {
-                                entryType = backend.spendings.getCategories().get(choiceEntryType);
+                                entryType = backend.spendings.getCategories().get(choiceEntryType-1);
                                 overd = true;
                                 overc = true;
                             }
@@ -451,6 +463,7 @@ public class run {
                         boolean overd = false;
                         while (!overd) {
                             p("What type of entry is it?");
+                            k.nextLine();
                             String entryTypeMaybe = k.nextLine();
                             if (!entryTypeMaybe.equalsIgnoreCase("")) {
                                 backend.earnings.addCategory(entryTypeMaybe);
@@ -462,7 +475,7 @@ public class run {
                         }
                     } else {
                         boolean overd = false;
-                        boolean skip = false;
+                        //boolean skip = false;
                         while (!overd) {
                             p("What type of entry is it?");
                             for(int i = 0; i < backend.earnings.getCategories().size(); i++) 
@@ -478,6 +491,7 @@ public class run {
                                 boolean otherBool = false;
                                 while(!otherBool) {
                                     pb("What is the entry type?");
+                                    k.nextLine();
                                     String otherEntryType = k.nextLine();
                                     if (!otherEntryType.equalsIgnoreCase("")) {
                                         entryType = otherEntryType;
@@ -492,6 +506,7 @@ public class run {
                                 boolean newBool = false;
                                 while(!newBool) {
                                     pb("What will the new category be?");
+                                    k.nextLine();
                                     String newType = k.nextLine();
                                     if (!newType.equalsIgnoreCase("")) {
                                         entryType = newType;
@@ -503,7 +518,7 @@ public class run {
                                         p("Not valid\n");
                                 }
                             } else {
-                                entryType = backend.earnings.getCategories().get(choiceEntryType);
+                                entryType = backend.earnings.getCategories().get(choiceEntryType-1);
                                 overd = true;
                                 overc = true;
                             }
@@ -603,9 +618,9 @@ public class run {
                     }                  
                     back1 = false;
                 } 
-            } else if (choice == 5) { //Remove Entry
+            } else if (choice == 5) { //Remove Spending
                 clear();
-                pb("Removing entry:");
+                pb("Removing spending:");
                 if (backend.spendings.getSize() == 0) 
                     p("No entries yet!\n");
                 else {
@@ -615,16 +630,16 @@ public class run {
                         pb("\nWhich entry would you like to remove?");
                         pi("(Type number of entry to remove, or " + backend.spendings.getSize()+1 + " to purge all entries, or " + backend.spendings.getSize()+2 + " to go back)\n");
     
-                        for (int i = 1; i < backend.spendings.getSize() + 1; i++) 
-                            System.out.println(i + ": " + backend.printIndex(i-1));
+                        for (int i = 0; i < backend.spendings.getSize(); i++) 
+                            System.out.println(i+1 + ": " + backend.printIndex(i));
                         p(backend.spendings.getSize()+1 + ". Purge Entries");
                         p(backend.spendings.getSize()+2 + ". Back");
 
                         int choicey = k.nextInt();
-                        if (choicey == backend.spendings.getSize()+2) {
+                        if (choicey == (backend.spendings.getSize()+2)) {
                             remove = true;
                             clear();
-                        } else if (choicey == backend.spendings.getSize()+1) {
+                        } else if (choicey == (backend.spendings.getSize()+1)) {
                             boolean purgeAll = false;
                             while (!purgeAll) {
                                 clear();
@@ -645,7 +660,7 @@ public class run {
                                 } else 
                                     p("Not valid input\n");
                             }
-                        } else if (choicey > 0 && choicey < (backend.spendings.getSize())){
+                        } else if (choicey > 0 && choicey <= (backend.spendings.getSize())){
                             for (int i = 0; i < backend.spendings.getSize(); i++) {
                                 if (choicey == (i+1)) {
                                     String name = backend.getEntry(i).getName();
@@ -675,13 +690,13 @@ public class run {
                         p("\nWhich entry would you like to remove?");
                         pi("(Type number of entry to remove, or " + backend.earnings.getSize()+1 + " to purge all entries, or " + backend.earnings.getSize()+2 + " to go back)\n");
     
-                        for (int i = 1; i < backend.earnings.getSize() + 1; i++) 
-                            System.out.println(i + ": " + backend.printIndex(i-1));
+                        for (int i = 0; i < backend.earnings.getSize(); i++) 
+                            System.out.println(i+1 + ": " + backend.printIndey(i));
                         p(backend.earnings.getSize()+1 + ". Purge Entries");
                         p(backend.earnings.getSize()+2 + ". Back");
 
                         int choicey = k.nextInt();
-                        if (choicey == backend.earnings.getSize()+2) {
+                        if (choicey == (backend.earnings.getSize()+2)) {
                             remove = true;
                             clear();
                         } else if (choicey == backend.earnings.getSize()+1) {
@@ -714,7 +729,7 @@ public class run {
                         // if (choicey == 0) {
                         //     remove = true;
                         //     clear();
-                        } else if (choicey > 0 && choicey < (backend.earnings.getSize())){
+                        } else if (choicey > 0 && choicey <= (backend.earnings.getSize())){
                             for (int i = 0; i < backend.earnings.getSize(); i++) {
                                 if (choicey == (i+1)) {
                                     String name = backend.getEarning(i).getName();
@@ -734,7 +749,7 @@ public class run {
                 }
             } else if (choice == 7) { //Show Random Entry
                 clear();
-                pb("Random entry:");
+                pb("\n\nRandom entry:");
                 backend.printRandom();
                 p("");
             } else if (choice == 8) { //Next page
@@ -879,16 +894,21 @@ public class run {
                     } else if (choiceg == 6) { //Change file
                         clear();
                         pb("Change File:\n");
-                        p("Input new file name: "); 
-                        k.nextLine();
-                        String newFile = k.nextLine();
-
-                        if (newFile.equalsIgnoreCase(fileName)) 
-                            p("This is the same file bruh\n");
-                        else {
-                            backend.readFile();
+                        //p("Which file would you like to pick?");
+                        if (backend.changeFile()) {
                             overEasy = true;
+                            p("Changed file to " + backend.getFileName());
                         }
+                        // p("Input new file name: "); 
+                        // k.nextLine();
+                        // String newFile = k.nextLine();
+
+                        // if (newFile.equalsIgnoreCase(fileName)) 
+                        //     p("This is the same file bruh\n");
+                        // else {
+                        //     backend.readFile();
+                        //     overEasy = true;
+                        // }
                     } else if (choiceg == 1) { //Print Categories
                         clear();
                         if(backend.earnings.getCategories().size() + backend.spendings.getCategories().size() > 4)
@@ -908,6 +928,7 @@ public class run {
                             }
                         } else  
                             p("No categories yet!");
+                        p("");
                     } else if (choiceg == 2) { //Add Remove Categories
                         clear();
                         boolean overCat = false;
@@ -919,15 +940,33 @@ public class run {
                             //try {
                                 int choiceCat = k.nextInt();
                                 clear();
+                                String addCat = "";
                                 if (choiceCat == 9) {
                                     overCat = true;
                                 } else if (choiceCat == 1) {
-                                    pb("What do you want the category to be called?");
-                                    String addCat = k.nextLine();
-                                    
+                                    boolean checkCat = false;
+                                    while(!checkCat) {
+                                        pb("What do you want the category to be called?");
+                                        k.nextLine();
+                                        addCat = k.nextLine();
+                                        if (backend.checkSpendingCategory(addCat) && backend.checkEarningCategory(addCat))
+                                            checkCat = true;
+                                        else if (backend.checkSpendingCategory(addCat) && !backend.checkEarningCategory(addCat)) {
+                                            pi("This is already an earning category, just to let you know");
+                                            checkCat = true;
+                                        } else if (!backend.checkSpendingCategory(addCat) && backend.checkEarningCategory(addCat)) {
+                                            pi("This is already a spending category, just to let you know");
+                                            checkCat = true;
+                                        } else if (addCat.equalsIgnoreCase(""))
+                                            p("Nothing input\n");
+                                        else
+                                            p("This is already set as a category for spendings and earnings, try again...\n");
+
+                                    }
+                                   
                                     boolean overCat2 = false;
                                     while(!overCat2) {
-                                        p("\nIs it for spending, earning, or both?");
+                                        pb("\nIs it for spending, earning, or both?");
                                         p("1. Spending");
                                         p("2. Earning");
                                         p("3. Both");
@@ -935,20 +974,47 @@ public class run {
 
                                         int question = k.nextInt();
                                         if (question == 1) { //Add Spending
-                                            backend.spendings.addCategory(addCat);
-                                            p("Added category " + addCat + "!");
-                                            overCat2 = true;
+                                            if (backend.checkSpendingCategory(addCat)) {
+                                                backend.spendings.addCategory(addCat);
+                                                p("Added category " + addCat + "!\n");
+                                                overCat2 = true;
+                                                overCat = true;
+                                            } else {
+                                                p("Already a category\n");
+                                                overCat2 = true;
+                                                overCat = true;
+                                            }
+                                            
                                         } else if (question == 2) { //Add Earning
-                                            backend.earnings.addCategory(addCat);
-                                            p("Added category " + addCat + "!");
-                                            overCat2 = true;
+                                            if (backend.checkEarningCategory(addCat)) {
+                                                backend.earnings.addCategory(addCat);
+                                                p("Added category " + addCat + "!\n");
+                                                overCat2 = true;
+                                                overCat = true;
+                                            } else {
+                                                p("Already a category\n");
+                                                overCat2 = true;
+                                                overCat = true;
+                                            }
+                                           
                                         } else if (question == 3) { //Add Both
-                                            backend.earnings.addCategory(addCat);
-                                            backend.spendings.addCategory(addCat);
-                                            p("Added category " + addCat + "!");
+                                            if (backend.checkEarningCategory(addCat))
+                                                backend.earnings.addCategory(addCat);
+                                            else    
+                                                p("Already an earning category\n");
+                                            if (backend.checkSpendingCategory(addCat))
+                                                backend.spendings.addCategory(addCat);
+                                            else    
+                                                p("Already a spending category\n");
+                                            if (backend.checkSpendingCategory(addCat) || backend.checkEarningCategory(addCat))
+                                                p("Added category " + addCat + "!\n");
                                             overCat2 = true;
+                                            overCat = true;
+
                                         } else if (question == 9) { //Quit
                                             overCat2 = true;
+                                            overCat = true;
+                                            clear();
                                         } else 
                                             p("Not valid input");
                                     }
@@ -958,7 +1024,7 @@ public class run {
                                     pb("Remove Category:");
                                     boolean overCat2 = false;
                                     while(!overCat2) {
-                                        p("A Category from Spending or Earning?");
+                                        pb("A Category from Spending or Earning?");
                                         p("1. Spending");
                                         p("2. Earning");
                                         p("3. Purge them all");
@@ -969,7 +1035,7 @@ public class run {
                                             if(catRemove == 1) { //Remove a spending
                                                 clear();
                                                 if (backend.getSpendings().getCategories().isEmpty()) {
-                                                    p("There are no spending categories yet!");
+                                                    p("There are no spending categories yet!\n");
                                                     //over
                                                     overCat2 = true;
                                                 } else {
@@ -1001,7 +1067,7 @@ public class run {
                                                 // try {
                                                     clear();
                                                     if (backend.getEarnings().getCategories().isEmpty()) {
-                                                        p("There are no earning categories yet!");
+                                                        p("There are no earning categories yet!\n");
                                                         //over
                                                         overCat2 = true;
                                                     } else {
@@ -1098,7 +1164,8 @@ public class run {
         }
         backend.saveFile();
         k.close();
-        p("\nGoodbye!");
+        p("\nCleaning up files...");
+        System.exit(0);
     }
      
     public static void clear() { //Clear console
