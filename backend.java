@@ -875,6 +875,7 @@ public class backend {
             fileWriter.write("\nSpending Categories:\n");
             fileWriter.write("\nEarnings:\n");
             fileWriter.write("\nEntries:\n");
+            fileWriter.write("\n\n");
             fileWriter.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -961,10 +962,35 @@ public class backend {
 
     public void addEntry(String name, double amount, date date) { //Adding entry
         spendings.addEntry(name, amount, date);
-        try {
-            BufferedWriter a = new BufferedWriter(new FileWriter(FILEPATH+FILE,true));
-            a.append(name + "\t" + amount + "\t" + date.print() + "\n");
-            a.close();
+        ArrayList<String> copy = new ArrayList<String>();
+        try { //Read in file
+            Scanner fileReader = new Scanner(new File(FILEPATH+FILE));
+            while (fileReader.hasNextLine()) {
+                String line = fileReader.nextLine();
+                if (line.equalsIgnoreCase("Entries:")) {
+                    copy.add(line);
+                    while(fileReader.hasNextLine()) {
+                        String lines = fileReader.nextLine();
+                        if (lines.equalsIgnoreCase("")) {
+                            copy.add(name + "\t" + amount + "\t" + date.print() + "\n");
+                            break;
+                        } else 
+                            copy.add(lines);
+                    }
+                } else 
+                    copy.add(line);
+            }
+            fileReader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try { //Write to file
+            BufferedWriter fileWriter = new BufferedWriter( new FileWriter(FILEPATH+FILE));
+            for(int i =0; i < copy.size(); i++) {
+                fileWriter.write(copy.get(i) + "\n");
+            }
+            fileWriter.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1406,6 +1432,78 @@ public class backend {
 
     public void printCategoriesEarnings() {
         earnings.printCategories();
+    }
+
+    public void addSpendingCategory(String aCategory) {
+        spendings.addCategory(aCategory);
+        ArrayList<String> copy = new ArrayList<String>();
+        try { //Read in file
+            Scanner fileReader = new Scanner(new File(FILEPATH+FILE));
+            while (fileReader.hasNextLine()) {
+                String line = fileReader.nextLine();
+                if (line.equalsIgnoreCase("Spending Categories:")) {
+                    copy.add(line);
+                    while(fileReader.hasNextLine()) {
+                        String lines = fileReader.nextLine();
+                        if (lines.equalsIgnoreCase("")) {
+                            copy.add(aCategory + "\n");
+                            break;
+                        } else 
+                            copy.add(lines);
+                    }
+                } else 
+                    copy.add(line);
+            }
+            fileReader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try { //Write to file
+            BufferedWriter fileWriter = new BufferedWriter( new FileWriter(FILEPATH+FILE));
+            for(int i =0; i < copy.size(); i++) {
+                fileWriter.write(copy.get(i) + "\n");
+            }
+            fileWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addEarningCategory(String aCategory) {
+        ArrayList<String> copy = new ArrayList<String>();
+        earnings.addCategory(aCategory);
+        try { //Read in file
+            Scanner fileReader = new Scanner(new File(FILEPATH+FILE));
+            while (fileReader.hasNextLine()) {
+                String line = fileReader.nextLine();
+                if (line.equalsIgnoreCase("Earning Categories:")) {
+                    copy.add(line);
+                    while(fileReader.hasNextLine()) {
+                        String lines = fileReader.nextLine();
+                        if (lines.equalsIgnoreCase("")) {
+                            copy.add(aCategory + "\n");
+                            break;
+                        } else 
+                            copy.add(lines);
+                    }
+                } else 
+                    copy.add(line);
+            }
+            fileReader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try { //Write to file
+            BufferedWriter fileWriter = new BufferedWriter( new FileWriter(FILEPATH+FILE));
+            for(int i =0; i < copy.size(); i++) {
+                fileWriter.write(copy.get(i) + "\n");
+            }
+            fileWriter.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //TODO: This

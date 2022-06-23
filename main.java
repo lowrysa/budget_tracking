@@ -15,10 +15,10 @@ public class main {
     }
 }
 
-//TODO: Make categories more dependent on user, whatever they want
 //TODO: somehow log into Chase to manually add entries
 //TODO: make more advanced checking stats
 //TODO: make try catch blocks for errors of inputting something that isn't an integer
 //TODO: track time and automatically log someone out
 //TODO: make a class that contains all the spendings, entries, dates, categories
 //TODO: replace all "entries" with "spendings"
+//TODO make sure that when it ends with $.00, it actually prints that out

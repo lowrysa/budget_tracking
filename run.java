@@ -975,7 +975,7 @@ public class run {
                                         int question = k.nextInt();
                                         if (question == 1) { //Add Spending
                                             if (backend.checkSpendingCategory(addCat)) {
-                                                backend.spendings.addCategory(addCat);
+                                                backend.addSpendingCategory(addCat);
                                                 p("Added category " + addCat + "!\n");
                                                 overCat2 = true;
                                                 overCat = true;
@@ -987,7 +987,7 @@ public class run {
                                             
                                         } else if (question == 2) { //Add Earning
                                             if (backend.checkEarningCategory(addCat)) {
-                                                backend.earnings.addCategory(addCat);
+                                                backend.addEarningCategory(addCat);
                                                 p("Added category " + addCat + "!\n");
                                                 overCat2 = true;
                                                 overCat = true;
@@ -999,11 +999,11 @@ public class run {
                                            
                                         } else if (question == 3) { //Add Both
                                             if (backend.checkEarningCategory(addCat))
-                                                backend.earnings.addCategory(addCat);
+                                                backend.addEarningCategory(addCat);
                                             else    
                                                 p("Already an earning category\n");
                                             if (backend.checkSpendingCategory(addCat))
-                                                backend.spendings.addCategory(addCat);
+                                                backend.addSpendingCategory(addCat);
                                             else    
                                                 p("Already a spending category\n");
                                             if (backend.checkSpendingCategory(addCat) || backend.checkEarningCategory(addCat))
