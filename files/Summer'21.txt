@@ -1,0 +1,138 @@
+budgettrackingprogram
+
+Starting Date:	5/10/2021
+Ending Date:	8/15/2021
+
+Earnings:
+USC	200.07	5/14/2021
+Interest	0.05	5/14/2021
+Vicars	269.87	5/21/2021
+Shipt	36.3	5/21/2021
+Shipt	39.06	5/28/2021
+Tax Return	377.02	6/1/2021
+Depop	33.27	6/1/2021
+Poshmark	26.2	6/2/2021
+Vicars	509.41	6/3/2021
+USC	183.0	6/14/2021
+Interest	0.05	6/14/2021
+Vicars	400.19	6/17/2021
+Publix	123.73	6/25/2021
+Vicars	285.68	7/2/2021
+Publix	104.51	7/2/2021
+Publix	216.48	7/12/2021
+Vicars	320.92	7/16/2021
+Publix	189.03	7/18/2021
+Poshmark	32.55	7/22/2021
+Vicars	293.74	7/30/2021
+Publix	177.3	8/3/2021
+Amazon Prime	119.77	8/6/2021
+Publix	78.38	8/9/2021
+Poshmark	9.05	8/9/2021
+Publix	121.44	8/12/2021
+Vicars	520.84	8/13/2021
+
+Entries:
+Gecko	1.92	5/10/2021
+Gas	20.0	5/11/2021
+Gecko	1.92	5/13/2021
+Eat Out	35.26	5/14/2021
+Bowling	17.45	5/17/2021
+Groceries	6.38	5/17/2021
+Gas	20.73	5/17/2021
+Splice	4.99	5/17/2021
+Gecko	1.69	5/17/2021
+Gecko	1.92	5/19/2021
+Gecko	1.69	5/21/2021
+Ice Cream	11.24	5/24/2021
+Groceries	15.94	5/24/2021
+Eat Out	24.97	5/24/2021
+Eat Out	13.38	5/24/2021
+Gecko	1.69	5/24/2021
+Gecko	1.69	5/28/2021
+Gas	31.0	5/28/2021
+Groceries	19.14	5/28/2021
+Gecko	1.69	5/30/2021
+Groceries	28.57	6/1/2021
+Gecko	2.56	6/4/2021
+Gas	26.03	6/4/2021
+Gecko	2.58	6/7/2021
+Five Below	16.59	6/7/2021
+Eat Out	17.0	6/8/2021
+Nintendo	2.99	6/8/2021
+Gecko	1.54	6/10/2021
+Groceries	24.08	6/10/2021
+Eat Out	18.0	6/14/2021
+Gecko	1.69	6/14/2021
+Gas	22.63	6/14/2021
+Splice	4.99	6/17/2021
+Dollar Store	3.2	6/17/2021
+Gecko	3.39	6/17/2021
+Ice Cream	7.93	6/18/2021
+Plant	6.92	6/19/2021
+Eat Out	8.41	6/19/2021
+Movies	37.71	6/19/2021
+Movies	13.0	6/19/2021
+Eat Out	17.09	6/20/2021
+Ice Cream	3.69	6/20/2021
+Something	38.0	6/21/2021
+Computer	113.31	6/22/2021
+Computer	219.97	6/22/2021
+Gas	27.96	6/23/2021
+Gecko	3.84	6/23/2021
+Groceries	9.04	6/23/2021
+Eat Out	4.5	6/25/2021
+Gecko	1.69	5/25/2021
+Groceries	10.94	6/25/2021
+Rock Wall	20.0	6/28/2021
+Movies	25.3	6/28/2021
+Gecko	1.69	6/28/2021
+Gecko	1.58	6/28/2021
+Gecko	1.92	7/1/2021
+Computer	7.55	7/1/2021
+Groceries	9.67	7/6/2021
+Gas	26.84	7/6/2021
+Eat Out	2.34	7/6/2021
+Eat Out	24.37	7/7/2021
+Clothes	14.92	7/7/2021
+Plant	12.13	7/7/2021
+Ice Cream	15.22	7/7/2021
+Eat Out	26.0	7/8/2021
+Ice Cream	7.0	7/8/2021
+Nintendo	2.99	7/8/2021
+Eat Out	13.37	7/9/2021
+Eat Out	6.39	7/9/2021
+Gecko	1.56	7/12/2021
+Eat Out	37.0	7/12/2021
+Gecko	1.56	7/12/2021
+Movies	7.73	7/12/2021
+Goggles	6.42	7/14/2021
+Gas	22.99	7/14/2021
+Gecko	1.58	7/14/2021
+Splice	4.99	7/19/2021
+Plant	3.16	7/19/2021
+Gecko	1.53	7/19/2021
+Gas	22.69	7/19/2021
+Haircut	23.0	7/19/2021
+Ikea	10.74	7/19/2021
+Gecko	1.58	7/20/2021
+CVS	25.95	7/21/2021
+Gecko	1.58	7/26/2021
+Gecko	5.29	7/26/2021
+Gecko	1.58	7/29/2021
+Amazon Prime	119.57	8/2/2021
+Hayley Trip	323.0	8/2/2021
+Gas	40.89	8/2/2021
+Gecko	3.15	8/4/2021
+Gecko	1.58	8/5/2021
+Five Below	7.79	8/5/2021
+Michaels	8.59	8/5/2021
+Target	24.35	8/5/2021
+Ice Cream	8.09	8/6/2021
+Plant	10.74	8/6/2021
+Eat Out	14.91	8/9/2021
+Nintendo	2.99	8/9/2021
+Ikea	37.63	8/9/2021
+Dollar Store	3.2	8/12/2021
+Gecko	1.58	8/12/2021
+Gecko	1.77	8/14/2021
+

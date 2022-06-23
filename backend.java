@@ -486,22 +486,44 @@ public class backend {
                     } else
                         run.p((i+1) + ". " + files[i]);
                 }
-                if (files.length > 9)
+                if (files.length > 9) {
+                    run.p((files.length) + ". New File");
                     run.p((files.length+1) + ". Quit Program");
-                else    
+                } else {   
+                    run.p("8. New File");
                     run.p("9. Quit Program");
-
+                }
                 int choice = k.nextInt();
                 if ((files.length > 9 && choice == (files.length+1) || (files.length <= 9 && choice == 9))) {
                     run.p("\nQuitting program, goodbye");
                     run.p("\nCleaning up files...");
                     System.exit(0);
+                } else if ((files.length > 9 && choice == (files.length) || (files.length <= 9 && choice == 8))) {
+                    boolean done = false;
+                    while (!done) {
+                        run.p("\nWhat would you like the file to be called?");
+                        k.nextLine();
+                        String fileName = k.nextLine();
+                        if (fileName.equalsIgnoreCase("")) 
+                            FILE = "budget_tracking.txt";
+                        else {
+                            if (fileName.charAt(fileName.length()-4) == '.' && 
+                            fileName.charAt(fileName.length()-3) == 't' &&
+                            fileName.charAt(fileName.length()-2) == 'x' &&
+                            fileName.charAt(fileName.length()-1) == 't') 
+                                FILE = fileName;
+                            else    
+                                FILE = fileName + ".txt";
+                        }
+                        done = true;
+                    }
                 } else {
                     FILE = files[choice-1];
                 }
             } else {
                 FILE = "budget_tracking.txt";
                 run.p("Setting up new file...");
+                setUpFile();
             }
         }
         

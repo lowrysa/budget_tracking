@@ -1,0 +1,26 @@
+budgettrackingprogram
+
+Starting Date:	5/11/2022
+Ending Date:	5/20/2022
+
+Earnings:
+
+Entries:
+Eat Out	14.88	5/11/2022
+Groceries	44.04	5/11/2022
+Gecko	37.86	5/11/2022
+Eat Out	7.0	5/12/2022
+Eat Out	14.64	5/12/2022
+Ice Cream	6.91	5/12/2022
+Eat Out	17.31	5/12/2022
+Eat Out	7.19	5/13/2022
+Gecko	2.57	5/13/2022
+Eat Out	37.0	5/16/2022
+Clothes	19.17	5/16/2022
+Clothes	14.87	5/16/2022
+Ice Cream	6.19	5/16/2022
+Plant	8.54	5/16/2022
+Eat Out	9.98	5/16/2022
+Gas	30.05	5/16/2022
+Disney Genie+	15.98	5/18/2022
+
