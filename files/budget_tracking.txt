@@ -1,9 +1,0 @@
-budgettrackingprogram
-
-Starting Date:	12/1/2000
-Ending Date:	2/3/2020
-
-Earnings:
-
-Entries:
-Eat Out	1.0	1/1/2010
